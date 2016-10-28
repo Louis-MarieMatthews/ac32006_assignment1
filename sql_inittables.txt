@@ -1,0 +1,211 @@
+CREATE TABLE Supplier (
+  SupplierId TINYINT UNSIGNED
+    AUTO_INCREMENT PRIMARY KEY,
+  Name CHAR CHARACTER SET utf8
+    NOT NULL,
+  Telephone CHAR(20) CHARACTER SET ascii
+    NULL
+)
+ENGINE=InnoDB;
+
+
+
+CREATE TABLE Product (
+  ProductId SMALLINT UNSIGNED
+    AUTO_INCREMENT PRIMARY KEY,
+  Name CHAR CHARACTER SET utf8
+    NOT NULL,
+  Price NUMERIC(7, 2)
+    NOT NULL
+)
+ENGINE=InnoDB;
+
+
+
+CREATE TABLE Branch (
+  BranchId TINYINT UNSIGNED
+    AUTO_INCREMENT PRIMARY KEY,
+  Name CHAR CHARACTER SET utf8
+    NOT NULL,
+  Address CHAR CHARACTER SET utf8
+    NOT NULL,
+  Postcode  CHAR(8) CHARACTER SET ascii
+    NOT NULL,
+  City CHAR(58) CHARACTER SET utf8
+    NOT NULL
+)
+ENGINE=InnoDB;
+
+
+
+CREATE TABLE User (
+  UserId CHAR CHARACTER SET utf8
+    PRIMARY KEY,
+  Password VARCHAR(255) CHARACTER SET utf8
+    NOT NULL
+)
+ENGINE=InnoDB;
+
+
+
+CREATE TABLE Person (
+  PersonId MEDIUMINT UNSIGNED
+    AUTO_INCREMENT PRIMARY KEY,
+  UserId CHAR CHARACTER SET utf8
+    NULL UNIQUE,
+  Title SET( 'Mr.', 'Ms.', 'Dr.', 'Prof.' ) CHARACTER SET ascii
+    NULL,
+  FirstName CHAR CHARACTER SET utf8
+    NOT NULL,
+  LastName CHAR CHARACTER SET utf8
+    NOT NULL,
+  Address CHAR CHARACTER SET utf8
+    NOT NULL,
+  Postcode CHAR(8) CHARACTER SET ascii
+    NULL,
+  City CHAR(85) CHARACTER SET utf8
+    NOT NULL,
+  Telephone CHAR(20) CHARACTER SET ascii
+    NULL,
+  Email CHAR(254) CHARACTER SET utf8
+    NULL,
+  CONSTRAINT FkPersonUserId FOREIGN KEY (UserId) REFERENCES User(UserId)
+)
+ENGINE=InnoDB;
+
+
+
+CREATE TABLE CompanyManager (
+  CompanyManagerId TINYINT UNSIGNED
+    AUTO_INCREMENT PRIMARY KEY,
+  PersonId MEDIUMINT UNSIGNED
+    NOT NULL UNIQUE,
+  Wage NUMERIC(7, 2) UNSIGNED
+    NOT NULL,
+  CONSTRAINT FkCompanyManagerPersonId FOREIGN KEY (PersonId) REFERENCES Person(PersonId)
+)
+ENGINE=InnoDB;
+
+
+
+CREATE TABLE Customer (
+  CustomerId MEDIUMINT UNSIGNED
+    AUTO_INCREMENT PRIMARY KEY,
+  PersonId MEDIUMINT UNSIGNED
+    NOT NULL UNIQUE,
+  Notes TEXT CHARACTER SET utf8
+    NULL,
+  CONSTRAINT FkCustomerPersonId FOREIGN KEY (PersonId) REFERENCES Person(PersonId)
+)
+ENGINE=InnoDB;
+;
+
+
+CREATE TABLE SalesAssistant (
+  SalesAssistantId SMALLINT UNSIGNED
+    AUTO_INCREMENT PRIMARY KEY,
+  PersonId MEDIUMINT UNSIGNED
+    NOT NULL UNIQUE,
+  BranchId TINYINT UNSIGNED
+    NOT NULL,
+  Wage NUMERIC(7, 2) UNSIGNED
+    NOT NULL,
+  CONSTRAINT FkSalesAssistantPersonId FOREIGN KEY (PersonId) REFERENCES Person(PersonId),
+  CONSTRAINT FkSalesAssistantBranchId FOREIGN KEY (BranchId) REFERENCES Branch(BranchId)
+);
+
+
+
+CREATE TABLE BranchManager (
+  BranchManagerId TINYINT UNSIGNED
+    AUTO_INCREMENT PRIMARY KEY,
+  PersonId MEDIUMINT UNSIGNED
+    NOT NULL UNIQUE,
+  BranchId TINYINT UNSIGNED
+    NOT NULL UNIQUE,
+  Wage NUMERIC(7, 2) UNSIGNED
+    NOT NULL,
+  CONSTRAINT FkBranchManagerPersonId FOREIGN KEY (PersonId) REFERENCES Person(PersonId),
+  CONSTRAINT FkBranchManagerBranchId FOREIGN KEY (BranchId) REFERENCES Branch(BranchId)
+);
+
+
+
+
+CREATE TABLE Bill (
+  BillId INT UNSIGNED
+    AUTO_INCREMENT PRIMARY KEY,
+  CustomerId MEDIUMINT UNSIGNED
+    NOT NULL,
+  SalesAssistantId SMALLINT UNSIGNED
+    NOT NULL,
+  DateBilled DATE
+    NOT NULL,
+  TotalPrice NUMERIC(7,2)
+    NOT NULL,
+  CONSTRAINT FkBillCustomerId FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId),
+  CONSTRAINT FkBillSalesAssistantId FOREIGN KEY (SalesAssistantId) REFERENCES SalesAssistant(SalesAssistantId)
+);
+
+
+
+CREATE TABLE BillProduct (
+  BillId INT UNSIGNED,
+  ProductId SMALLINT UNSIGNED,
+  Quantity SMALLINT UNSIGNED
+    NOT NULL,
+  CONSTRAINT PkBillProduct PRIMARY KEY (BillId, ProductId),
+  CONSTRAINT FkBillProductBillId FOREIGN KEY (BillId) REFERENCES Bill(BillId),
+  CONSTRAINT FkBillProductProductId FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
+);
+
+
+
+CREATE TABLE BranchProduct (
+  BranchId TINYINT UNSIGNED
+    NOT NULL,
+  ProductId SMALLINT UNSIGNED
+    NOT NULL,
+  Quantity SMALLINT UNSIGNED
+    NOT NULL,
+  CONSTRAINT PkBranchProduct PRIMARY KEY (BranchId, ProductId),
+  CONSTRAINT FkBranchProductBranchId FOREIGN KEY (BranchId) REFERENCES Branch(BranchId),
+  CONSTRAINT FkBranchProductProductId FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
+);
+
+
+
+CREATE TABLE Supply (
+  SupplyId INT UNSIGNED
+    AUTO_INCREMENT PRIMARY KEY,
+  BranchId TINYINT UNSIGNED
+    NOT NULL,
+  SupplierId TINYINT UNSIGNED
+    NOT NULL,
+  DateBilled DATE
+    NOT NULL,
+  CONSTRAINT FkSupplyBranchId FOREIGN KEY (BranchId) REFERENCES Branch(BranchId),
+  CONSTRAINT FkSupplySupplierId FOREIGN KEY (SupplierId) REFERENCES Supplier(SupplierId)
+);
+
+
+
+CREATE TABLE SupplyProduct (
+  SupplyId INT UNSIGNED,
+  ProductId SMALLINT UNSIGNED,
+  Quantity SMALLINT UNSIGNED,
+  CONSTRAINT PkSupplyProduct PRIMARY KEY (SupplyId, ProductId),
+  CONSTRAINT FkSupplyProductSupplyId FOREIGN KEY (SupplyId) REFERENCES Supply(SupplyId),
+  CONSTRAINT FkSupplyProductProductId FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
+);
+
+
+
+CREATE TABLE Warehouse (
+  BranchId TINYINT UNSIGNED,
+  ProductId SMALLINT UNSIGNED,
+  Quantity SMALLINT UNSIGNED,
+  CONSTRAINT PkWarehouse PRIMARY KEY (BranchId, ProductId),
+  CONSTRAINT FkWarehouseBranchId FOREIGN KEY (BranchId) REFERENCES Branch(BranchId),
+  CONSTRAINT FkSupplyProductProductId FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
+);
