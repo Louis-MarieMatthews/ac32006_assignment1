@@ -82,6 +82,10 @@ CREATE TABLE CompanyManager (
     NOT NULL UNIQUE,
   Wage NUMERIC(7, 2) UNSIGNED
     NOT NULL,
+  SortCode CHAR(8) CHARACTER SET ascii
+    NOT NULL,
+  AccountNumber CHAR(8) CHARACTER SET ascii
+    NOT NULL,
   CONSTRAINT FkCompanyManagerPersonId FOREIGN KEY (PersonId) REFERENCES Person(PersonId)
 )
 ENGINE=InnoDB;
@@ -110,6 +114,10 @@ CREATE TABLE SalesAssistant (
     NOT NULL,
   Wage NUMERIC(7, 2) UNSIGNED
     NOT NULL,
+  SortCode CHAR(8) CHARACTER SET ascii
+    NOT NULL,
+  AccountNumber CHAR(8) CHARACTER SET ascii
+    NOT NULL,
   CONSTRAINT FkSalesAssistantPersonId FOREIGN KEY (PersonId) REFERENCES Person(PersonId),
   CONSTRAINT FkSalesAssistantBranchId FOREIGN KEY (BranchId) REFERENCES Branch(BranchId)
 );
@@ -124,6 +132,10 @@ CREATE TABLE BranchManager (
   BranchId TINYINT UNSIGNED
     NOT NULL UNIQUE,
   Wage NUMERIC(7, 2) UNSIGNED
+    NOT NULL,
+  SortCode CHAR(8) CHARACTER SET ascii
+    NOT NULL,
+  AccountNumber CHAR(8) CHARACTER SET ascii
     NOT NULL,
   CONSTRAINT FkBranchManagerPersonId FOREIGN KEY (PersonId) REFERENCES Person(PersonId),
   CONSTRAINT FkBranchManagerBranchId FOREIGN KEY (BranchId) REFERENCES Branch(BranchId)
