@@ -2,6 +2,11 @@
 
 declare( STRICT_TYPES = 1 );
 
+/**
+ * Class to store login information.
+ * 
+ * @author Louis-Marie Matthews
+ */
 class SessionLogin {
   private $isLoggedIn;
   private $username;
