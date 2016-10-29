@@ -4,6 +4,8 @@ declare( STRICT_TYPES = 1 );
 
 /**
  * Singleton class to get a database connection.
+ * Use this class to get a database connection, then perform queries on it.
+ * The class uses the information provided in ini/database.ini and ini/root.ini.
  * 
  * @author Louis-Marie Matthews
  */
@@ -11,7 +13,8 @@ class Database {
   private static $connection;
   
   
-  public static function getConnection() {
+  
+  public static function getConnection() : PDO {
     if ( ! isset ( $connection ) ) {
       self::initialiseConnection();
     }
