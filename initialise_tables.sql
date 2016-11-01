@@ -217,7 +217,7 @@ CREATE TABLE Warehouse (
   BranchId TINYINT UNSIGNED,
   ProductId SMALLINT UNSIGNED,
   Quantity SMALLINT UNSIGNED,
-  CONSTRAINT PkWarehouse PRIMARY KEY (BranchId, ProductId),
-  CONSTRAINT FkWarehouseBranchId FOREIGN KEY (BranchId) REFERENCES Branch(BranchId),
-  CONSTRAINT FkSupplyProductProductId FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
+  CONSTRAINT PRIMARY KEY (BranchId, ProductId),
+  CONSTRAINT FOREIGN KEY (BranchId) REFERENCES Branch(BranchId),
+  CONSTRAINT FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
 );
