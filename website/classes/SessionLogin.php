@@ -2,38 +2,56 @@
 
 declare( STRICT_TYPES = 1 );
 
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/LoginState.php' );
+
 /**
- * Class to store login information.
+ * Class providing static methods to manage and make sense of the 
+ * LoginState session variable.
  * 
  * @author Louis-Marie Matthews
  */
 class SessionLogin {
-  private $isLoggedIn;
-  private $username;
   
   
   
-  public function __construct() {
-    $this->isLoggedIn = false;
-    $this->username = null;
+  public static function init() {
+    session_start();
+    if ( ! isset( $_SESSION['login_state'] ) )
+      $_SESSION['login_state'] = new LoginState;
   }
   
   
   
-  public function init( bool $isLoggedIn, string $username ) {
-    $this->isLoggedIn = $isLoggedIn;
-    $this->username = $username;
+  public static function setLoginState( bool $isLoggedIn, string $username ) {
+    self::checkIfInitialised();
+    $_SESSION['login_state']->init( $isLoggedIn, $username );
   }
   
   
   
-  public function isLoggedIn() : bool { // boolean doesn't work
-    return $this->isLoggedIn;
+  public static function resetLoginState() {
+    self::checkIfInitialised();
+    $_SESSION['login_state'] = new LoginState;
   }
   
   
   
-  public function getUsername() : string {
-    return $this->username;
+  public static function isLoggedIn() : bool {
+    self::checkIfInitialised();
+    return $_SESSION['login_state']->isLoggedIn();
+  }
+  
+  
+  
+  public static function getUsername() : string {
+    return $_SESSION['login_state']->getUsername();
+  }
+  
+  
+  
+  private static function checkIfInitialised() {
+    if ( session_status() === PHP_SESSION_NONE | ! isset( $_SESSION['sessionLogin'] ) ) {
+      self::init();
+    }
   }
 }
