@@ -46,4 +46,71 @@ class UserModel {
     $request = $db->prepare( 'UPDATE User SET Password = ? WHERE UserId = ?;' );
     $request->execute( array( $hashed_password, $username ) );
   }
+  
+  
+  
+  public static function isCustomer( string $username ) : bool {
+    $query = '
+      SELECT Customer.CustomerId
+      FROM   Customer
+      WHERE  Customer.PersonId = ( SELECT PersonId FROM Person WHERE UserId = ? )
+      ;
+    ';
+    
+    return self::checkIfPresent( $query, array( $username ) );
+  }
+  
+  
+  
+  public static function isSalesAssistant( string $username ) : bool {
+    $query = '
+      SELECT SalesAssistant.SalesAssistantId
+      FROM   SalesAssistant
+      WHERE  SalesAssistant.PersonId = ( SELECT PersonId FROM Person WHERE UserId = ? )
+      ;
+    ';
+    
+    return self::checkIfPresent( $query, array( $username ) );
+  }
+  
+  
+  
+  public static function isBranchManager( string $username ) : bool {
+    $query = '
+      SELECT BranchManager.BranchManagerId
+      FROM   BranchManager
+      WHERE  BranchManager.PersonId = ( SELECT PersonId FROM Person WHERE UserId = ? )
+      ;
+    ';
+    
+    return self::checkIfPresent( $query, array( $username ) );
+  }
+  
+  
+  
+  public static function isCompanyManager( string $username ) : bool {
+    $query = '
+      SELECT CompanyManager.CompanyManagerId
+      FROM   CompanyManager
+      WHERE  CompanyManager.PersonId = ( SELECT PersonId FROM Person WHERE UserId = ? )
+      ;
+    ';
+    
+    return self::checkIfPresent( $query, array( $username ) );
+  }
+  
+  
+  
+  private static function checkIfPresent( string $query, array $parameters ) : bool {
+    $request = Database::getConnection()->prepare( $query );
+    $request->execute( $parameters );
+    print_r( $request->fetchAll() );
+    echo( $request->rowCount() );
+    if ( $request->rowCount() === 1 ) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 }
