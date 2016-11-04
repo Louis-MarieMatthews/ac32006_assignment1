@@ -120,7 +120,9 @@ CREATE TABLE SalesAssistant (
     NOT NULL,
   CONSTRAINT FkSalesAssistantPersonId FOREIGN KEY (PersonId) REFERENCES Person(PersonId),
   CONSTRAINT FkSalesAssistantBranchId FOREIGN KEY (BranchId) REFERENCES Branch(BranchId)
-);
+)
+ENGINE=InnoDB;
+;
 
 
 
@@ -139,7 +141,9 @@ CREATE TABLE BranchManager (
     NOT NULL,
   CONSTRAINT FkBranchManagerPersonId FOREIGN KEY (PersonId) REFERENCES Person(PersonId),
   CONSTRAINT FkBranchManagerBranchId FOREIGN KEY (BranchId) REFERENCES Branch(BranchId)
-);
+)
+ENGINE=InnoDB;
+;
 
 
 
@@ -157,7 +161,9 @@ CREATE TABLE Bill (
     NOT NULL,
   CONSTRAINT FkBillCustomerId FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId),
   CONSTRAINT FkBillSalesAssistantId FOREIGN KEY (SalesAssistantId) REFERENCES SalesAssistant(SalesAssistantId)
-);
+)
+ENGINE=InnoDB;
+;
 
 
 
@@ -169,7 +175,9 @@ CREATE TABLE BillProduct (
   CONSTRAINT PkBillProduct PRIMARY KEY (BillId, ProductId),
   CONSTRAINT FkBillProductBillId FOREIGN KEY (BillId) REFERENCES Bill(BillId),
   CONSTRAINT FkBillProductProductId FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
-);
+)
+ENGINE=InnoDB;
+;
 
 
 
@@ -183,7 +191,9 @@ CREATE TABLE BranchProduct (
   CONSTRAINT PkBranchProduct PRIMARY KEY (BranchId, ProductId),
   CONSTRAINT FkBranchProductBranchId FOREIGN KEY (BranchId) REFERENCES Branch(BranchId),
   CONSTRAINT FkBranchProductProductId FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
-);
+)
+ENGINE=InnoDB;
+;
 
 
 
@@ -198,7 +208,9 @@ CREATE TABLE Supply (
     NOT NULL,
   CONSTRAINT FkSupplyBranchId FOREIGN KEY (BranchId) REFERENCES Branch(BranchId),
   CONSTRAINT FkSupplySupplierId FOREIGN KEY (SupplierId) REFERENCES Supplier(SupplierId)
-);
+)
+ENGINE=InnoDB;
+;
 
 
 
@@ -209,7 +221,9 @@ CREATE TABLE SupplyProduct (
   CONSTRAINT PkSupplyProduct PRIMARY KEY (SupplyId, ProductId),
   CONSTRAINT FkSupplyProductSupplyId FOREIGN KEY (SupplyId) REFERENCES Supply(SupplyId),
   CONSTRAINT FkSupplyProductProductId FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
-);
+)
+ENGINE=InnoDB;
+;
 
 
 
@@ -220,4 +234,6 @@ CREATE TABLE Warehouse (
   CONSTRAINT PRIMARY KEY (BranchId, ProductId),
   CONSTRAINT FOREIGN KEY (BranchId) REFERENCES Branch(BranchId),
   CONSTRAINT FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
-);
+00:00 04/11/2016)
+ENGINE=InnoDB;
+;
