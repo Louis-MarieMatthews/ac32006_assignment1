@@ -35,7 +35,7 @@ require_once( 'functions/html.php' );
         else {
           SessionLogin::setLoginState( true, $_POST['username'] );
     ?>
-    <p>Connected as <?php echo( $_SESSION['sessionLogin']->getUsername() ) ?>.</p>
+    <p>Connected as <?php echo( SessionLogin::getUsername() ) ?>.</p>
     <?php echologoutform() ?>
     <?php
         }

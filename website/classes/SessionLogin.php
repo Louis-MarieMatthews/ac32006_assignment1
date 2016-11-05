@@ -15,9 +15,9 @@ class SessionLogin {
   
   
   public static function init() {
-    session_start();
-    if ( ! isset( $_SESSION['login_state'] ) )
-      $_SESSION['login_state'] = new LoginState;
+    if ( session_status() === PHP_SESSION_NONE )
+      session_start();
+    $_SESSION['login_state'] = new LoginState;
   }
   
   
@@ -50,7 +50,7 @@ class SessionLogin {
   
   
   private static function checkIfInitialised() {
-    if ( session_status() === PHP_SESSION_NONE | ! isset( $_SESSION['sessionLogin'] ) ) {
+    if ( ! isset( $_SESSION['sessionLogin'] ) ) {
       self::init();
     }
   }
