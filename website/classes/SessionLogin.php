@@ -50,8 +50,7 @@ class SessionLogin {
   
   
   private static function checkIfInitialised() {
-    if ( ! isset( $_SESSION['sessionLogin'] ) ) {
+    if ( ! isset( $_SESSION['login_state'] ) )
       self::init();
-    }
   }
 }
