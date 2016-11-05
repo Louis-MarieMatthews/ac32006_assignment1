@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 require_once( 'classes/SessionLogin.php' );
 require_once( 'classes/UserModel.php' );
 require_once( 'functions/html.php' );
@@ -13,7 +16,7 @@ require_once( 'functions/html.php' );
     <?php
       if ( SessionLogin::isLoggedIn() ) {
         if ( isset( $_POST['log-out'] ) ) {
-          SessionLogin::resetLoginState();
+          SessionLogin::init();
     ?>
     <!-- Attributes -->
     <p>You have been logged out. <a href="login.php">Log in.</a></p>
@@ -33,7 +36,7 @@ require_once( 'functions/html.php' );
     <?php
         }
         else {
-          SessionLogin::setLoginState( true, $_POST['username'] );
+          SessionLogin::setUsername( $_POST['username'] );
     ?>
     <p>Connected as <?php echo( SessionLogin::getUsername() ) ?>.</p>
     <?php echologoutform() ?>
