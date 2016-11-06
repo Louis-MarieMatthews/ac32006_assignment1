@@ -5,6 +5,7 @@ session_start();
 require_once( 'classes/BranchManagerUserModel.php' );
 require_once( 'classes/SalesAssistantUserModel.php' );
 require_once( 'classes/SessionLogin.php' );
+require_once( 'functions/authorizations.php' );
 require_once( 'functions/html.php' );
 
 /**
@@ -12,30 +13,27 @@ require_once( 'functions/html.php' );
  * to manage their details.
  */
 
-if ( ! SessionLogin::isLoggedIn() ) {
-  displayAccessDenied();
-  die();
+checkIfEmployee();
+
+$isBranchManager = BranchManagerUserModel::isBranchManager( SessionLogin::getUsername() );
+$isSalesAssistant = SalesAssistantUserModel::isSalesAssistant( SessionLogin::getUsername() );
+
+if ( $isBranchManager ) {
+  $user = new BranchManagerUserModel();
 }
 else {
-  $isBranchManager = BranchManagerUserModel::isBranchManager( SessionLogin::getUsername() );
-  $isSalesAssistant = SalesAssistantUserModel::isSalesAssistant( SessionLogin::getUsername() );
-  if ( $isBranchManager | $isSalesAssistant ) {
-    if ( $isBranchManager ) {
-      $user = new BranchManagerUserModel();
-    }
-    else {
-      $user = new SalesAssistantUserModel();
-    }
-    $user->setUsername( SessionLogin::getUsername() );
-    $user->pull();
-    
-    if ( isset( $_POST['sort-code'] ) ) {
-      $user->setSortCode( $_POST['sort-code'] );
-    }
-    if ( isset( $_POST['account-number'] ) ) {
-      $user->setAccountNumber( $_POST['account-number'] );
-    }
-    $user->push();
+  $user = new SalesAssistantUserModel();
+}
+$user->setUsername( SessionLogin::getUsername() );
+$user->pull();
+
+if ( isset( $_POST['sort-code'] ) ) {
+  $user->setSortCode( $_POST['sort-code'] );
+}
+if ( isset( $_POST['account-number'] ) ) {
+  $user->setAccountNumber( $_POST['account-number'] );
+}
+$user->push();
 ?>
 <!doctype html>
 <html>
@@ -90,9 +88,3 @@ else {
     </main>
   </body>
 </html>
-<?php
-  }
-  else {
-    echo( '<p>YOU CANT SEE THIS PAGE.</p>' );
-  }
-}
