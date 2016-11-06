@@ -1,9 +1,11 @@
 <?php
 
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/functions/html.php' );
+
 /**
  * This function checks that the user is logged-in and is a company manager, or otherwise 
  * stops the running script and outputs an error.
- * SHOULD BE CALLED BEFORE ANY OUTPUT.
+ * SHALL BE CALLED BEFORE ANY OUTPUT.
  */
 function checkIfCompanyManager() {
   if ( SessionLogin::isLoggedIn() ) {
@@ -13,8 +15,7 @@ function checkIfCompanyManager() {
     $isAdmin = false;
   }
   if ( ! $isAdmin ) {
-    //TODO: redirect / include a you're not authorized page
-    echo( '<p>You are not authorized to see this page.</p>' );
+    displayAccessDenied();
     die();
   }
 }

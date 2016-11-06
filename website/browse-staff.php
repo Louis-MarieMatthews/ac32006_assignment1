@@ -10,12 +10,25 @@ require_once( 'functions/authorizations.php' );
 require_once( 'functions/html.php' );
 
 checkIfCompanyManager();
+?>
+<!doctype html>
+<html>
+  <head>
+    <?php displayHead(); ?>
+    <title>Employees of SportsScotland</title>
+  </head>
+  <body>
+    <main>
+      <?php
+        $branchManagers = BranchManagerUserModel::getAllBranchManagers();
+        displayPersons( $branchManagers, 'Branch Managers' );
 
-$branchManagers = BranchManagerUserModel::getAllBranchManagers();
-displayPersons( $branchManagers, 'Branch Managers' );
+        $salesAssistants = SalesAssistantUserModel::getAllSalesAssistants();
+        displayPersons( $salesAssistants, 'Sales Assistants' );
 
-$salesAssistants = SalesAssistantUserModel::getAllSalesAssistants();
-displayPersons( $salesAssistants, 'Sales Assistants' );
-
-$companyManagers = CompanyManagerUserModel::getAllCompanyManagers();
-displayPersons( $companyManagers, 'Company Managers' );
+        $companyManagers = CompanyManagerUserModel::getAllCompanyManagers();
+        displayPersons( $companyManagers, 'Company Managers' );
+      ?>
+    </main>
+  </body>
+</html>

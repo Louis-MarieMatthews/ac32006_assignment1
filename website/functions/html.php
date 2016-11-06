@@ -1,4 +1,20 @@
 <?php
+
+/**
+ * This method displays the head elements common to most pages.
+ * It has to be called before the <title> element as it sets the charset.
+ * 
+ * @author Louis-Marie Matthews
+ */
+function displayHead() {
+  ?>
+  <meta charset="utf-8" />
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <?php
+}
+
+
+
 function echologoutform() {
 ?>
 <form method="post" action="login.php">
@@ -8,17 +24,19 @@ function echologoutform() {
 <?php
 }
 
+
+
 /**
- * Display in a table the persons contained within the array given inside the parameters.
+ * This method displays in a table the persons contained within the array given inside the
+ * parameters.
  *
  * @author Louis-Marie Matthews
  */
 function displayPersons( array $persons, string $title ) {
-  // TODO: remblace style="…" by class="…"
   ?>
-  <table style="margin-bottom: 20px;">
-  <caption style="font-weight: bold; font-size: 2em; text-align: left;"><?php echo( $title ) ?></caption>
-  <thead style="font-weight: bold;" >
+  <table class="bordered-table" >
+  <caption><?php echo( $title ) ?></caption>
+  <thead>
     <tr>
       <td>Person Id</td>
       <td>Username</td>
@@ -51,5 +69,27 @@ function displayPersons( array $persons, string $title ) {
   }
   ?>
   </table>
+  <?php
+}
+
+
+
+function displayAccessDenied( string $message = 'You can\'t access this page',
+                            string $title = 'Access Denied' )
+{
+  ?>
+  <!doctype html>
+  <html>
+    <head>
+      <?php displayHead() ?>
+      <title><?php echo( $title ) ?></title>
+    </head>
+    <body>
+      <main>
+        <h1><?php echo ( $title ) ?></h1>
+        <p><?php echo( $message ) ?></p>
+      </main>
+    </body>
+  </html>
   <?php
 }
