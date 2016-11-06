@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+
+<head>
+	<title>  Registeration  </title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" type="text/css" href="sports.css" /> 
+ 
+ </head>
+ 
+ 
+ <body>
+	 
+	 
+<form method="post" action="register.php" id="registration" >
+	<header> SportsScotland Registration </header>
+	 
+	 <fieldset>
+		 
+		 <div id="personal">
+		 
+		 <ul id="title">
+				
+		 				<li>
+					
+		  					<input type="radio" name="title" value="Mr"/> Mr.
+		  										
+		 				</li> 
+				
+		 				<li>
+
+		  					<input type="radio" name="title" value="Mrs" />Mrs. 
+		  					 
+		 				</li>
+				
+		 				<li>
+
+		  					<input type="radio" name="title" value="Miss" />Miss. 
+
+		 				</li>
+					
+					
+		 			</ul>
+		 
+	<ul id="personal_details">
+		<li>First Name:  <input type="text" name="firstname"/></li>
+		<li>Last Name:  <input type="text" name="lastname"/></li>
+		<li>Address:  <input type="text" name="address"/></li>
+		 <li>City:  <input type="text" name="city"/></li>
+		<li>Postcode:  <input type="text" name="zipcode"/></li>
+		<li>Email:  <input type="text" name="email"/></li>
+		<li>Phone:  <input type="text" name="phone"/></li>
+		
+	 </ul>
+	</div>		
+
+		<div id="account">
+		<ul>
+			<li>Username:  <input type="text" name="username"/></li>
+		 	<li>password: <input type="password" name="user_password"/> </li>	
+		</ul>
+		 
+		 <!-- A small block of JavaScript code to check that the value of Confirm password field == Password field 
+		 Normally this code would be placed in a seperate file of its own but since it is a minor task, there was no need to do that-->
+		 
+	<!--	 <script type="text/javascript">
+		 
+		 //defining variables for storing value of HTML elements : user_password and confirm_password fields
+		 
+		 var user_password = Document.getElementById('user_password');
+		 var confirmPassword = Document.getElementById('confirm_password'); 
+		 
+		 function validatePass() 
+		 {
+			 if(user_password.value != confirmPassword.value)
+			 {
+				 confirmPassword.setCustomValidity("Passwords do not match !"); /*Called by HTML element: confirm_password. 
+				 - Sets custom Validity message e.g. ("Password does not match") 
+				 - empty string: ("") denotes absence of error*/
+				
+			 }
+			 
+			 else
+				 
+			 {
+				 confirmPassword.setCustomValidity("");
+				
+			 }
+			
+			
+		 }
+		 
+		 /*
+			onkeyup: event triggered at the release of key by user
+			onchange: event triggered when change in value detected for a field/variable
+
+		 */
+		Document.getElementById("user_password").onchange = validatePass();
+		Document.getElementById("confirm_password")onkeyup = validatePass();
+		 
+		 </script> -->
+		 
+		 
+		 <input type="submit" value="Submit">  
+		
+		</div>
+	
+	</fieldset>
+	
+</form>
+	 
+ </body>

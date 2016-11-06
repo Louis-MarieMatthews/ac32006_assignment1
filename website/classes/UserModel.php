@@ -33,6 +33,27 @@ class UserModel {
   }
   
   
+  public static function registerUser(string $username, string $title, string $firstname, string $lastname, string $address, string $city, string $zipcode, string $email, string $phone, string $user_password) 
+  {
+	  $hashed_password = hash('sha512', $user_password);
+	  $db = Database::getConnection();
+	  $request = $db->prepare(" SET FOREIGN_KEY_CHECKS=0;"."INSERT INTO Person(title, FirstName, LastName, Address, City, Postcode, Email, Telephone ) 										 VALUES(:UserId, :Title, :FirstName,:LastName, :Address, :City, :Postcode, :Email, :Telephone  );");    
+
+		$request->execute(array(':UserId'=>$username, ':Title'=>$title, ':FirstName'=> $firstname ,':LastName'=> $lastname, ':Address'=> $address, ':City'=> $city, 		':Postcode' => $zipcode, ':Email'=> $email, ':Telephone'=> $phone));  	
+		
+		$createAccount = $db->prepare("SET FOREIGN_KEY_CHECKS=0;"."INSERT INTO User(UserId, Password) VALUES(:UserId, :Password);");
+		$createAccount->execute(array(':UserId' => $username, ':Password' => $hashed_password));
+		echo "<br />". $hashed_password;
+		
+		/**
+		SET FOREIGN_KEY_CHECKS=0; 
+		> The above SQL statement is used to turn off the Foreign key check constraint which will usually be True by default when running queries in MySQL or SQL Server. 
+		> This actually allows INSERTS in both the tables: Person and User withhout generating a Foreign key error.
+		
+		
+		**/
+   
+  }
   
   /**
    * Update the password of the specified user.
