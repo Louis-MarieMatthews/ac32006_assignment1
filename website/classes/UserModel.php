@@ -104,8 +104,6 @@ class UserModel {
   private static function checkIfPresent( string $query, array $parameters ) : bool {
     $request = Database::getConnection()->prepare( $query );
     $request->execute( $parameters );
-    print_r( $request->fetchAll() );
-    echo( $request->rowCount() );
     if ( $request->rowCount() === 1 ) {
       return true;
     }
