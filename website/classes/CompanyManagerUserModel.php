@@ -16,4 +16,17 @@ class CompanyManagerUserModel extends UserModel
     
     return self::checkIfPresent( $query, array( $username ) );
   }
+  
+  
+  
+  public static function getAllCompanyManagers() : array {
+    $query = '
+      SELECT *
+      FROM   CompanyManager
+      INNER JOIN Person
+      ON CompanyManager.PersonId = Person.PersonId
+      ;
+    ';
+    return Database::query( $query, array() )->fetchAll();
+  }
 }
