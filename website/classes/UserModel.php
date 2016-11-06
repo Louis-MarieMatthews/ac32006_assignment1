@@ -21,9 +21,7 @@ class UserModel {
    */
   public static function areCredentialsCorrect( string $username, string $password ) : bool {
     $hashed_password = hash( 'sha512', $password );
-    $db = Database::getConnection();
-    $request = $db->prepare( 'SELECT Password FROM User WHERE UserId = ?;' );
-    $request->execute( array( $username ) );
+    $request = Database::query( 'SELECT Password FROM User WHERE UserId = ?;', array( $username) );
     if ( $request->columnCount() === 0 | $request->fetch()['Password'] !== $hashed_password ) {
       return false;
     }
@@ -42,9 +40,7 @@ class UserModel {
    */
   public static function updatePassword( string $username, string $password ) {
     $hashed_password = hash( 'sha512', $password );
-    $db = Database::getConnection();
-    $request = $db->prepare( 'UPDATE User SET Password = ? WHERE UserId = ?;' );
-    $request->execute( array( $hashed_password, $username ) );
+    $request = Database::query( 'UPDATE User SET Password = ? WHERE UserId = ?;', array( $hashed_password, $username ) );
   }
   
   
@@ -102,8 +98,7 @@ class UserModel {
   
   
   private static function checkIfPresent( string $query, array $parameters ) : bool {
-    $request = Database::getConnection()->prepare( $query );
-    $request->execute( $parameters );
+    $request = Database::query( $query, $parameters );
     if ( $request->rowCount() === 1 ) {
       return true;
     }

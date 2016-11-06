@@ -31,4 +31,16 @@ class Database {
     $root = parse_ini_file( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/ini/root.ini' );
     self::$connection = new PDO( 'mysql:host=' . $db['host'] . ';dbname=' . $db['name'] . ';charset=utf8', $root['username'], $root['password'] );
   }
+  
+  
+  
+  /**
+   * This method performs a prepared statement on the database using the given prepared statement
+   * and the values to feed it with.
+   */
+  public static function query( string $preparedQuery, array $values ) : PDOStatement {
+    $request = self::getConnection()->prepare( $preparedQuery );
+    $request->execute( $values );
+    return $request;
+  }
 }
