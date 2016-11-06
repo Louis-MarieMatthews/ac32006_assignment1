@@ -45,59 +45,7 @@ class UserModel {
   
   
   
-  public static function isCustomer( string $username ) : bool {
-    $query = '
-      SELECT Customer.CustomerId
-      FROM   Customer
-      WHERE  Customer.PersonId = ( SELECT PersonId FROM Person WHERE UserId = ? )
-      ;
-    ';
-    
-    return self::checkIfPresent( $query, array( $username ) );
-  }
-  
-  
-  
-  public static function isSalesAssistant( string $username ) : bool {
-    $query = '
-      SELECT SalesAssistant.SalesAssistantId
-      FROM   SalesAssistant
-      WHERE  SalesAssistant.PersonId = ( SELECT PersonId FROM Person WHERE UserId = ? )
-      ;
-    ';
-    
-    return self::checkIfPresent( $query, array( $username ) );
-  }
-  
-  
-  
-  public static function isBranchManager( string $username ) : bool {
-    $query = '
-      SELECT BranchManager.BranchManagerId
-      FROM   BranchManager
-      WHERE  BranchManager.PersonId = ( SELECT PersonId FROM Person WHERE UserId = ? )
-      ;
-    ';
-    
-    return self::checkIfPresent( $query, array( $username ) );
-  }
-  
-  
-  
-  public static function isCompanyManager( string $username ) : bool {
-    $query = '
-      SELECT CompanyManager.CompanyManagerId
-      FROM   CompanyManager
-      WHERE  CompanyManager.PersonId = ( SELECT PersonId FROM Person WHERE UserId = ? )
-      ;
-    ';
-    
-    return self::checkIfPresent( $query, array( $username ) );
-  }
-  
-  
-  
-  private static function checkIfPresent( string $query, array $parameters ) : bool {
+  protected static function checkIfPresent( string $query, array $parameters ) : bool {
     $request = Database::query( $query, $parameters );
     if ( $request->rowCount() === 1 ) {
       return true;
