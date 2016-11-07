@@ -27,11 +27,22 @@ else {
 $user->setUsername( SessionLogin::getUsername() );
 $user->pull();
 
+$formErrors = array();
 if ( isset( $_POST['sort-code'] ) ) {
-  $user->setSortCode( $_POST['sort-code'] );
+  try {
+    $user->setSortCode( $_POST['sort-code'] );
+  }
+  catch( DomainException $e ) {
+    $formErrors[] = $e->getMessage();
+  }
 }
 if ( isset( $_POST['account-number'] ) ) {
-  $user->setAccountNumber( $_POST['account-number'] );
+  try {
+    $user->setAccountNumber( $_POST['account-number'] );
+  }
+  catch( DomainException $e ) {
+    $formErrors[] = $e->getMessage();
+  }
 }
 $user->push();
 ?>
@@ -44,6 +55,7 @@ $user->push();
   <body>
     <main>
       <h1>Your staff details</h1>
+      <?php displayErrors( $formErrors ) ?>
       <table>
         <tr>
           <td>Your branch: </td>
@@ -60,9 +72,9 @@ $user->push();
               <input
                 id="sort-code"
                 form="form"
-                maxlength="8"
+                <?php // TODO: To remove maxlength="8" ?>
                 name="sort-code"
-                pattern="^(?!(?:0{6}|00-00-00))(?:\d{6}|\d\d-\d\d-\d\d)$"
+                <?php // TODO: To remove pattern="^(?!(?:0{6}|00-00-00))(?:\d{6}|\d\d-\d\d-\d\d)$" ?>
                 type="text"
                 value="<?php echo( $user->getSortCode() ) ?>"
               />
@@ -74,7 +86,7 @@ $user->push();
             <input
               id="account-number"
               form="form"
-              maxlength="8"
+              <?php // TODO: To remove maxlength="8" ?>
               name="account-number"
               type="text"
               value="<?php echo( $user->getAccountNumber() ) ?>"

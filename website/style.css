@@ -1,5 +1,7 @@
 /**
- * Structure
+ * 
+ * STRUCTURE
+ * 
  */
 
 
@@ -11,9 +13,13 @@ main {
 
 
 /**
- * Style
+ * 
+ * STYLE
+ * 
  */
 
+
+/* Tables */
 
 table {
   margin-bottom: 1em;
@@ -36,4 +42,14 @@ thead {
 
 .bordered-table td  {
   border: 1px solid black;
+}
+
+/* Errors */
+
+.error {
+  background: rgb(170, 0, 0);
+  padding: 0.2em;
+  font-family: arial;
+  color: white;
+  font-weight: bold;
 }

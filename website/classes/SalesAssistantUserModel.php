@@ -2,6 +2,8 @@
 
 declare( STRICT_TYPES = 1 );
 
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/AccountNumber.php' );
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/SortCode.php' );
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/UserModel.php' );
 
 class SalesAssistantUserModel extends UserModel
@@ -48,7 +50,7 @@ class SalesAssistantUserModel extends UserModel
   
   
   public function getAccountNumber() : string {
-    return $this->accountNumber;
+    return (string) $this->accountNumber;
   }
   
   
@@ -60,7 +62,7 @@ class SalesAssistantUserModel extends UserModel
   
   
   public function getSortCode() : string {
-    return $this->sortCode;
+    return (string) $this->sortCode;
   }
   
   
@@ -78,7 +80,7 @@ class SalesAssistantUserModel extends UserModel
   
   
   public function setAccountNumber( string $accountNumber ) {
-    $this->accountNumber = $accountNumber;
+    $this->accountNumber = new AccountNumber( $accountNumber );
   }
   
   
@@ -89,8 +91,8 @@ class SalesAssistantUserModel extends UserModel
   
   
   
-  public function setSortCode( string $sortCode ) {
-    $this->sortCode = $sortCode;
+  public function setSortCode( SortCode $sortCode ) {
+    $this->sortCode = new SortCode( $sortCode );
   }
   
   
@@ -115,11 +117,11 @@ class SalesAssistantUserModel extends UserModel
     ';
     $request = Database::query( $query, array( $this->username ) );
     $columns = $request->fetchAll()[0];
-    $this->accountNumber = $columns['AccountNumber'];
+    $this->accountNumber = new AccountNumber( $columns['AccountNumber'] );
     $this->branchId = (int) $columns['BranchId'];
     $this->salesAssistantId = (int) $columns['SalesAssistantId'];
     $this->personId = (int) $columns['PersonId'];
-    $this->sortCode = $columns['SortCode'];
+    $this->sortCode = new SortCode( $columns['SortCode'] );
     $this->wage = (float) $columns['Wage'];
   }
   
@@ -137,10 +139,10 @@ class SalesAssistantUserModel extends UserModel
       ;
     ';
     $values = array(
-      $this->accountNumber,
+      (string) $this->accountNumber,
       $this->branchId,
       $this->personId,
-      $this->sortCode,
+      (string) $this->sortCode,
       $this->wage,
       $this->salesAssistantId
     );

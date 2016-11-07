@@ -2,6 +2,8 @@
 
 declare( STRICT_TYPES = 1 );
 
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/AccountNumber.php' );
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/SortCode.php' );
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/UserModel.php' );
 
 class BranchManagerUserModel extends UserModel
@@ -25,11 +27,11 @@ class BranchManagerUserModel extends UserModel
                        int $branchManagerId, string $sortCode, float $wage )
   {
     $this->username = $username;
-    $this->accountNumber = $accountNumber;
+    $this->accountNumber = new AccountNumber( $accountNumber );
     $this->branchId = $branchId;
     $this->branchManagerId = $branchManagerId;
     $this->personId = $personId;
-    $this->sortCode = $sortCode;
+    $this->sortCode = new SortCode( $sortCode );
     $this->wage = $wage;
   }
   
@@ -68,7 +70,7 @@ class BranchManagerUserModel extends UserModel
   
   
   public function getAccountNumber() : string {
-    return $this->accountNumber;
+    return (string) $this->accountNumber;
   }
   
   
@@ -80,7 +82,7 @@ class BranchManagerUserModel extends UserModel
   
   
   public function getSortCode() : string {
-    return $this->sortCode;
+    return (string) $this->sortCode;
   }
   
   
@@ -92,7 +94,7 @@ class BranchManagerUserModel extends UserModel
   
   
   public function setAccountNumber( string $accountNumber ) {
-    $this->accountNumber = $accountNumber;
+    $this->accountNumber = new AccountNumber( $accountNumber );
   }
   
   
@@ -104,7 +106,7 @@ class BranchManagerUserModel extends UserModel
   
   
   public function setSortCode( string $sortCode ) {
-    $this->sortCode = $sortCode;
+    $this->sortCode = new SortCode( $sortCode );
   }
   
   
@@ -115,6 +117,7 @@ class BranchManagerUserModel extends UserModel
   
   
   
+  //TODO: check the wage? (it must nott be higher than a certain value)
   public function setWage( float $wage ) {
     $this->wage = $wage;
   }
@@ -133,7 +136,7 @@ class BranchManagerUserModel extends UserModel
     $this->branchId = (int) $columns['BranchId'];
     $this->branchManagerId = (int) $columns['BranchManagerId'];
     $this->personId = (int) $columns['PersonId'];
-    $this->sortCode = $columns['SortCode'];
+    $this->sortCode = new SortCode( $columns['SortCode'] );
     $this->wage = (float) $columns['Wage'];
   }
   
@@ -151,10 +154,10 @@ class BranchManagerUserModel extends UserModel
       ;
     ';
     $values = array(
-      $this->accountNumber,
+      (string) $this->accountNumber,
       $this->branchId,
       $this->personId,
-      $this->sortCode,
+      (string) $this->sortCode,
       $this->wage,
       $this->branchManagerId
     );

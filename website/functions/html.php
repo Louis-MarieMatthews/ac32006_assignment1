@@ -93,3 +93,18 @@ function displayAccessDenied( string $message = 'You can\'t access this page',
   </html>
   <?php
 }
+
+
+
+/**
+ * This method displays a number-indexed array of strings as a list of errors.
+ */
+function displayErrors( array $errors ) {
+  if ( sizeof( $errors) !==0 ) {
+    foreach ( $errors as $error ) {
+      ?>
+      <p class="error"><?php echo( $error ) ?></p>
+      <?php
+    }
+  }
+}
