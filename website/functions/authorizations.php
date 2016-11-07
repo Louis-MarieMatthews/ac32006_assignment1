@@ -40,3 +40,12 @@ function checkIfEmployee() {
     die();
   }
 }
+
+
+
+function checkIfNotLoggedIn() {
+  if ( SessionLogin::isLoggedIn() ) {
+    displayAccessDenied();
+    die();
+  }
+}
