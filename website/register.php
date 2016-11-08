@@ -25,7 +25,7 @@ if ( getPost( 'username' ) != null &
   }
   catch( DomainException $e ) {
     // TODO: (minor) maybe use a custom class as need to be sure
-    // DomainException caused by sql type classes
+    // that DomainException caused by sql type classes
     $formErrors[] = $e->getMessage();
     $areDetailsValid = false;
   }
@@ -106,6 +106,8 @@ if ( getPost( 'username' ) != null &
   }
   
   if ( $areDetailsValid ) {
+    // TODO: (minor) what if user creation suceed but customer fail?
+    // Customer insertion has no reason to fail though.
     $user->insert();
     $customer->insert();
     displayMessage( 'Registration sucessful', 'Your registration was
