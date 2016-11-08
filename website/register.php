@@ -110,7 +110,7 @@ if ( getPost( 'username' ) != null &
     // Customer insertion has no reason to fail though.
     $user->insert();
     $customer->insert();
-    displayMessage( 'Registration sucessful', 'Your registration was
+    displayMessagePage( 'Registration sucessful', 'Your registration was
     successful!' );
     die();
   }

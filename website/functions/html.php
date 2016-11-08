@@ -79,7 +79,7 @@ function displayPersons( array $persons, string $title ) {
 function displayAccessDenied( string $message = 'You can\'t access this page',
                             string $title = 'Access Denied' )
 {
-  displayMessage( $message, $title );
+  displayMessagePage( $message, $title );
 }
 
 
@@ -87,12 +87,12 @@ function displayAccessDenied( string $message = 'You can\'t access this page',
 function displayUnknownError( string $message = 'An unexpected error occured.',
                             string $title = 'Unexpected Internal Error' )
 {
-  displayMessage( $message, $title );
+  displayMessagePage( $message, $title );
 }
 
 
 
-function displayMessage( string $message, string $title )
+function displayMessagePage( string $message, string $title )
 {
   ?>
   <!doctype html>
