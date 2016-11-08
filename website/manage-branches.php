@@ -7,20 +7,27 @@ require( 'functions/authorizations.php' );
 
 checkIfCompanyManager();
 
-if ( ! isset( $_GET['id'] ) ) {
-  displayMessagePage( 'No branch id have been specified.', 'No Branch Id' );
-  die();
+$branch = new BranchModel();
+
+if ( isset( $_GET['id'] ) ) {
+  $branch->setBranchId( $_GET['id'] );
+  try {
+    $branch->fetch();
+    $update = true;
+    $actionUrl = 'manage-branches.php?id=' . $_GET['id'];
+  }
+  catch( Exception $e ) {
+    $error = 'Branch ' . $_GET['id'] . ' does not exist';
+    displayMessagePage( $error, $error );
+    die();
+  }
+}
+else {
+  $update = false;
+  $actionUrl = 'manage-branches.php';
 }
 
-$branch = new BranchModel();
-$branch->setBranchId( $_GET['id'] );
-try {
-  $branch->fetch();
-  $update = true;
-}
-catch( Exception $e ) {
-  $update = false;
-}
+
 
 $formErrors = array();
 if ( getPost( 'name' ) != null &
@@ -60,9 +67,19 @@ if ( getPost( 'name' ) != null &
     try {
       if ( $update ) {
         $branch->update();
+        $title = 'Branch Updated Successfully';
+        $message = 'Branch #' . $branch->getBranchId() . ' has been' .
+          'updated successfully!';
+        displayMessagePage( $title, $message );
+        die();
       }
       else {
         $branch->insert();
+        $title = 'Branch Created Successfully';
+        $message = $branch->getName() . ' has been created ' .
+          'successfully!';
+        displayMessagePage( $message, $title );
+        die();
       }
     }
     catch( Exception $e ) {
@@ -84,6 +101,7 @@ if ( getPost( 'name' ) != null &
     <main>
       <?php displayErrors( $formErrors ); ?>
       <table>
+        <?php if ( $update ) : ?>
         <caption>Branch <?php echo( $branch->getBranchId() ) ?></caption>
         <tr>
           <td>
@@ -93,6 +111,9 @@ if ( getPost( 'name' ) != null &
             <?php echo( $branch->getBranchId() ) ?>
           </td>
         </tr>
+        <?php else : ?>
+        <caption>New Branch</caption>
+        <?php endif ?>
         <tr>
           <td>
             <label for="name" form="form">
@@ -126,10 +147,16 @@ if ( getPost( 'name' ) != null &
             <input form="form" id="city" name="city" type="text" value="<?php echo( $branch->getCity() ) ?>" /></td>
         </tr>
       </table>
-      <form action="manage-branches.php?id=<?php echo( $branch->getBranchId() ) ?>" id="form" method="POST">
+      <form action="<?php echo( $actionUrl ) ?>" id="form" method="POST">
         <button type="submit">Submit</button>
       </form>
-      <a href="delete-branch.php?id=<?php echo( $branch->getBranchId() ) ?>">Delete branch</a>
+      <?php
+      if ( $update ) {
+        ?>
+        <a href="">Delete branch</a>
+        <?php
+      }
+      ?>
     </main>
   </body>
 </html>
