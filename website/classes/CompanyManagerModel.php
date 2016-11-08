@@ -72,7 +72,6 @@ class CompanyManagerModel extends PersonModel
       $this->getPersonId()
     );
     Database::query( $query, $parameters );
-    // TODO: check that one person has been changed?
   }
   
   
@@ -90,6 +89,5 @@ class CompanyManagerModel extends PersonModel
       $this->getSortCode(),
       $this->getAccountNumber() );
     Database::query( $query, $parameters );
-    // TODO: check that one person has been changed?
   }
 }

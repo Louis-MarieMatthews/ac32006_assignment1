@@ -158,7 +158,6 @@ class SalesAssistantModel extends PersonModel
       $this->getPersonId()
     );
     Database::query( $query, $parameters );
-    // TODO: check that one person has been changed?
   }
   
   
@@ -174,6 +173,5 @@ class SalesAssistantModel extends PersonModel
     ';
     $parameters = $this->toArray();
     Database::query( $query, $parameters );
-    // TODO: check that one person has been changed?
   }
 }

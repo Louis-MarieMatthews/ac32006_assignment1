@@ -112,7 +112,6 @@ class PersonModel
       $this->getUsername(),
       $this->getPersonId() );
     Database::query( $query, $parameters );
-    // TODO: check that one person has been changed?
   }
   
   
@@ -143,7 +142,6 @@ class PersonModel
       $this->getTitle(),
       $this->getUsername() );
     Database::query( $query, $parameters );
-    // TODO: check that one person has been changed?
     $request = Database::query( 'SELECT MAX(PersonId) FROM Person', array() );
     // TODO: (critical) quick and dirty way to do things, will cause severe problems
     // in the case of concurrents insertions / deletions.

@@ -108,11 +108,17 @@ if ( getPost( 'username' ) != null &
   if ( $areDetailsValid ) {
     // TODO: (minor) what if user creation suceed but customer fail?
     // Customer insertion has no reason to fail though.
-    $user->insert();
-    $customer->insert();
-    displayMessagePage( 'Registration sucessful', 'Your registration was
-    successful!' );
-    die();
+    try {
+      $user->insert();
+      $customer->insert();
+      displayMessagePage( 'Registration sucessful', 'Your registration was
+      successful!' );
+      die();
+    }
+    catch( Exception $e ) {
+      $formErrors[] = 'An error has occured. Your username is maybe 
+      already taken.';
+    }
   }
 }
 

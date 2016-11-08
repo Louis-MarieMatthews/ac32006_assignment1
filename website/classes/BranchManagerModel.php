@@ -86,7 +86,6 @@ class BranchManagerModel extends PersonModel
       $this->getPersonId()
     );
     Database::query( $query, $parameters );
-    // TODO: check that one person has been changed?
   }
   
   
@@ -108,7 +107,6 @@ class BranchManagerModel extends PersonModel
       $this->getSortCode(),
       $this->getAccountNumber() );
     Database::query( $query, $parameters );
-    // TODO: check that one person has been changed?
   }
   
   

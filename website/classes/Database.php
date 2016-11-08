@@ -41,7 +41,7 @@ class Database {
    */
   public static function query( string $preparedQuery, array $values ) : PDOStatement {
     $request = self::getConnection()->prepare( $preparedQuery );
-    $request->execute( $values );
+    $success = $request->execute( $values );
     return $request;
   }
 }

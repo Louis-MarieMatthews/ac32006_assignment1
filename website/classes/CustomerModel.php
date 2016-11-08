@@ -53,7 +53,6 @@ class CustomerModel extends PersonModel
     ';
     $parameters = array( $this->getNotes() );
     Database::query( $query, $parameters );
-    // TODO: check that one person has been changed?
   }
   
   
@@ -68,7 +67,6 @@ class CustomerModel extends PersonModel
     ';
     $parameters = array( $this->getPersonId(), $this->getNotes() );
     Database::query( $query, $parameters );
-    // TODO: check that one person has been changed?
     
   }
   
