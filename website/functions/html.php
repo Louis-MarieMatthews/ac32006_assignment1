@@ -1,5 +1,7 @@
 <?php
 
+declare( STRICT_TYPES = 1 );
+
 /**
  * This method displays the head elements common to most pages.
  * It has to be called before the <title> element as it sets the charset.
@@ -121,5 +123,22 @@ function displayErrors( array $errors ) {
       <p class="error"><?php echo( $error ) ?></p>
       <?php
     }
+  }
+}
+
+
+
+/**
+ * Checks if the value whose name is the parameter has been sent via
+ * the POST method.
+ * 
+ * @author Louis-Marie Matthews
+ */
+function getPost( string $name ) {
+  if ( isset( $_POST[ $name ] ) ) {
+    return $_POST[ $name ];
+  }
+  else {
+    return null;
   }
 }
