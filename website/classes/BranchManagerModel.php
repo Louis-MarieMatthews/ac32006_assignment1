@@ -152,7 +152,7 @@ class BranchManagerModel extends PersonModel
       $this->branchId = null;
     }
     else {
-      $this->branchId = $branchId;
+      $this->branchId = (int) $branchId;
     }
   }
   
@@ -175,7 +175,7 @@ class BranchManagerModel extends PersonModel
       $this->wage = null;
     }
     else {
-    $this->wage = $wage;
+    $this->wage = (int) $wage;
     }
   }
 }

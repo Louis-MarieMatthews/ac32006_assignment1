@@ -142,3 +142,20 @@ function getPost( string $name ) {
     return null;
   }
 }
+
+
+
+/**
+ * This method returns the GET value with the specified name, or null
+ * if it hasn't been set.
+ *
+ * @author Louis-Marie Matthews
+ */
+function getHttpGet( string $name ) {
+  if ( isset( $_GET[ $name ] ) ) {
+    return $_GET[ $name ];
+  }
+  else {
+    return null;
+  }
+}
