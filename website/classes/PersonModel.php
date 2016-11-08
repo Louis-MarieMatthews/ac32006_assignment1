@@ -1,7 +1,5 @@
 <?php
-
 declare( STRICT_TYPES = 1 );
-
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/Database.php' );
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Username.php' );
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Password.php' );
@@ -11,8 +9,8 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Postcode.php' );
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Email.php' );
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/City.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Telephone.php' );
-
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Telephone.php'
+ );
 // TODO: (important) make update(), insert(), fetch() return a query
 // and its parameters so that requests can be optimized
 // TODO: (critical) add delete() method
@@ -32,7 +30,6 @@ class PersonModel
   private $telephone;
   private $title;
   private $username;
-  private $fetchPdoStatement;
   
   
   
@@ -45,7 +42,27 @@ class PersonModel
    * exception is thrown.
    */
   public function fetch() {
-    $results = $this->fetchPdoStatement->fetchAll()[0];
+    // TODO: (minor) more precise exception
+    if ( $this->personId == null & $this->username == null ) {
+      throw new Exception( 'person id and username not set, cant fetch' );
+    }
+    else if ( $this->personId != null ) {
+      $query = '
+        SELECT * FROM Person WHERE PersonId = ?;
+      ';
+      $parameters = array( $this->personId );
+    }
+    elseif ( $this->username != null ) {
+      $query = '
+        SELECT * FROM Person WHERE UserId = ?;
+      ';
+      $parameters = array( $this->username );
+    }
+    $request = Database::query( $query, $parameters );
+    if ( $request->rowCount() !== 1 ) {
+      throw new Exception( '0 or more than 1 person with this person id' );
+    }
+    $results = $request->fetchAll()[0];
     
     // hydrating the person
     $this->setAddress( $results['Address'] );
@@ -156,33 +173,6 @@ class PersonModel
   
   public final function getEmail() {
     return $this->email;
-  }
-  
-  
-  
-  public function getFetchQuery() {
-    // TODO: (minor) more precise exception
-    if ( $this->personId == null & $this->username == null ) {
-      throw new Exception( 'person id and username not set, cant fetch' );
-    }
-    else if ( $this->personId != null ) {
-      $query = '
-        SELECT * FROM Person WHERE PersonId = ?;
-      ';
-      $parameters = array( $this->personId );
-    }
-    elseif ( $this->username != null ) {
-      $query = '
-        SELECT * FROM Person WHERE UserId = ?;
-      ';
-      $parameters = array( $this->username );
-    }
-  }
-  
-  
-  
-  public function getFetchParameters() {
-    
   }
   
   
