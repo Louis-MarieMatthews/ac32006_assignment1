@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+// TODO: (important) display a confirmation button
+
 require( 'classes/BranchModel.php' );
 require( 'functions/html.php' );
 require( 'functions/authorizations.php' );
