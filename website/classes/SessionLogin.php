@@ -35,6 +35,14 @@ class SessionLogin {
   
   
   
+  private static function checkIfInitialized() {
+    if ( ! isset( $_SESSION['username'] ) ) {
+      self::init();
+    }
+  }
+  
+  
+  
   /**
    * Return the username of the currently logged-in user, or null if they're not logged in.
    */
@@ -51,13 +59,5 @@ class SessionLogin {
    */
   public static function setUsername( string $username ) {
     $_SESSION['username'] = $username;
-  }
-  
-  
-  
-  private static function checkIfInitialized() {
-    if ( ! isset( $_SESSION['username'] ) ) {
-      self::init();
-    }
   }
 }

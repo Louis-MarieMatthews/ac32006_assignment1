@@ -149,6 +149,18 @@ class PersonModel
   }
   
   
+  
+  protected static function checkIfPresent( string $query, array $parameters ) : bool {
+    $request = Database::query( $query, $parameters );
+    if ( $request->rowCount() === 1 ) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  
+  
   public final function getAddress() {
     return $this->address;
   }
@@ -314,18 +326,6 @@ class PersonModel
     }
     else {
       $this->username = new Username( $username );
-    }
-  }
-  
-  
-  
-  protected static function checkIfPresent( string $query, array $parameters ) : bool {
-    $request = Database::query( $query, $parameters );
-    if ( $request->rowCount() === 1 ) {
-      return true;
-    }
-    else {
-      return false;
     }
   }
 }

@@ -47,6 +47,68 @@ class SalesAssistantModel extends PersonModel
   
   
   
+  public final function fetch() {
+    parent::fetch();
+     
+    $query = '
+    SELECT *
+    FROM   SalesAssistant
+    WHERE  PersonId = ?;
+    ';
+    $request = Database::query( $query,  array( $this->getPersonId() ) );
+    if ( $request->rowCount() !== 1 ) {
+      throw new Exception( '0 or more than 1 sales assistant with this 
+      sales assistant id' );
+    }
+    $results = $request->fetchAll()[0];
+    
+    // hydrating the branch manager
+    $this->setWage( (float) $results['Wage'] );
+    $this->setSortCode( $results['SortCode'] );
+    $this->setBranchId( (int) $results['BranchId'] );
+    $this->setAccountNumber( $results['AccountNumber'] );
+  }
+  
+  
+  
+  public final function update() {
+    parent::update();
+    // TODO: allow to precise which fields to update in parameters?
+    $query = '
+    UPDATE SalesAssistant
+    SET    Wage = ?,
+           SortCode = ?,
+           BranchId = ?,
+           AccountNumber = ?
+    WHERE  PersonId = ?;
+    ';
+    $parameters = array(
+      $this->getWage(),
+      $this->getSortCode(),
+      $this->getBranchId(),
+      $this->getAccountNumber(),
+      $this->getPersonId()
+    );
+    Database::query( $query, $parameters );
+  }
+  
+  
+  
+  public final function insert() {
+    parent::insert();
+    // TODO: allow to precise which fields to update in parameters?
+    $query = '
+    INSERT INTO Person (
+      Address, City, Email, FirstName, LastName, Postcode, Telephone,
+      Title, UserId )
+      VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? );
+    ';
+    $parameters = $this->toArray();
+    Database::query( $query, $parameters );
+  }
+  
+  
+  
   public function getAccountNumber() {
     return (string) $this->accountNumber;
   }
@@ -111,67 +173,5 @@ class SalesAssistantModel extends PersonModel
     else {
       $this->wage = $wage;
     }
-  }
-  
-  
-  
-  public final function fetch() {
-    parent::fetch();
-     
-    $query = '
-    SELECT *
-    FROM   SalesAssistant
-    WHERE  PersonId = ?;
-    ';
-    $request = Database::query( $query,  array( $this->getPersonId() ) );
-    if ( $request->rowCount() !== 1 ) {
-      throw new Exception( '0 or more than 1 sales assistant with this 
-      sales assistant id' );
-    }
-    $results = $request->fetchAll()[0];
-    
-    // hydrating the branch manager
-    $this->setWage( (float) $results['Wage'] );
-    $this->setSortCode( $results['SortCode'] );
-    $this->setBranchId( (int) $results['BranchId'] );
-    $this->setAccountNumber( $results['AccountNumber'] );
-  }
-  
-  
-  
-  public final function update() {
-    parent::update();
-    // TODO: allow to precise which fields to update in parameters?
-    $query = '
-    UPDATE SalesAssistant
-    SET    Wage = ?,
-           SortCode = ?,
-           BranchId = ?,
-           AccountNumber = ?
-    WHERE  PersonId = ?;
-    ';
-    $parameters = array(
-      $this->getWage(),
-      $this->getSortCode(),
-      $this->getBranchId(),
-      $this->getAccountNumber(),
-      $this->getPersonId()
-    );
-    Database::query( $query, $parameters );
-  }
-  
-  
-  
-  public final function insert() {
-    parent::insert();
-    // TODO: allow to precise which fields to update in parameters?
-    $query = '
-    INSERT INTO Person (
-      Address, City, Email, FirstName, LastName, Postcode, Telephone,
-      Title, UserId )
-      VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? );
-    ';
-    $parameters = $this->toArray();
-    Database::query( $query, $parameters );
   }
 }

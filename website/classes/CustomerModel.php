@@ -67,7 +67,6 @@ class CustomerModel extends PersonModel
     ';
     $parameters = array( $this->getPersonId(), $this->getNotes() );
     Database::query( $query, $parameters );
-    
   }
   
   
