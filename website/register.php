@@ -156,8 +156,8 @@ if ( getPost( 'username' ) != null &
           <td><input form="form" id="address" name="address" type="text" value="<?php echo( getPost( 'address' ) ) ?>" /></td>
         </tr>
         <tr>
-          <td><label for="post-code" form="form">Postcode</label></td>
-          <td><input form="form" id="post-code" name="post-code" type="text" value="<?php echo( getPost( 'postcode' ) ) ?>" /></td>
+          <td><label for="postcode" form="form">Postcode</label></td>
+          <td><input form="form" id="postcode" name="postcode" type="text" value="<?php echo( getPost( 'postcode' ) ) ?>" /></td>
         </tr>
         <tr>
           <td><label for="city" form="form">City</label></td>
