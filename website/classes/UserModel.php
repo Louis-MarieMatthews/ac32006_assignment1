@@ -3,6 +3,8 @@
 declare( STRICT_TYPES = 1 );
 
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/Database.php' );
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Password.php' );
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Username.php' );
 
 /**
  * Use this class to access / manage user related data stored in the database.
@@ -12,7 +14,11 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/
  *
  * @author Louis-Marie Matthews
  */
-class UserModel {
+class UserModel
+{
+  private $username;
+  private $password;
+  
   /**
    * Tell if the given credentials are correct.
    * 
@@ -22,7 +28,7 @@ class UserModel {
   public static function areCredentialsCorrect( string $username, string $password ) : bool {
     $hashed_password = hash( 'sha512', $password );
     $request = Database::query( 'SELECT Password FROM User WHERE UserId = ?;', array( $username) );
-    if ( $request->columnCount() === 0 | $request->fetch()['Password'] !== $hashed_password ) {
+    if ( $request->rowCount() === 0 | $request->fetch()['Password'] !== $hashed_password ) {
       return false;
     }
     else {
@@ -45,13 +51,55 @@ class UserModel {
   
   
   
-  protected static function checkIfPresent( string $query, array $parameters ) : bool {
-    $request = Database::query( $query, $parameters );
-    if ( $request->rowCount() === 1 ) {
-      return true;
+  public function insert() {
+    if ( $this->password == null | $this->username == null ) {
+      throw new Exception( 'password or username not set' );
+    }
+    $query = '
+      INSERT INTO User ( UserId, Password)
+      VALUES ( ?, ? );
+    ';
+    $parameters = array( $this->getUsername(), $this->getHashedPassword() );
+    Database::query( $query, $parameters );
+  }
+  
+  
+  
+  public function getHashedPassword() {
+    return hash( 'sha512', (string) $this->password );
+  }
+  
+  
+  
+  public function getPassword() {
+    return $this->password;
+  }
+  
+  
+  
+  public function getUsername() {
+    return $this->username;
+  }
+  
+  
+  
+  public function setPassword( $password ) {
+    if ( $password == null ) {
+      $this->password = null;
     }
     else {
-      return false;
+      $this->password = new Password( $password );
+    }
+  }
+  
+  
+  
+  public function setUsername( $username ) {
+    if ( $username == null ) {
+      $this->username = null;
+    }
+    else {
+      $this->username = new Username( $username );
     }
   }
 }

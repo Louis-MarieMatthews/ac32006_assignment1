@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-require_once( 'classes/BranchManagerUserModel.php' );
-require_once( 'classes/SalesAssistantUserModel.php' );
+require_once( 'classes/BranchManagerModel.php' );
+require_once( 'classes/SalesAssistantModel.php' );
 require_once( 'classes/SessionLogin.php' );
 require_once( 'functions/authorizations.php' );
 require_once( 'functions/html.php' );
@@ -14,25 +14,33 @@ require_once( 'functions/html.php' );
 
 checkIfEmployee();
 
-$isBranchManager = BranchManagerUserModel::isBranchManager( SessionLogin::getUsername() );
-$isSalesAssistant = SalesAssistantUserModel::isSalesAssistant( SessionLogin::getUsername() );
+$isBranchManager = BranchManagerModel::isBranchManager( SessionLogin::getUsername() );
+$isSalesAssistant = SalesAssistantModel::isSalesAssistant( SessionLogin::getUsername() );
 
 if ( $isBranchManager ) {
-  $user = new BranchManagerUserModel();
+  $user = new BranchManagerModel();
 }
 else {
-  $user = new SalesAssistantUserModel();
+  $user = new SalesAssistantModel();
 }
-$user->setUsername( SessionLogin::getUsername() );
-$user->pull();
+try {
+  $user->setUsername( SessionLogin::getUsername() );
+}
+catch( DomainException $e ) {
+  displayUnknownError();
+  die();
+}
+$user->fetch();
 
 $formErrors = array();
+$isValid = true;
 if ( isset( $_POST['sort-code'] ) ) {
   try {
     $user->setSortCode( $_POST['sort-code'] );
   }
   catch( DomainException $e ) {
     $formErrors[] = $e->getMessage();
+    $isValid = false;
   }
 }
 if ( isset( $_POST['account-number'] ) ) {
@@ -41,9 +49,11 @@ if ( isset( $_POST['account-number'] ) ) {
   }
   catch( DomainException $e ) {
     $formErrors[] = $e->getMessage();
+    $isValid = false;
   }
 }
-$user->push();
+
+$user->update();
 ?>
 <!doctype html>
 <html>

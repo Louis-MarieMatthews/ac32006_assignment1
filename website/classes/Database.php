@@ -29,7 +29,8 @@ class Database {
   public static function initialiseConnection() {
     $db = parse_ini_file( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/ini/database.ini' );
     $root = parse_ini_file( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/ini/root.ini' );
-    self::$connection = new PDO( 'mysql:host=' . $db['host'] . ';dbname=' . $db['name'] . ';charset=utf8', $root['username'], $root['password'] );
+    self::$connection = new PDO( 'mysql:host=' . $db['host'] . ';dbname=' . $db['name'] . ';charset=utf8', $root['username'], $root['password'], array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION) );
+    // TODO: remove array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
   }
   
   

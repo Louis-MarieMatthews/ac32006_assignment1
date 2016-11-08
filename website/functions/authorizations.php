@@ -1,8 +1,8 @@
 <?php
 
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/BranchManagerUserModel.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/CompanyManagerUserModel.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/SalesAssistantUserModel.php' );
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/BranchManagerModel.php' );
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/CompanyManagerModel.php' );
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/SalesAssistantModel.php' );
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/SessionLogin.php' );
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/functions/html.php' );
 
@@ -13,7 +13,7 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/function
  */
 function checkIfCompanyManager() {
   if ( SessionLogin::isLoggedIn() ) {
-    $isAdmin = CompanyManagerUserModel::isCompanyManager( SessionLogin::getUsername() );
+    $isAdmin = CompanyManagerModel::isCompanyManager( SessionLogin::getUsername() );
   }
   else {
     $isAdmin = false;
@@ -28,8 +28,8 @@ function checkIfCompanyManager() {
 
 function checkIfEmployee() {
   if ( SessionLogin::isLoggedIn() ) {
-    $isSalesAssistant = SalesAssistantUserModel::isSalesAssistant( SessionLogin::getUsername() );
-    $isBranchManager = BranchManagerUserModel::isBranchManager( SessionLogin::getUsername() );
+    $isSalesAssistant = SalesAssistantModel::isSalesAssistant( SessionLogin::getUsername() );
+    $isBranchManager = BranchManagerModel::isBranchManager( SessionLogin::getUsername() );
     $isEmployee = $isSalesAssistant | $isBranchManager;
   }
   else {

@@ -14,24 +14,24 @@ require_once( 'functions/html.php' );
   <body>
     <main>
       <?php
-        if ( SessionLogin::isLoggedIn() ) {
-          if ( isset( $_POST['log-out'] ) ) {
-            SessionLogin::init();
-      ?>
-      <!-- Attributes -->
-      <p>You have been logged out. <a href="login.php">Log in.</a></p>
-      <?php
-          }
-          else {
-      ?>
-      <p>You are already logged in.</p>
-      <?php echologoutform() ?>
-      <?php
-          }
+      if ( SessionLogin::isLoggedIn() ) {
+        if ( isset( $_POST['log-out'] ) ) {
+          SessionLogin::init();
+          ?>
+          <!-- Attributes -->
+          <p>You have been logged out. <a href="login.php">Log in.</a></p>
+          <?php
         }
-        else if ( isset( $_POST['username'] ) & isset( $_POST['password'] ) ) {
-          if ( ! UserModel::areCredentialsCorrect( $_POST['username'], $_POST['password'] ) ) {
-      ?>
+        else {
+          ?>
+          <p>You are already logged in.</p>
+          <?php
+          echologoutform();
+        }
+      }
+      else if ( isset( $_POST['username'] ) & isset( $_POST['password'] ) ) {
+        if ( ! UserModel::areCredentialsCorrect( $_POST['username'], $_POST['password'] ) ) {
+        ?>
       <p>The details you entered are incorrect. <a href="login.php">Log in.</a></p>
       <?php
           }

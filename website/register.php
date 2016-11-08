@@ -3,10 +3,12 @@ session_start();
 
 require_once( 'functions/html.php' );
 require_once( 'functions/authorizations.php' );
-require_once( 'classes/CustomerUserModel.php' );
+require_once( 'classes/CustomerModel.php' );
+require_once( 'classes/UserModel.php' );
 
 checkIfNotLoggedIn();
 
+// TODO: (minor) move these if/else in one function call getPost
 // check received post variables
 if ( isset( $_POST['username'] ) ) {
   $username = $_POST['username'];
@@ -51,10 +53,10 @@ else {
 }
 
 if ( isset( $_POST['post-code'] ) ) {
-  $postCode = $_POST['post-code'];
+  $postcode = $_POST['post-code'];
 }
 else {
-  $postCode = null;
+  $postcode = null;
 }
 
 if ( isset( $_POST['city'] ) ) {
@@ -78,46 +80,57 @@ else {
   $email = null;
 }
 
+// TODO: special handling when missing required value?
 $formErrors = array();
-if ( $username !== null & $password !== null & $firstName !== null & $lastName !== null & 
-     $address !== null & $city !== null ) {
-  $customer = new CustomerUserModel;
+if ( $username != null & $password != null & $firstName != null & $lastName != null & 
+     $address != null & $city != null ) {
+  $customer = new CustomerModel;
+  $user = new UserModel;
+  $areDetailsValid = true;
   try {
     $customer->setUsername( $username );
+    $user->setUsername( $username );
   }
   catch( DomainException $e ) {
-    // TODO: maybe use a custom class as need to be sure DomainException caused by sql type classes
+    // TODO: (minor) maybe use a custom class as need to be sure
+    // DomainException caused by sql type classes
     $formErrors[] = $e->getMessage();
+    $areDetailsValid = false;
   }
   try {
-    $customer->setPassword( $password );
+    $user->setPassword( $password );
   }
   catch( DomainException $e ) {
     $formErrors[] = $e->getMessage();
+    $areDetailsValid = false;
   }
   try {
     $customer->setFirstName( $firstName );
   }
   catch( DomainException $e ) {
     $formErrors[] = $e->getMessage();
+    $areDetailsValid = false;
   }
   try {
     $customer->setLastName( $lastName );
   }
   catch( DomainException $e ) {
     $formErrors[] = $e->getMessage();
+    $areDetailsValid = false;
   }
   try {
     $customer->setAddress( $address );
   }
   catch( DomainException $e ) {
     $formErrors[] = $e->getMessage();
+    $areDetailsValid = false;
   }
   try {
     $customer->setCity( $city );
   }
   catch( DomainException $e ) {
     $formErrors[] = $e->getMessage();
+    $areDetailsValid = false;
   }
   
   if ( $title !== null ) {
@@ -126,15 +139,17 @@ if ( $username !== null & $password !== null & $firstName !== null & $lastName !
     }
     catch( DomainException $e ) {
       $formErrors[] = $e->getMessage();
+      $areDetailsValid = false;
     }
   }
   
-  if ( $postCode !== null ) {
+  if ( $postcode !== null ) {
     try {
-      $customer->setPostCode( $postCode );
+      $customer->setPostcode( $postcode );
     }
     catch( DomainException $e ) {
       $formErrors[] = $e->getMessage();
+      $areDetailsValid = false;
     }
   }
   
@@ -144,6 +159,7 @@ if ( $username !== null & $password !== null & $firstName !== null & $lastName !
     }
     catch( DomainException $e ) {
       $formErrors[] = $e->getMessage();
+      $areDetailsValid = false;
     }
   }
   
@@ -153,7 +169,16 @@ if ( $username !== null & $password !== null & $firstName !== null & $lastName !
     }
     catch( DomainException $e ) {
       $formErrors[] = $e->getMessage();
+      $areDetailsValid = false;
     }
+  }
+  
+  if ( $areDetailsValid ) {
+    $user->insert();
+    $customer->insert();
+    displayMessage( 'Registration sucessful', 'Your registration was
+    successful!' );
+    die();
   }
 }
 
@@ -197,8 +222,8 @@ if ( $username !== null & $password !== null & $firstName !== null & $lastName !
           <td><input form="form" id="address" name="address" type="text" value="<?php echo( $address ) ?>" /></td>
         </tr>
         <tr>
-          <td><label for="post-code" form="form">Post Code</label></td>
-          <td><input form="form" id="post-code" name="post-code" type="text" value="<?php echo( $postCode ) ?>" /></td>
+          <td><label for="post-code" form="form">Postcode</label></td>
+          <td><input form="form" id="post-code" name="post-code" type="text" value="<?php echo( $postcode ) ?>" /></td>
         </tr>
         <tr>
           <td><label for="city" form="form">City</label></td>

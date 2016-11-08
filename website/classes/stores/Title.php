@@ -17,7 +17,7 @@ class Title
   
   public final function set( string $title ) {
     if ( self::isValid( $title ) ) {
-      $this->username = $title;
+      $this->title = $title;
     }
     else {
       throw new DomainException( 'invalid title' );

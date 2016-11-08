@@ -14,6 +14,9 @@ class SortCode
   
   
   
+  /**
+   * TODO: accept sort codes with digits separated by spaces
+   */
   public final static function isValidSortCode( string $candidate ) : bool {
     $regex = '/^(?!(?:0{6}|00-00-00))(?:\d{6}|\d\d-\d\d-\d\d)$/';
     if ( preg_match( $regex, $candidate ) === 1 ) {
