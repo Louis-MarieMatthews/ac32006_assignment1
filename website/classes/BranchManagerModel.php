@@ -17,7 +17,7 @@ class BranchManagerModel extends PersonModel
   
   
   // TODO (minor) make this method non static?
-  public static function isBranchManager( string $username ) : bool {
+  public static function isBranchManager() : bool {
     $query = '
       SELECT BranchManager.BranchManagerId
       FROM   BranchManager

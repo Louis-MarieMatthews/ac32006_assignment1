@@ -179,7 +179,7 @@ if ( getPost( 'username' ) != null &
         </tr>
       </table>
       <form action="register.php" id="form" method="POST">
-        <?php // add here and in other places a reset button? ?>
+        <?php // TODO: (minor) add here and in other places a reset button? ?>
         <button type="submit">Register</button>
       </form>
     </main>

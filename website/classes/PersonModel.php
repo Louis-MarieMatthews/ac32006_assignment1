@@ -32,6 +32,7 @@ class PersonModel
   private $telephone;
   private $title;
   private $username;
+  private $fetchPdoStatement;
   
   
   
@@ -44,27 +45,7 @@ class PersonModel
    * exception is thrown.
    */
   public function fetch() {
-    // TODO: (minor) more precise exception
-    if ( $this->personId == null & $this->username == null ) {
-      throw new Exception( 'person id and username not set, cant fetch' );
-    }
-    else if ( $this->personId != null ) {
-      $query = '
-        SELECT * FROM Person WHERE PersonId = ?;
-      ';
-      $parameters = array( $this->personId );
-    }
-    elseif ( $this->username != null ) {
-      $query = '
-        SELECT * FROM Person WHERE UserId = ?;
-      ';
-      $parameters = array( $this->username );
-    }
-    $request = Database::query( $query, $parameters );
-    if ( $request->rowCount() !== 1 ) {
-      throw new Exception( '0 or more than 1 person with this person id' );
-    }
-    $results = $request->fetchAll()[0];
+    $results = $this->fetchPdoStatement->fetchAll()[0];
     
     // hydrating the person
     $this->setAddress( $results['Address'] );
@@ -175,6 +156,33 @@ class PersonModel
   
   public final function getEmail() {
     return $this->email;
+  }
+  
+  
+  
+  public function getFetchQuery() {
+    // TODO: (minor) more precise exception
+    if ( $this->personId == null & $this->username == null ) {
+      throw new Exception( 'person id and username not set, cant fetch' );
+    }
+    else if ( $this->personId != null ) {
+      $query = '
+        SELECT * FROM Person WHERE PersonId = ?;
+      ';
+      $parameters = array( $this->personId );
+    }
+    elseif ( $this->username != null ) {
+      $query = '
+        SELECT * FROM Person WHERE UserId = ?;
+      ';
+      $parameters = array( $this->username );
+    }
+  }
+  
+  
+  
+  public function getFetchParameters() {
+    
   }
   
   
