@@ -69,7 +69,21 @@ class BranchModel
     ';
     Database::query( $query, array( $this->getBranchId() ) );
   }
-    
+  
+  
+  
+  public function insert() {
+    $query = '
+      INSERT INTO Branch ( Name, Address, Postcode, City )
+      VALUES ( ?, ?, ?, ? );
+    ';
+    $parameters = array(
+      $this->getName(),
+      $this->getAddress(),
+      $this->getPostcode(),
+      $this->getCity() );
+    Database::query( $query, $parameters );
+  }
   
   
   

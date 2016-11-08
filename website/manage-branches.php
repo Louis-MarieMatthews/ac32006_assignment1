@@ -16,10 +16,10 @@ $branch = new BranchModel();
 $branch->setBranchId( $_GET['id'] );
 try {
   $branch->fetch();
+  $update = true;
 }
 catch( Exception $e ) {
-  displayMessagePage( $e->getMessage(), $e->getMessage() );
-  die();
+  $update = false;
 }
 
 $formErrors = array();
@@ -57,7 +57,18 @@ if ( getPost( 'name' ) != null &
     $isValid = false;
   }
   if ( $isValid ) {
-    $branch->update();
+    try {
+      if ( $update ) {
+        $branch->update();
+      }
+      else {
+        $branch->insert();
+      }
+    }
+    catch( Exception $e ) {
+      displayMessagePage( $e->getMessage(), $e->getMessage() );
+      die();
+    }
   }
 }
 
