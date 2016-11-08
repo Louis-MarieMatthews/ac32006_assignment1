@@ -118,6 +118,7 @@ if ( getPost( 'name' ) != null &
       <form action="manage-branches.php?id=<?php echo( $branch->getBranchId() ) ?>" id="form" method="POST">
         <button type="submit">Submit</button>
       </form>
+      <a href="delete-branch.php?id=<?php echo( $branch->getBranchId() ) ?>">Delete branch</a>
     </main>
   </body>
 </html>

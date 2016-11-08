@@ -58,6 +58,21 @@ class BranchModel
   
   
   
+  public function remove() {
+    if ( $this->getBranchId() == null ) {
+      throw new Exception( 'the branch id needs to be set' );
+    }
+    $query = '
+      DELETE
+      FROM   Branch
+      WHERE  BranchId = ?;
+    ';
+    Database::query( $query, array( $this->getBranchId() ) );
+  }
+    
+  
+  
+  
   public function getBranchId() {
     return $this->branchId;
   }
