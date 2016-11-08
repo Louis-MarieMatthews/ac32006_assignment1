@@ -26,7 +26,7 @@ require_once( 'functions/html.php' );
           ?>
           <p>You are already logged in.</p>
           <?php
-          echologoutform();
+          displayLogOutForm();
         }
       }
       else if ( isset( $_POST['username'] ) & isset( $_POST['password'] ) ) {
@@ -39,7 +39,7 @@ require_once( 'functions/html.php' );
             SessionLogin::setUsername( $_POST['username'] );
       ?>
       <p>Connected as <?php echo( SessionLogin::getUsername() ) ?>.</p>
-      <?php echologoutform() ?>
+      <?php displayLogOutForm() ?>
       <?php
           }
         }

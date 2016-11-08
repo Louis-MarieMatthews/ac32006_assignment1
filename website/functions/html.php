@@ -17,7 +17,7 @@ function displayHead() {
 
 
 
-function echologoutform() {
+function displayLogOutForm() {
 ?>
 <form method="post" action="login.php">
   <input type="hidden" name="log-out" value="true" />
