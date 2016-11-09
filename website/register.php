@@ -5,6 +5,7 @@ require_once( 'functions/html.php' );
 require_once( 'functions/authorizations.php' );
 require_once( 'classes/stores/Customer.php' );
 require_once( 'classes/UserModel.php' );
+require_once( 'classes/stores/User.php' );
 
 checkIfNotLoggedIn();
 
@@ -17,7 +18,7 @@ if ( getPost( 'username' ) != null &
      getPost( 'address' ) != null &
      getPost( 'city' ) != null ) {
   $customer = new Customer;
-  $user = new UserModel;
+  $user = new User;
   $areDetailsValid = true;
   try {
     $customer->setUsername( getPost( 'username' ) );

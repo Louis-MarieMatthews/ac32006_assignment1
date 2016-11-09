@@ -16,9 +16,6 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/
  */
 class UserModel
 {
-  private $username;
-  private $password;
-  
   /**
    * Tell if the given credentials are correct.
    * 
@@ -47,59 +44,5 @@ class UserModel
   public static function updatePassword( string $username, string $password ) {
     $hashed_password = hash( 'sha512', $password );
     $request = Database::query( 'UPDATE User SET Password = ? WHERE UserId = ?;', array( $hashed_password, $username ) );
-  }
-  
-  
-  
-  public function insert() {
-    if ( $this->password == null | $this->username == null ) {
-      throw new Exception( 'password or username not set' );
-    }
-    $query = '
-      INSERT INTO User ( UserId, Password)
-      VALUES ( ?, ? );
-    ';
-    $parameters = array( $this->getUsername(), $this->getHashedPassword() );
-    Database::query( $query, $parameters );
-  }
-  
-  
-  
-  public function getHashedPassword() {
-    return hash( 'sha512', (string) $this->password );
-  }
-  
-  
-  
-  public function getPassword() {
-    return $this->password;
-  }
-  
-  
-  
-  public function getUsername() {
-    return $this->username;
-  }
-  
-  
-  
-  public function setPassword( $password ) {
-    if ( $password == null ) {
-      $this->password = null;
-    }
-    else {
-      $this->password = new Password( $password );
-    }
-  }
-  
-  
-  
-  public function setUsername( $username ) {
-    if ( $username == null ) {
-      $this->username = null;
-    }
-    else {
-      $this->username = new Username( $username );
-    }
   }
 }
