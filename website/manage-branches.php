@@ -1,18 +1,31 @@
 <?php
 session_start();
 
-require( 'classes/BranchModel.php' );
+require( 'classes/stores/Branch.php' );
 require( 'functions/html.php' );
 require( 'functions/authorizations.php' );
 
 checkIfCompanyManager();
 
-$branch = new BranchModel();
+$branch = new Branch();
 
 if ( isset( $_GET['id'] ) ) {
   $branch->setBranchId( $_GET['id'] );
   try {
-    $branch->fetch();
+    $sql = '
+      SELECT Name, Address, Postcode, City
+      FROM   Branch
+      WHERE  BranchId = ?
+    ';
+    $parameters = array( $_GET['id'] );
+    $rs = Database::query( $sql, $parameters )->fetchAll();
+    if ( sizeof( $rs ) < 1 ) {
+      throw new Exception();
+    }
+    $branch->setName( $rs['name'] );
+    $branch->setAddress( $rs['address'] );
+    $branch->setPostcode( $rs['postcode'] );
+    $branch->setCity( $rs['city'] );
     $update = true;
     $actionUrl = 'manage-branches.php?id=' . $_GET['id'];
   }
@@ -66,7 +79,22 @@ if ( getPost( 'name' ) != null &
   if ( $isValid ) {
     try {
       if ( $update ) {
-        $branch->update();
+        $sql = '
+          UPDATE Branch
+          SET    Name = ?,
+                 Address = ?,
+                 Postcode = ?,
+                 City = ?
+          WHERE  BranchId = ?
+        ';
+        $parameters = array(
+          $branch->getName(),
+          $branch->getAddress(),
+          $branch->getPostcode(),
+          $branch->getCity,
+          $branch->getBranchId()
+        );
+        Database::query( $sql, $parameters )->fetchAll()[0];
         $title = 'Branch Updated Successfully';
         $message = 'Branch #' . $branch->getBranchId() . ' has been' .
           'updated successfully!';
@@ -74,7 +102,18 @@ if ( getPost( 'name' ) != null &
         die();
       }
       else {
-        $branch->insert();
+        $sql = '
+          INSERT
+          INTO   Branch ( Name, Address, Postcode, City )
+          VALUES ( ?, ?, ?, ? );
+        ';
+        $parameters = array(
+          $branch->getName(),
+          $branch->getAddress(),
+          $branch->getPostcode(),
+          $branch->getCity()
+        );
+        Database::query( $sql, $parameters );
         $title = 'Branch Created Successfully';
         $message = $branch->getName() . ' has been created ' .
           'successfully!';

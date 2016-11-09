@@ -3,7 +3,7 @@ session_start();
 
 // TODO: (important) display a confirmation button
 
-require( 'classes/BranchModel.php' );
+require( 'classes/stores/Branch.php' );
 require( 'functions/html.php' );
 require( 'functions/authorizations.php' );
 
@@ -14,10 +14,16 @@ if ( ! isset( $_GET['id'] ) ) {
   die();
 }
 
-$branch = new BranchModel();
+$branch = new Branch();
 $branch->setBranchId( $_GET['id'] );
 try {
-  $branch->remove();
+  $sql = '
+    DELETE
+    FROM   Branch
+    WHERE  BranchId = ?;
+  ';
+  $parameters = array( $_GET['id'] );
+  Database::query( $sql, $parameters );
 }
 catch( Exception $e ) {
   displayMessagePage( $e->getMessage(), $e->getMessage() );

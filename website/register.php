@@ -3,7 +3,7 @@ session_start();
 
 require_once( 'functions/html.php' );
 require_once( 'functions/authorizations.php' );
-require_once( 'classes/CustomerModel.php' );
+require_once( 'classes/stores/Customer.php' );
 require_once( 'classes/UserModel.php' );
 
 checkIfNotLoggedIn();
@@ -16,7 +16,7 @@ if ( getPost( 'username' ) != null &
      getPost( 'last-name' ) != null & 
      getPost( 'address' ) != null &
      getPost( 'city' ) != null ) {
-  $customer = new CustomerModel;
+  $customer = new Customer;
   $user = new UserModel;
   $areDetailsValid = true;
   try {
@@ -108,17 +108,52 @@ if ( getPost( 'username' ) != null &
   if ( $areDetailsValid ) {
     // TODO: (minor) what if user creation suceed but customer fail?
     // Customer insertion has no reason to fail though.
-    try {
-      $user->insert();
-      $customer->insert();
+    //try {
+      $sql = '
+        INSERT INTO User ( UserId, Password)
+        VALUES ( ?, ? );
+      ';
+      Database::query( $sql, array( $user->getUsername(),
+        $user->getPassword() ) );
+      $sql = '
+      INSERT INTO Person (
+        Address,
+        City,
+        Email,
+        FirstName,
+        LastName,
+        Postcode,
+        Telephone,
+        Title,
+        UserId )
+      VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? );
+      ';
+      $parameters = array(
+        $customer->getAddress(),
+        $customer->getCity(),
+        $customer->getEmail(),
+        $customer->getFirstName(),
+        $customer->getLastName(),
+        $customer->getPostcode(),
+        $customer->getTelephone(),
+        $customer->getTitle(),
+        $customer->getUsername()
+      );
+      Database::query( $sql, $parameters );
+      $customer->setPersonId( Database::getConnection()->
+        query( 'SELECT MAX(PersonId) FROM Person;' )->fetch()[0] );
+      $sql = '
+      INSERT INTO Customer ( PersonId )
+      VALUE ( ? );
+      ';
+      Database::query( $sql, array( $customer->getPersonId() ) );
       displayMessagePage( 'Registration successful', 'Your registration was
       successful!' );
       die();
-    }
-    catch( Exception $e ) {
-      $formErrors[] = 'An error has occured. Your username is maybe 
-      already taken.';
-    }
+    //}
+    //catch( Exception $e ) {
+    //  $formErrors[] = $e->getMessage();
+    //}
   }
 }
 

@@ -1,9 +1,11 @@
 <?php
 session_start();
 
+require_once( 'classes/SessionLogin.php' );
 require_once( 'classes/BranchManagerModel.php' );
 require_once( 'classes/SalesAssistantModel.php' );
-require_once( 'classes/SessionLogin.php' );
+require_once( 'classes/stores/BranchManager.php' );
+require_once( 'classes/stores/SalesAssistant.php' );
 require_once( 'functions/authorizations.php' );
 require_once( 'functions/html.php' );
 
@@ -18,10 +20,10 @@ $isBranchManager = BranchManagerModel::isBranchManager( SessionLogin::getUsernam
 $isSalesAssistant = SalesAssistantModel::isSalesAssistant( SessionLogin::getUsername() );
 
 if ( $isBranchManager ) {
-  $user = new BranchManagerModel();
+  $user = new BranchManager();
 }
 else {
-  $user = new SalesAssistantModel();
+  $user = new SalesAssistant();
 }
 try {
   $user->setUsername( SessionLogin::getUsername() );
@@ -30,7 +32,27 @@ catch( DomainException $e ) {
   displayUnknownError();
   die();
 }
-$user->fetch();
+if ( $isBranchManager ) {
+$sql = '
+  SELECT *
+  FROM   BranchManager
+  WHERE  PersonId = (SELECT PersonId FROM Person WHERE UserId = ? );
+';
+}
+else {
+$sql = '
+  SELECT *
+  FROM   SalesAssistant
+  WHERE  PersonId = (SELECT PersonId FROM Person WHERE UserId = ? );
+';
+}
+$parameters = array( SessionLogin::getUsername() );
+$request = Database::query( $sql, $parameters )->fetchAll()[0];
+$user->setPersonId( $request['PersonId'] );
+$user->setBranchId( $request['BranchId'] );
+$user->setWage( $request['Wage'] );
+$user->setSortCode( $request['SortCode'] );
+$user->setAccountNumber( $request['AccountNumber'] );
 
 $formErrors = array();
 $isValid = true;
@@ -53,7 +75,37 @@ if ( isset( $_POST['account-number'] ) ) {
   }
 }
 
-$user->update();
+if ( $isBranchManager ) {
+  $sql = '
+    UPDATE BranchManager
+    SET    PersonId = ?,
+           BranchId = ?,
+           Wage = ?,
+           SortCode = ?,
+           AccountNumber = ?
+    WHERE  PersonId = (SELECT PersonId FROM Person WHERE UserId = ? );
+  ';
+}
+else {
+  $sql = '
+    UPDATE SalesAssistant
+    SET    PersonId = ?,
+           BranchId = ?,
+           Wage = ?,
+           SortCode = ?,
+           AccountNumber = ?
+    WHERE  PersonId = (SELECT PersonId FROM Person WHERE UserId = ? );
+  ';
+}
+$parameters = array(
+  $user->getPersonId(),
+  $user->getBranchId(),
+  $user->getWage(),
+  $user->getSortCode(),
+  $user->getAccountNumber(),
+  SessionLogin::getUsername()
+);
+Database::query( $sql, $parameters );
 ?>
 <!doctype html>
 <html>

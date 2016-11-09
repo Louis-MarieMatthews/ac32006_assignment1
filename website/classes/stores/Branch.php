@@ -6,84 +6,13 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Postcode.php' );
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/City.php' );
 
-class BranchModel
+class Branch
 {
   private $branchId;
   private $name;
   private $address;
   private $postcode;
   private $city;
-  
-  
-  
-  public function fetch() {
-    $query = '
-      SELECT *
-      FROM   Branch
-      WHERE  BranchId = ?;
-    ';
-    $request = Database::query( $query, array( $this->getBranchId() ) );
-    if ( $request->rowCount() !== 1 ) {
-      throw new Exception( 'there is no branch with this unique id' );
-    }
-    $results = $request->fetchAll()[0];
-    $this->setName( $results['Name'] );
-    $this->setAddress( $results['Address'] );
-    $this->setPostcode( $results['Postcode'] );
-    $this->setCity( $results['City'] );
-  }
-  
-  
-  
-  public function update() {
-    if ( $this->getBranchId() == null ) {
-      throw new Exception( 'the branch id needs to be set' );
-    }
-    $query = '
-      UPDATE Branch
-      SET    Name = ?,
-             Address = ?,
-             Postcode = ?,
-             City = ?
-      WHERE  BranchId = ?;
-    ';
-    $parameters = array(
-      $this->getName(),
-      $this->getAddress(),
-      $this->getPostcode(),
-      $this->getCity(),
-      $this->getBranchId() );
-    Database::query( $query, $parameters );
-  }
-  
-  
-  
-  public function remove() {
-    if ( $this->getBranchId() == null ) {
-      throw new Exception( 'the branch id needs to be set' );
-    }
-    $query = '
-      DELETE
-      FROM   Branch
-      WHERE  BranchId = ?;
-    ';
-    Database::query( $query, array( $this->getBranchId() ) );
-  }
-  
-  
-  
-  public function insert() {
-    $query = '
-      INSERT INTO Branch ( Name, Address, Postcode, City )
-      VALUES ( ?, ?, ?, ? );
-    ';
-    $parameters = array(
-      $this->getName(),
-      $this->getAddress(),
-      $this->getPostcode(),
-      $this->getCity() );
-    Database::query( $query, $parameters );
-  }
   
   
   

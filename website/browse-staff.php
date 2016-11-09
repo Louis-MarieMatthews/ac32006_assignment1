@@ -1,9 +1,7 @@
 <?php
 session_start();
 
-require_once( 'classes/BranchManagerModel.php' );
-require_once( 'classes/CompanyManagerModel.php' );
-require_once( 'classes/SalesAssistantModel.php' );
+require_once( 'classes/Database.php' );
 require_once( 'classes/SessionLogin.php' );
 require_once( 'functions/authorizations.php' );
 require_once( 'functions/html.php' );
@@ -19,14 +17,35 @@ checkIfCompanyManager();
   <body>
     <main>
       <?php
-        $branchManagers = BranchManagerModel::getAllBranchManagers();
-        displayPersons( $branchManagers, 'Branch Managers' );
-
-        $salesAssistants = SalesAssistantModel::getAllSalesAssistants();
-        displayPersons( $salesAssistants, 'Sales Assistants' );
-
-        $companyManagers = CompanyManagerModel::getAllCompanyManagers();
-        displayPersons( $companyManagers, 'Company Managers' );
+      $bmSql = '
+        SELECT *
+        FROM   BranchManager
+        INNER JOIN Person
+        ON BranchManager.PersonId = Person.PersonId;
+      ';
+      $bm = Database::getConnection()->query( $bmSql )
+        ->fetchAll();
+      displayPersons( $bm, 'Branch Managers' );
+        
+      $cmSql = '
+        SELECT *
+        FROM   CompanyManager
+        INNER JOIN Person
+        ON CompanyManager.PersonId = Person.PersonId;
+      ';
+      $cm = Database::getConnection()->query( $cmSql )
+        ->fetchAll();
+      displayPersons( $cm, 'Company Managers' );
+      
+      $saSql = '
+        SELECT *
+        FROM   SalesAssistant
+        INNER JOIN Person
+        ON SalesAssistant.PersonId = Person.PersonId;
+      ';
+      $sa = Database::getConnection()->query( $saSql )
+        ->fetchAll();
+      displayPersons( $sa, 'Sales Assistants' );
       ?>
     </main>
   </body>
