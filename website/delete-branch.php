@@ -11,7 +11,6 @@ checkIfCompanyManager();
 
 if ( ! isset( $_GET['id'] ) ) {
   displayMessagePage( 'No branch id have been specified.', 'No Branch Id' );
-  die();
 }
 
 $branch = new Branch();
@@ -27,7 +26,6 @@ try {
 }
 catch( Exception $e ) {
   displayMessagePage( $e->getMessage(), $e->getMessage() );
-  die();
 }
 ?>
 <!doctype html>

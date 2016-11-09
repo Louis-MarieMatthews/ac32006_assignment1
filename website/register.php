@@ -151,7 +151,6 @@ if ( getPost( 'username' ) != null &
       Database::query( $sql, array( $customer->getPersonId() ) );
       displayMessagePage( 'Registration successful', 'Your registration was
       successful!' );
-      die();
     //}
     //catch( Exception $e ) {
     //  $formErrors[] = $e->getMessage();

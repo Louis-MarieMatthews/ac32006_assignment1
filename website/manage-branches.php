@@ -32,7 +32,6 @@ if ( isset( $_GET['id'] ) ) {
   catch( Exception $e ) {
     $error = 'Branch ' . $_GET['id'] . ' does not exist';
     displayMessagePage( $error, $error );
-    die();
   }
 }
 else {
@@ -99,7 +98,6 @@ if ( getPost( 'name' ) != null &
         $message = 'Branch #' . $branch->getBranchId() . ' has been' .
           'updated successfully!';
         displayMessagePage( $title, $message );
-        die();
       }
       else {
         $sql = '
@@ -118,12 +116,10 @@ if ( getPost( 'name' ) != null &
         $message = $branch->getName() . ' has been created ' .
           'successfully!';
         displayMessagePage( $message, $title );
-        die();
       }
     }
     catch( Exception $e ) {
       displayMessagePage( $e->getMessage(), $e->getMessage() );
-      die();
     }
   }
 }

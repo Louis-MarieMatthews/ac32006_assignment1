@@ -30,7 +30,6 @@ try {
 }
 catch( DomainException $e ) {
   displayUnknownError();
-  die();
 }
 if ( $isBranchManager ) {
 $sql = '

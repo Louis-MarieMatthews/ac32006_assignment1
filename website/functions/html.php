@@ -89,6 +89,9 @@ function displayUnknownError( $message = 'An unexpected error occured.',
 
 
 
+/**
+ * TO BE CALLED BEFORE ANY HTML OUTPUT.
+ */
 function displayMessagePage( $message, $title )
 {
   ?>
@@ -106,6 +109,7 @@ function displayMessagePage( $message, $title )
     </body>
   </html>
   <?php
+  die();
 }
 
 
