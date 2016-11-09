@@ -1,0 +1,44 @@
+<?php
+
+declare( STRICT_TYPES = 1 );
+
+class Email
+{
+  private $email;
+  
+  
+  
+  public final function __construct( string $email ) {
+    $this->set( $email );
+  }
+  
+  
+  
+  public final function set( string $email ) {
+    if ( self::isValid( $email ) ) {
+      $this->email = $email;
+    }
+    else {
+      throw new DomainException( 'invalid email' );
+    }
+  }
+  
+  
+  
+  public final static function isValid( string $string ) : bool {
+    // By tom at https://disqus.com/home/discussion/emailregex/email_address_regular_expression_that_999_works/#comment-1941545513
+    $regex = '/.+@.+/';
+    if ( preg_match( $regex, $string ) === 1 ) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  
+  
+  
+  public final function __toString() {
+    return $this->email;
+  }
+}

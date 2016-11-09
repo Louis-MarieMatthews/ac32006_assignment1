@@ -1,0 +1,55 @@
+/**
+ * 
+ * STRUCTURE
+ * 
+ */
+
+
+main {
+  margin: auto;
+  width: 70%;
+  max-width: 80em;
+}
+
+
+/**
+ * 
+ * STYLE
+ * 
+ */
+
+
+/* Tables */
+
+table {
+  margin-bottom: 1em;
+}
+
+.bordered-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+caption {
+  font-weight: bold;
+  font-size: 2em;
+  text-align: left;
+}
+
+thead {
+  font-weight: bold;
+}
+
+.bordered-table td  {
+  border: 1px solid black;
+}
+
+/* Errors */
+
+.error {
+  background: rgb(170, 0, 0);
+  padding: 0.2em;
+  font-family: arial;
+  color: white;
+  font-weight: bold;
+}

@@ -3,6 +3,8 @@
 declare( STRICT_TYPES = 1 );
 
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/Database.php' );
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Password.php' );
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Username.php' );
 
 /**
  * Use this class to access / manage user related data stored in the database.
@@ -12,7 +14,8 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/
  *
  * @author Louis-Marie Matthews
  */
-class UserModel {
+class UserModel
+{
   /**
    * Tell if the given credentials are correct.
    * 
@@ -21,10 +24,8 @@ class UserModel {
    */
   public static function areCredentialsCorrect( string $username, string $password ) : bool {
     $hashed_password = hash( 'sha512', $password );
-    $db = Database::getConnection();
-    $request = $db->prepare( 'SELECT Password FROM User WHERE UserId = ?;' );
-    $request->execute( array( $username ) );
-    if ( $request->columnCount() === 0 | $request->fetch()['Password'] !== $hashed_password ) {
+    $request = Database::query( 'SELECT Password FROM User WHERE UserId = ?;', array( $username) );
+    if ( $request->rowCount() === 0 | $request->fetch()['Password'] !== $hashed_password ) {
       return false;
     }
     else {
@@ -72,75 +73,6 @@ function registerUser(string $username, string $title, string $firstname, string
    */
   public static function updatePassword( string $username, string $password ) {
     $hashed_password = hash( 'sha512', $password );
-    $db = Database::getConnection();
-    $request = $db->prepare( 'UPDATE User SET Password = ? WHERE UserId = ?;' );
-    $request->execute( array( $hashed_password, $username ) );
-  }
-  
-  
-  
-  public static function isCustomer( string $username ) : bool {
-    $query = '
-      SELECT Customer.CustomerId
-      FROM   Customer
-      WHERE  Customer.PersonId = ( SELECT PersonId FROM Person WHERE UserId = ? )
-      ;
-    ';
-    
-    return self::checkIfPresent( $query, array( $username ) );
-  }
-  
-  
-  
-  public static function isSalesAssistant( string $username ) : bool {
-    $query = '
-      SELECT SalesAssistant.SalesAssistantId
-      FROM   SalesAssistant
-      WHERE  SalesAssistant.PersonId = ( SELECT PersonId FROM Person WHERE UserId = ? )
-      ;
-    ';
-    
-    return self::checkIfPresent( $query, array( $username ) );
-  }
-  
-  
-  
-  public static function isBranchManager( string $username ) : bool {
-    $query = '
-      SELECT BranchManager.BranchManagerId
-      FROM   BranchManager
-      WHERE  BranchManager.PersonId = ( SELECT PersonId FROM Person WHERE UserId = ? )
-      ;
-    ';
-    
-    return self::checkIfPresent( $query, array( $username ) );
-  }
-  
-  
-  
-  public static function isCompanyManager( string $username ) : bool {
-    $query = '
-      SELECT CompanyManager.CompanyManagerId
-      FROM   CompanyManager
-      WHERE  CompanyManager.PersonId = ( SELECT PersonId FROM Person WHERE UserId = ? )
-      ;
-    ';
-    
-    return self::checkIfPresent( $query, array( $username ) );
-  }
-  
-  
-  
-  private static function checkIfPresent( string $query, array $parameters ) : bool {
-    $request = Database::getConnection()->prepare( $query );
-    $request->execute( $parameters );
-    print_r( $request->fetchAll() );
-    echo( $request->rowCount() );
-    if ( $request->rowCount() === 1 ) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    $request = Database::query( 'UPDATE User SET Password = ? WHERE UserId = ?;', array( $hashed_password, $username ) );
   }
 }

@@ -2,11 +2,8 @@
 
 declare( STRICT_TYPES = 1 );
 
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/LoginState.php' );
-
 /**
- * Class providing static methods to manage and make sense of the 
- * LoginState session variable.
+ * Class providing static methods to manage the current user login state.
  * 
  * @author Louis-Marie Matthews
  */
@@ -14,44 +11,53 @@ class SessionLogin {
   
   
   
+  /**
+   * Call this method to disconnect the user.
+   */
   public static function init() {
-    session_start();
-    if ( ! isset( $_SESSION['login_state'] ) )
-      $_SESSION['login_state'] = new LoginState;
+    $_SESSION['username'] = null;
   }
   
   
   
-  public static function setLoginState( bool $isLoggedIn, string $username ) {
-    self::checkIfInitialised();
-    $_SESSION['login_state']->init( $isLoggedIn, $username );
-  }
-  
-  
-  
-  public static function resetLoginState() {
-    self::checkIfInitialised();
-    $_SESSION['login_state'] = new LoginState;
-  }
-  
-  
-  
+  /**
+   * Return true if the user is logged-in, false otherwise.
+   */
   public static function isLoggedIn() : bool {
-    self::checkIfInitialised();
-    return $_SESSION['login_state']->isLoggedIn();
+    self::checkIfInitialized();
+    if ( $_SESSION['username'] === null ) {
+      return false;
+    }
+    else {
+      return true;
+    }
   }
   
   
   
-  public static function getUsername() : string {
-    return $_SESSION['login_state']->getUsername();
-  }
-  
-  
-  
-  private static function checkIfInitialised() {
-    if ( session_status() === PHP_SESSION_NONE | ! isset( $_SESSION['sessionLogin'] ) ) {
+  private static function checkIfInitialized() {
+    if ( ! isset( $_SESSION['username'] ) ) {
       self::init();
     }
+  }
+  
+  
+  
+  /**
+   * Return the username of the currently logged-in user, or null if they're not logged in.
+   */
+  public static function getUsername() : string {
+    self::checkIfInitialized();
+    return $_SESSION['username'];
+  }
+  
+  
+  
+  /**
+   * Call this function (SessionLogin::setUsername("Louis")) to set the user as logged-in and set 
+   * their username as well.
+   */
+  public static function setUsername( string $username ) {
+    $_SESSION['username'] = $username;
   }
 }
