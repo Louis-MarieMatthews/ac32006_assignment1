@@ -234,6 +234,6 @@ CREATE TABLE Warehouse (
   CONSTRAINT PRIMARY KEY (BranchId, ProductId),
   CONSTRAINT FOREIGN KEY (BranchId) REFERENCES Branch(BranchId),
   CONSTRAINT FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
-00:00 04/11/2016)
+  )
 ENGINE=InnoDB;
 ;
