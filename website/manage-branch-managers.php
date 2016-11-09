@@ -22,12 +22,17 @@ else {
       WHERE  BranchManagerId = ?;
     ';
     $parameters = array( getHttpGet( 'id' ) );
-    $request = Database::query( $sql, $parameters )->fetchAll()[0];
-    $bm->setPersonId( $request['PersonId'] );
-    $bm->setBranchId( $request['BranchId'] );
-    $bm->setWage( $request['Wage'] );
-    $bm->setSortCode( $request['SortCode'] );
-    $bm->setAccountNumber( $request['AccountNumber'] );
+    $rs = Database::query( $sql, $parameters )->fetchAll();
+    if ( sizeof( $rs ) != 1 ) {
+      $error = 'no branch manager with this id';
+      displayMessagePage( $error, $error );
+      die();
+    }
+    $bm->setPersonId( $rs['PersonId'] );
+    $bm->setBranchId( $rs['BranchId'] );
+    $bm->setWage( $rs['Wage'] );
+    $bm->setSortCode( $rs['SortCode'] );
+    $bm->setAccountNumber( $rs['AccountNumber'] );
     $createBranchManager = false;
     $title = 'Update Branch Manager';
     $actionUrl = 'manage-branch-managers.php?id=' .
@@ -35,6 +40,7 @@ else {
   }
   catch ( Exception $e ) {
     displayMessagePage( $e->getMessage(), $e->getMessage );
+    die();
   }
 }
 
