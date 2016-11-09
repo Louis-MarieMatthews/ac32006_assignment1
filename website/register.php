@@ -114,7 +114,7 @@ if ( getPost( 'username' ) != null &
         VALUES ( ?, ? );
       ';
       Database::query( $sql, array( $user->getUsername(),
-        $user->getPassword() ) );
+        $user->getHashedPassword() ) );
       $sql = '
       INSERT INTO Person (
         Address,
