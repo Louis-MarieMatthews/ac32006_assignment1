@@ -1,8 +1,8 @@
 <?php
 
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/Database.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/SessionLogin.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/functions/html.php' );
+require_once( '/classes/Database.php' );
+require_once( '/classes/SessionLogin.php' );
+require_once( '/functions/html.php' );
 
 /**
  * This function checks that the user is logged-in and is a company manager, or otherwise 

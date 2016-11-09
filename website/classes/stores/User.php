@@ -1,7 +1,7 @@
 <?php
-declare( STRICT_TYPES = 1 );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Password.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Username.php' );
+
+require_once( '/classes/stores/Password.php' );
+require_once( '/classes/stores/Username.php' );
 /**
  * @author Louis-Marie Matthews
  **/

@@ -1,7 +1,5 @@
 <?php
 
-declare( STRICT_TYPES = 1 );
-
 /**
  * Class providing static methods to manage the current user login state.
  * 
@@ -23,7 +21,7 @@ class SessionLogin {
   /**
    * Return true if the user is logged-in, false otherwise.
    */
-  public static function isLoggedIn() : bool {
+  public static function isLoggedIn() {
     self::checkIfInitialized();
     if ( $_SESSION['username'] === null ) {
       return false;
@@ -46,7 +44,7 @@ class SessionLogin {
   /**
    * Return the username of the currently logged-in user, or null if they're not logged in.
    */
-  public static function getUsername() : string {
+  public static function getUsername() {
     self::checkIfInitialized();
     return $_SESSION['username'];
   }
@@ -57,7 +55,7 @@ class SessionLogin {
    * Call this function (SessionLogin::setUsername("Louis")) to set the user as logged-in and set 
    * their username as well.
    */
-  public static function setUsername( string $username ) {
+  public static function setUsername( $username ) {
     $_SESSION['username'] = $username;
   }
 }

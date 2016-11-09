@@ -1,7 +1,4 @@
 <?php
-
-declare( STRICT_TYPES = 1 );
-
 /**
  * This method displays the head elements common to most pages.
  * It has to be called before the <title> element as it sets the charset.
@@ -34,7 +31,7 @@ function displayLogOutForm() {
  *
  * @author Louis-Marie Matthews
  */
-function displayPersons( array $persons, string $title ) {
+function displayPersons( $persons, $title ) {
   ?>
   <table class="bordered-table" >
   <caption><?php echo( $title ) ?></caption>
@@ -76,23 +73,23 @@ function displayPersons( array $persons, string $title ) {
 
 
 
-function displayAccessDenied( string $message = 'You can\'t access this page',
-                            string $title = 'Access Denied' )
+function displayAccessDenied(  $message = 'You can\'t access this page',
+                            $title = 'Access Denied' )
 {
   displayMessagePage( $message, $title );
 }
 
 
 
-function displayUnknownError( string $message = 'An unexpected error occured.',
-                            string $title = 'Unexpected Internal Error' )
+function displayUnknownError( $message = 'An unexpected error occured.',
+                            $title = 'Unexpected Internal Error' )
 {
   displayMessagePage( $message, $title );
 }
 
 
 
-function displayMessagePage( string $message, string $title )
+function displayMessagePage( $message, $title )
 {
   ?>
   <!doctype html>
@@ -116,7 +113,7 @@ function displayMessagePage( string $message, string $title )
 /**
  * This method displays a number-indexed array of strings as a list of errors.
  */
-function displayErrors( array $errors ) {
+function displayErrors( $errors ) {
   if ( sizeof( $errors) !==0 ) {
     foreach ( $errors as $error ) {
       ?>
@@ -134,7 +131,7 @@ function displayErrors( array $errors ) {
  * 
  * @author Louis-Marie Matthews
  */
-function getPost( string $name ) {
+function getPost( $name ) {
   if ( isset( $_POST[ $name ] ) ) {
     return $_POST[ $name ];
   }
@@ -151,7 +148,7 @@ function getPost( string $name ) {
  *
  * @author Louis-Marie Matthews
  */
-function getHttpGet( string $name ) {
+function getHttpGet( $name ) {
   if ( isset( $_GET[ $name ] ) ) {
     return $_GET[ $name ];
   }

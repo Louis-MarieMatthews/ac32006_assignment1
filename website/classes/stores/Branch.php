@@ -1,10 +1,9 @@
 <?php
-declare( STRICT_TYPES = 1 );
 
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Name.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Address.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Postcode.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/City.php' );
+require_once( '/classes/stores/Name.php' );
+require_once( '/classes/stores/Address.php' );
+require_once( '/classes/stores/Postcode.php' );
+require_once( '/classes/stores/City.php' );
 
 class Branch
 {

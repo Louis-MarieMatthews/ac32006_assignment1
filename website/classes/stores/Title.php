@@ -1,7 +1,5 @@
 <?php
 
-declare( STRICT_TYPES = 1 );
-
 class Title
 {
   private $title;
@@ -9,13 +7,13 @@ class Title
   
   
   
-  public final function __construct( string $title ) {
+  public final function __construct( $title ) {
     $this->set( $title );
   }
   
   
   
-  public final function set( string $title ) {
+  public final function set( $title ) {
     if ( self::isValid( $title ) ) {
       $this->title = $title;
     }
@@ -26,7 +24,7 @@ class Title
   
   
   
-  public final static function isValid( string $string ) : bool {
+  public final static function isValid( $string ) {
     if ( in_array( $string, self::$TITLES ) ) {
       return true;
     }

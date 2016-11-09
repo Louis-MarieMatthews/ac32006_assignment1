@@ -1,14 +1,12 @@
 <?php
 
-declare( STRICT_TYPES = 1 );
-
 class AccountNumber
 {
   private $accountNumber;
   
   
   
-  public final function __construct( string $accountNumber ) {
+  public final function __construct( $accountNumber ) {
     $this->set( $accountNumber );
   }
   
@@ -20,7 +18,7 @@ class AccountNumber
   
   
   
-  public final function set( string $accountNumber ) {
+  public final function set( $accountNumber ) {
     if ( self::isValid( $accountNumber ) ) {
       $this->accountNumber = $accountNumber;
     }
@@ -31,7 +29,7 @@ class AccountNumber
   
   
   
-  public final static function isValid( string $candidate ) : bool {
+  public final static function isValid( $candidate ) {
     // TODO: remove whitespaces and non-braking spaces as well?
     // TODO: simplify this method with just a regex?
     $string = str_replace(' ', '', $candidate);

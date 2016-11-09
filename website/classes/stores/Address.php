@@ -1,20 +1,18 @@
 <?php
 
-declare( STRICT_TYPES = 1 );
-
 class Address
 {
   private $address;
   
   
   
-  public final function __construct( string $address ) {
+  public final function __construct( $address ) {
     $this->set( $address );
   }
   
   
   
-  public final function set( string $address ) {
+  public final function set( $address ) {
     if ( self::isValid( $address ) ) {
       $this->address = $address;
     }
@@ -25,7 +23,7 @@ class Address
   
   
   
-  public final static function isValid( string $string ) : bool {
+  public final static function isValid( $string ) {
     if ( strlen( $string ) <= 255 ) {
       return true;
     }

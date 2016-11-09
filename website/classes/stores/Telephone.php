@@ -1,20 +1,18 @@
 <?php
 
-declare( STRICT_TYPES = 1 );
-
 class Telephone
 {
   private $telephone;
   
   
   
-  public final function __construct( string $telephone ) {
+  public final function __construct( $telephone ) {
     $this->set( $telephone );
   }
   
   
   
-  public final function set( string $telephone ) {
+  public final function set( $telephone ) {
     if ( self::isValid( $telephone ) ) {
       $this->telephone = $telephone;
     }
@@ -25,7 +23,7 @@ class Telephone
   
   
   
-  public final static function isValid( string $string ) : bool {
+  public final static function isValid( $string ) {
     // TODO: improve
     $withoutSpaces = str_replace( ' ', '', $string );
     if ( ctype_digit( $withoutSpaces ) & strlen( $withoutSpaces ) < 20 ) {

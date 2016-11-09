@@ -1,8 +1,7 @@
 <?php
-declare( STRICT_TYPES = 1 );
 
 class SalesAssistantModel
-{ static function isSalesAssistant( string $username ) : bool {
+{ static function isSalesAssistant( $username ) {
     $query = '
       SELECT SalesAssistant.SalesAssistantId
       FROM   SalesAssistant
@@ -21,7 +20,7 @@ class SalesAssistantModel
   
   
   
-  public static function getAllSalesAssistants() : array {
+  public static function getAllSalesAssistants() {
     $query = '
       SELECT *
       FROM   SalesAssistant

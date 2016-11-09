@@ -1,14 +1,12 @@
 <?php
 
-declare( STRICT_TYPES = 1 );
-
 class SortCode
 {
   private $sortCode;
   
   
   
-  public final function __construct( string $sortCode ) {
+  public final function __construct( $sortCode ) {
     $this->setSortCode( $sortCode );
   }
   
@@ -17,7 +15,7 @@ class SortCode
   /**
    * TODO: accept sort codes with digits separated by spaces
    */
-  public final static function isValidSortCode( string $candidate ) : bool {
+  public final static function isValidSortCode( $candidate ) {
     $regex = '/^(?!(?:0{6}|00-00-00))(?:\d{6}|\d\d-\d\d-\d\d)$/';
     if ( preg_match( $regex, $candidate ) === 1 ) {
       return true;
@@ -29,7 +27,7 @@ class SortCode
   
   
   
-  public final function setSortCode( string $sortCode ) {
+  public final function setSortCode( $sortCode ) {
     if ( self::isValidSortCode( $sortCode ) ) {
       $this->sortCode = $sortCode;
     }

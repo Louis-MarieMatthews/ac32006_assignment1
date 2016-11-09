@@ -1,9 +1,8 @@
 <?php
-declare( STRICT_TYPES = 1 );
 
 class BranchManagerModel
 {
-  public static function isBranchManager( string $username ) : bool {
+  public static function isBranchManager( $username ) {
     $query = '
       SELECT COUNT(*)
       FROM   BranchManager
@@ -22,7 +21,7 @@ class BranchManagerModel
   
   
   
-  public static function getAllBranchManagers() : array {
+  public static function getAllBranchManagers() {
     $query = '
       SELECT *
       FROM   BranchManager

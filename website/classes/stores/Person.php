@@ -1,14 +1,13 @@
 <?php
-declare( STRICT_TYPES = 1 );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Username.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Password.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Title.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Name.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Address.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Postcode.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Email.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/City.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/stores/Telephone.php'
+require_once( '/classes/stores/Username.php' );
+require_once( '/classes/stores/Password.php' );
+require_once( '/classes/stores/Title.php' );
+require_once( '/classes/stores/Name.php' );
+require_once( '/classes/stores/Address.php' );
+require_once( '/classes/stores/Postcode.php' );
+require_once( '/classes/stores/Email.php' );
+require_once( '/classes/stores/City.php' );
+require_once( '/classes/stores/Telephone.php'
  );
 // TODO: (important) make update(), insert(), fetch() return a query
 // and its parameters so that requests can be optimized

@@ -1,20 +1,18 @@
 <?php
 
-declare( STRICT_TYPES = 1 );
-
 class Password
 {
   private $password;
   
   
   
-  public final function __construct( string $password ) {
+  public final function __construct( $password ) {
     $this->set( $password );
   }
   
   
   
-  public final function set( string $password ) {
+  public final function set( $password ) {
     if ( self::isValid( $password ) ) {
       $this->password = $password;
     }
@@ -25,7 +23,7 @@ class Password
   
   
   
-  public final static function isValid( string $string ) : bool {
+  public final static function isValid( $string ) {
     if ( strlen( $string ) <= 255 ) {
       return true;
     }

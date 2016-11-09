@@ -1,20 +1,18 @@
 <?php
 
-declare( STRICT_TYPES = 1 );
-
 class City
 {
   private $city;
   
   
   
-  public final function __construct( string $city ) {
+  public final function __construct( $city ) {
     $this->set( $city );
   }
   
   
   
-  public final function set( string $city ) {
+  public final function set( $city ) {
     if ( self::isValid( $city ) ) {
       $this->city = $city;
     }
@@ -25,7 +23,7 @@ class City
   
   
   
-  public final static function isValid( string $string ) : bool {
+  public final static function isValid( $string ) {
     if ( strlen( $string ) <= 85 ) {
       return true;
     }

@@ -1,20 +1,18 @@
 <?php
 
-declare( STRICT_TYPES = 1 );
-
 class Name
 {
   private $name;
   
   
   
-  public final function __construct( string $name ) {
+  public final function __construct( $name ) {
     $this->set( $name );
   }
   
   
   
-  public final function set( string $name ) {
+  public final function set( $name ) {
     if ( self::isValid( $name ) ) {
       $this->name = $name;
     }
@@ -25,7 +23,7 @@ class Name
   
   
   
-  public final static function isValid( string $string ) : bool {
+  public final static function isValid( $string ) {
     if ( strlen( $string ) <= 255 ) {
       return true;
     }
