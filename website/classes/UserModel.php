@@ -33,17 +33,26 @@ class UserModel {
   }
   
   
-  public static function registerUser(string $username, string $title, string $firstname, string $lastname, string $address, string $city, string $zipcode, string $email, string $phone, string $user_password) 
+function registerUser(string $username, string $title, string $firstname, string $lastname, string $address, string $city, string $zipcode, string $email, string $phone, string $user_password) 
   {
+
+	  
 	  $hashed_password = hash('sha512', $user_password);
 	  $db = Database::getConnection();
-	  $request = $db->prepare(" SET FOREIGN_KEY_CHECKS=0;"."INSERT INTO Person(title, FirstName, LastName, Address, City, Postcode, Email, Telephone ) 										 VALUES(:UserId, :Title, :FirstName,:LastName, :Address, :City, :Postcode, :Email, :Telephone  );");    
+	  echo "connection successful";
+	  $request = $db->prepare(" SET FOREIGN_KEY_CHECKS=0;  
+	  	INSERT INTO ac32006_assignment1.Person(title, FirstName, LastName, Address, City, Postcode, Email, Telephone ) 										 
+      VALUES(:UserId, :Title, :FirstName,:LastName, :Address, :City, :Postcode, :Email, :Telephone  );");    
 
 		$request->execute(array(':UserId'=>$username, ':Title'=>$title, ':FirstName'=> $firstname ,':LastName'=> $lastname, ':Address'=> $address, ':City'=> $city, 		':Postcode' => $zipcode, ':Email'=> $email, ':Telephone'=> $phone));  	
 		
-		$createAccount = $db->prepare("SET FOREIGN_KEY_CHECKS=0;"."INSERT INTO User(UserId, Password) VALUES(:UserId, :Password);");
+		$createAccount = $db->prepare("SET FOREIGN_KEY_CHECKS=0; INSERT INTO ac32006_assignment1.User(UserId, Password) VALUES(:UserId, :Password);");
 		$createAccount->execute(array(':UserId' => $username, ':Password' => $hashed_password));
-		echo "<br />". $hashed_password;
+	
+	
+	/**	
+	* @author Kashish Sharma
+	 **/
 		
 		/**
 		SET FOREIGN_KEY_CHECKS=0; 
