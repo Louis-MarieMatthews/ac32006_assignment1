@@ -149,6 +149,7 @@ if ( getPost( 'wage' ) !== null &
       </table>
       <form action="<?php echo( $actionUrl ) ?>" id="form" method="POST">
         <button type="submit">Update</button>
+        <a href="delete-branch-manager.php?id=<?php echo( $bm->getBranchManagerId() ) ?>">Delete</a>
       </form>
     </main>
   </body>
