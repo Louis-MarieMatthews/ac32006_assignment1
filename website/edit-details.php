@@ -7,6 +7,9 @@ session_start();
 require_once( 'functions/html.php' );
 require_once( 'classes/Database.php' );
 require_once( 'classes/stores/Person.php' );
+require_once( 'classes/stores/BranchManager.php' );
+require_once( 'classes/stores/SalesAssistant.php' );
+require_once( 'classes/stores/CompanyManager.php' );
 require_once( 'classes/SessionLogin.php' );
 
 // Checks if logged in
@@ -49,9 +52,32 @@ $cmFetch = Database::query( $cmSql, array( SessionLogin::getUsername() ) )->fetc
 $bmFetch = Database::query( $bmSql, array( SessionLogin::getUsername() ) )->fetch();
 $saFetch = Database::query( $saSql, array( SessionLogin::getUsername() ) )->fetch();
 $cFetch = Database::query( $cSql, array( SessionLogin::getUsername() ) )->fetch();
+if ( $cmFetch !== false | $bmFetch !== false | $saFetch !== false ) {
+  $isEmployee = true;
+}
+else {
+  $isEmployee = false;
+}
 
 // Create and hydrate person object
-$person = new Person;
+if ( $cmFetch !== false ) {
+  $person = new CompanyManager;
+  $person->setSortcode( $cmFetch['SortCode'] );
+  $person->setAccountNumber( $cmFetch['AccountNumber'] );
+}
+else if ( $bmFetch !== false ) {
+  $person = new BranchManager;
+  $person->setSortcode( $bmFetch['SortCode'] );
+  $person->setAccountNumber( $bmFetch['AccountNumber'] );
+}
+else if ( $saFetch !== false ) {
+  $person = new SalesAssistant;
+  $person->setSortCode( $saFetch['SortCode'] );
+  $person->setAccountNumber( $saFetch['AccountNumber'] );
+}
+else {
+  $person = new Person;
+}
 $person->setPersonId( $pFetch['PersonId'] );
 $person->setTitle( $pFetch['Title'] );
 $person->setFirstName( $pFetch['FirstName'] );
@@ -129,6 +155,24 @@ if ( getPost( 'email' ) !== null ) {
     $formErrors[] = $e->getMessage();
   }
 }
+if ( $isEmployee ) {
+  if ( getPost( 'account-number' ) !== null ) {
+    try {
+      $person->setAccountNumber( getPost( 'account-number' ) );
+    }
+    catch ( DomainException $e ) {
+      $formErrors[] = $e->getMessage();
+    }
+  }
+  if ( getPost( 'sort-code' ) !== null ) {
+    try {
+      $person->setSortCode( getPost( 'sort-code' ) );
+    }
+    catch ( DomainException $e ) {
+      $formErrors[] = $e->getMessage();
+    }
+  }
+}
 
 // Pushes the new person to the database
 // TODO: only make commands if there has change and commit only
@@ -145,6 +189,37 @@ $updatePersonSql = '
          Email = ?
   WHERE  PersonId = ?;
 ';
+if ( $isEmployee ) {
+  if ( $cmFetch !== false ) {
+    $updateEmployeeSql = '
+      UPDATE CompanyManager
+      SET    AccountNumber = ?,
+             SortCode = ?
+      WHERE  PersonId = ?;
+    ';
+  }
+  elseif ( $bmFetch !== false ) {
+    $updateEmployeeSql = '
+      UPDATE BranchManager
+      SET    AccountNumber = ?,
+             SortCode = ?
+      WHERE  PersonId = ?;
+    ';
+  }
+  else  {
+    $updateEmployeeSql = '
+      UPDATE SalesAssistant
+      SET    AccountNumber = ?,
+             SortCode = ?
+      WHERE  PersonId = ?;
+    ';
+  }
+  $updateEmployeeParameters = array(
+    $person->getAccountNumber(),
+    $person->getSortCode(),
+    $person->getPersonId() );
+  Database::query( $updateEmployeeSql, $updateEmployeeParameters );
+}
 $updatePersonParameters = array(
   $person->getTitle(),
   $person->getFirstName(),
@@ -245,7 +320,8 @@ Database::query( $updatePersonSql, $updatePersonParameters );
             <label for="telephone" form="form">Telephone</label>
           </td>
           <td>
-            <input form="form" id="telephone" name="telephone" type="text"
+            <input form="form" id="telephone" name="telephone"
+            type="text"
             value="<?php echo( $person->getTelephone() ) ?>" />
           </td>
         </tr>
@@ -258,6 +334,29 @@ Database::query( $updatePersonSql, $updatePersonParameters );
             value="<?php echo( $person->getEmail() ) ?>" />
           </td>
         </tr>
+        <?php if ( $isEmployee ) : ?>
+        <tr>
+          <td>
+            <label for="account-number" form="form">Account Number
+            </label>
+          </td>
+          <td>
+            <input form="form" id="account-number"
+            name="account-number" type="text"
+            value="<?php echo( $person->getAccountNumber() ) ?>" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="sort-code" form="form">Sort Code</label>
+          </td>
+          <td>
+            <input form="form" id="sort-code" name="sort-code"
+            type="text"
+            value="<?php echo( $person->getSortCode() ) ?>" />
+          </td>
+        </tr>
+        <?php endif ?>
       </table>
       <form id="form" method="POST" action="#">
         <button type="submit">Update Details</button>
