@@ -10,14 +10,8 @@ require_once( 'classes/stores/User.php' );
 
 checkIfNotLoggedIn();
 
-// TODO: special handling when missing required value?
 $formErrors = array();
-if ( getPost( 'username' ) != null & 
-     getPost( 'password' ) != null &
-     getPost( 'first-name' ) != null &
-     getPost( 'last-name' ) != null & 
-     getPost( 'address' ) != null &
-     getPost( 'city' ) != null ) {
+if ( $_SERVER['REQUEST_TYPE'] === 'POST' ) {
   $customer = new Customer;
   $user = new User;
   $areDetailsValid = true;
