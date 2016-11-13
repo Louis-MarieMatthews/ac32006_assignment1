@@ -15,19 +15,18 @@ if ( isset( $_GET['id'] ) ) {
     $sql = '
       SELECT Name, Address, Postcode, City
       FROM   Branch
-      WHERE  BranchId = ?
+      WHERE  BranchId = ?;
     ';
     $parameters = array( $_GET['id'] );
     $rs = Database::query( $sql, $parameters )->fetchAll();
-    if ( sizeof( $rs ) < 1 ) {
+    if ( sizeof( $rs ) !== 1 ) {
       throw new Exception();
     }
-    $branch->setName( $rs['name'] );
-    $branch->setAddress( $rs['address'] );
-    $branch->setPostcode( $rs['postcode'] );
-    $branch->setCity( $rs['city'] );
-    $update = true;
-    $actionUrl = 'manage-branches.php?id=' . $_GET['id'];
+    $branch->setName( $rs[0]['Name'] );
+    $branch->setAddress( $rs[0]['Address'] );
+    $branch->setPostcode( $rs[0]['Postcode'] );
+    $branch->setCity( $rs[0]['City'] );
+    $actionUrl = '?id=' . $_GET['id'];
   }
   catch( Exception $e ) {
     $error = 'Branch ' . $_GET['id'] . ' does not exist';
@@ -35,17 +34,15 @@ if ( isset( $_GET['id'] ) ) {
   }
 }
 else {
-  $update = false;
-  $actionUrl = 'manage-branches.php';
+  $title = 'No Branch Id Specified';
+  $message = 'You have not specified any branch id';
+  displayMessagePage( $message, $title );
 }
 
 
 
 $formErrors = array();
-if ( getPost( 'name' ) != null &
-     getPost( 'address' ) != null &
-     getPost( 'postcode' ) != null &
-     getPost( 'city' ) != null ) {
+if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
   $isValid = true;
   try {
     $branch->setName( getPost( 'name' ) );
@@ -77,49 +74,29 @@ if ( getPost( 'name' ) != null &
   }
   if ( $isValid ) {
     try {
-      if ( $update ) {
-        $sql = '
-          UPDATE Branch
-          SET    Name = ?,
-                 Address = ?,
-                 Postcode = ?,
-                 City = ?
-          WHERE  BranchId = ?
-        ';
-        $parameters = array(
-          $branch->getName(),
-          $branch->getAddress(),
-          $branch->getPostcode(),
-          $branch->getCity,
-          $branch->getBranchId()
-        );
-        Database::query( $sql, $parameters )->fetchAll()[0];
-        $title = 'Branch Updated Successfully';
-        $message = 'Branch #' . $branch->getBranchId() . ' has been' .
-          'updated successfully!';
-        displayMessagePage( $title, $message );
-      }
-      else {
-        $sql = '
-          INSERT
-          INTO   Branch ( Name, Address, Postcode, City )
-          VALUES ( ?, ?, ?, ? );
-        ';
-        $parameters = array(
-          $branch->getName(),
-          $branch->getAddress(),
-          $branch->getPostcode(),
-          $branch->getCity()
-        );
-        Database::query( $sql, $parameters );
-        $title = 'Branch Created Successfully';
-        $message = $branch->getName() . ' has been created ' .
-          'successfully!';
-        displayMessagePage( $message, $title );
-      }
+      $sql = '
+        UPDATE Branch
+        SET    Name = ?,
+               Address = ?,
+               Postcode = ?,
+               City = ?
+        WHERE  BranchId = ?
+      ';
+      $parameters = array(
+        $branch->getName(),
+        $branch->getAddress(),
+        $branch->getPostcode(),
+        $branch->getCity(),
+        $branch->getBranchId()
+      );
+      Database::query( $sql, $parameters );
+      $title = 'Branch Updated Successfully';
+      $message = 'Branch #' . $branch->getBranchId() . ' has been ' .
+        'updated successfully!';
+      displayMessagePage( $title, $message );
     }
     catch( Exception $e ) {
-      displayMessagePage( $e->getMessage(), $e->getMessage() );
+      $formErrors[] = $e->getMessage();
     }
   }
 }
@@ -130,13 +107,12 @@ if ( getPost( 'name' ) != null &
 <html>
   <head>
     <?php displayHead() ?>
-    <title>Manage branch <?php echo( $branch->getBranchId() ) ?></title>
+    <title>Manage Branch #<?php echo( $branch->getBranchId() ) ?></title>
   </head>
   <body>
     <main>
       <?php displayErrors( $formErrors ); ?>
       <table>
-        <?php if ( $update ) : ?>
         <caption>Branch <?php echo( $branch->getBranchId() ) ?></caption>
         <tr>
           <td>
@@ -146,9 +122,6 @@ if ( getPost( 'name' ) != null &
             <?php echo( $branch->getBranchId() ) ?>
           </td>
         </tr>
-        <?php else : ?>
-        <caption>New Branch</caption>
-        <?php endif ?>
         <tr>
           <td>
             <label for="name" form="form">
@@ -185,13 +158,7 @@ if ( getPost( 'name' ) != null &
       <form action="<?php echo( $actionUrl ) ?>" id="form" method="POST">
         <button type="submit">Submit</button>
       </form>
-      <?php
-      if ( $update ) {
-        ?>
         <a href="">Delete branch</a>
-        <?php
-      }
-      ?>
     </main>
   </body>
 </html>
