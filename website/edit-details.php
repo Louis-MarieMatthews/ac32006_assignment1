@@ -61,12 +61,12 @@ else {
 // Create and hydrate person object
 if ( $cmFetch !== false ) {
   $person = new CompanyManager;
-  $person->setSortcode( $cmFetch['SortCode'] );
+  $person->setSortCode( $cmFetch['SortCode'] );
   $person->setAccountNumber( $cmFetch['AccountNumber'] );
 }
 else if ( $bmFetch !== false ) {
   $person = new BranchManager;
-  $person->setSortcode( $bmFetch['SortCode'] );
+  $person->setSortCode( $bmFetch['SortCode'] );
   $person->setAccountNumber( $bmFetch['AccountNumber'] );
 }
 else if ( $saFetch !== false ) {
