@@ -186,7 +186,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
         </tr>
         <tr>
           <td><label for="password" form="form">Password</label></td>
-          <td><input form="form" id="password" name="password" type="text" value="<?php echo( getPost( 'password' ) ) ?>" /></td>
+          <td><input form="form" id="password" name="password" type="password" value="<?php echo( getPost( 'password' ) ) ?>" /></td>
         </tr>
         <tr>
           <td><label for="title" form="form">Title</label></td>

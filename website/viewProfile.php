@@ -1,0 +1,69 @@
+<?php
+
+session_start();
+
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/functions/authorizations.php' );
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/Database.php' );
+
+
+if(SessionLogin::isLoggedIn())
+{
+
+	echo "you are logged in as <b>".SessionLogin::getUsername()."</b>";
+
+	
+}
+
+else {
+
+echo "you are not logged in. Please log in <a href='login.php'>here</a>";
+
+die();
+
+}
+
+
+// You defined the function but didn't call it, so it won't do anything!
+  function viewAccount()
+  {
+  	
+  	$db = Database::getConnection();
+
+
+  	 		$request = Database::query( "SELECT Title, FirstName, LastName, Address, Postcode, City, Telephone, Email, c.Notes
+  	 		 FROM Person p, Customer c WHERE p.PersonId =( SELECT PersonID FROM Person WHERE UserId = ?) = c.PersonId", array(SessionLogin::getUsername()));
+        
+		if ($request->rowCount() === 1) {
+			// fetchAll() is an instance method that returns the results as an two-dimensional array.
+      // so you could do something like:
+      // $row = $request->fetchAll()[0] // access the FIRST row of the results, and you remove the while loop
+		$row = $request->fetch(); 
+				
+				echo "<br/>";
+				echo "Title: ".$row['Title']. "       First Name ".$row['FirstName']."  ".$row['LastName']; // It's Title
+				echo "<br/>";
+
+				echo "Address: ".$row['Address'];
+				echo "<br/>";
+
+				echo " City ".$row['City']."  ".$row['Postcode'];
+				echo "<br/>";
+
+				echo "Telephone: ".$row['Telephone']; // it's Telephone
+				echo "<br/>";
+
+				echo "Email: ".$row['Email'];
+				echo "<br/>";
+				echo "Notes: ".$row['Notes'];
+				echo "<br />";
+		}
+	
+  }
+
+  viewAccount();
+  echo "<a href='updateDetails.html'>Update Personal Details</a>";
+
+
+  ?>
+
+

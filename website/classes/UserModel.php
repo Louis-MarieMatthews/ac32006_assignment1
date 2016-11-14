@@ -32,13 +32,7 @@ class UserModel
   }
   
   
-  function viewAccount($username)
-  {
-  	
-	
-	
-  }
-	
+
 	
   /**
    * Update the password of the specified user.
@@ -48,6 +42,6 @@ class UserModel
    */
   public static function updatePassword( $username, $password ) {
     $hashed_password = hash( 'sha512', $password );
-    $request = Database::query( 'UPDATE User SET Password = ? WHERE UserId = ?;', array( $hashed_password, $username ) );
+    $request = Database::query( 'UPDATE User SET Password = ? WHERE UserId = ?;', array( $hashed_password, $username));
   }
 }
