@@ -14,8 +14,7 @@ require_once( 'classes/SessionLogin.php' );
 
 // Checks if logged in
 if ( ! SessionLogin::isLoggedIn() ) {
-  echo( 'You are not logged in.' );
-  die();
+  displayAccessDenied();
 }
 
 // Gets the position and details of the currently logged-in user
