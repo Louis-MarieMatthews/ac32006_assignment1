@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require( 'classes/stores/BranchManager.php' );
-require( 'functions/html.php' );
-require( 'functions/authorizations.php' );
+require_once( 'classes/stores/BranchManager.php' );
+require_once( 'functions/html.php' );
+require_once( 'functions/authorizations.php' );
 
 checkIfCompanyManager();
 

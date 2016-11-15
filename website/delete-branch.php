@@ -3,9 +3,9 @@ session_start();
 
 // TODO: (important) display a confirmation button
 
-require( 'classes/stores/Branch.php' );
-require( 'functions/html.php' );
-require( 'functions/authorizations.php' );
+require_once( 'classes/stores/Branch.php' );
+require_once( 'functions/html.php' );
+require_once( 'functions/authorizations.php' );
 
 checkIfCompanyManager();
 
