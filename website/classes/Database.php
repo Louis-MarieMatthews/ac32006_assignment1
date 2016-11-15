@@ -24,8 +24,8 @@ class Database {
    * Gets the database name, host and the root's username and password from ini files.
    */
   public static function initialiseConnection() {
-    $db = parse_ini_file( '/ini/database.ini' );
-    $root = parse_ini_file( '/ini/root.ini' );
+    $db = parse_ini_file( 'ini/database.ini' );
+    $root = parse_ini_file( 'ini/root.ini' );
     self::$connection = new PDO( 'mysql:host=' . $db['host'] . ';dbname=' . $db['name'] . ';charset=utf8', $root['username'], $root['password'], array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION) );
     // TODO: remove array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
   }
