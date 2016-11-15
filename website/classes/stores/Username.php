@@ -1,6 +1,6 @@
 <?php
 
-require_once( '/classes/exceptions/IllegalFormatException.php' );
+require_once( 'classes/exceptions/IllegalFormatException.php' );
 
 class Username
 {

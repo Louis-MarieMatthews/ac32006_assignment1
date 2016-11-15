@@ -5,16 +5,24 @@ session_start();
 
 // Dependencies
 require_once( 'functions/html.php' );
-require_once( 'classes/Database.php' );
+require_once('classes/Database.php' );
 require_once( 'classes/stores/Person.php' );
-require_once( 'classes/stores/BranchManager.php' );
+require_once( 'classes/stores/BranchManager.php');
 require_once( 'classes/stores/SalesAssistant.php' );
 require_once( 'classes/stores/CompanyManager.php' );
 require_once( 'classes/SessionLogin.php' );
 
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/functions/authorizations.php' );
+
+
 // Checks if logged in
 if ( ! SessionLogin::isLoggedIn() ) {
   displayAccessDenied();
+}
+
+else {
+
+	SessionLogin::getUsername();
 }
 
 // Gets the position and details of the currently logged-in user
@@ -232,6 +240,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
     $person->getPersonId() );
   // TODO: check that the commit went fine
   Database::query( $updatePersonSql, $updatePersonParameters );
+  echo "Your changes have been saved !";
 }
 
 ?>

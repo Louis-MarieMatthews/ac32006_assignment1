@@ -2,8 +2,8 @@
 
 session_start();
 
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/functions/authorizations.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/Database.php' );
+require_once( 'functions/authorizations.php' );
+require_once( 'classes/Database.php' );
 
 
 if(SessionLogin::isLoggedIn())
@@ -61,9 +61,38 @@ die();
   }
 
   viewAccount();
-  echo "<a href='updateDetails.php'>Update Personal Details</a>";
+  echo "<a href='edit-details.php'>Update Personal Details</a>";
 
 
   ?>
 
 
+
+         <form action="viewProfile.php" method="POST">
+        <button type="submit" id="deleteAccount">Delete Account</button>
+        </form>
+      
+
+        <?php
+
+          $db = Database::getConnection();
+
+
+
+          $deleteAccount = $db->prepare("SET FOREIGN_KEY_CHECKS=0;". " DELETE FROM User WHERE UserId = ?");
+          $deleteAccount->execute(array(SessionLogin::getUsername()));
+
+
+          $db = null;
+
+          $db_conn = Database::getConnection();
+
+          $deletePersonal = $db_conn->prepare("SET FOREIGN_KEY_CHECKS=0;". " DELETE FROM Person WHERE UserId = ?");
+          $deletePersonal->execute(array(SessionLogin::getUsername()));
+          
+
+          session_destroy();
+        ?>
+
+
+?>

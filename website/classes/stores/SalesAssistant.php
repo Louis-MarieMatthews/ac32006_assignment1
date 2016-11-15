@@ -1,10 +1,10 @@
 <?php
 
-require_once( '/classes/exceptions/IllegalFormatException.php' );
+require_once( 'classes/exceptions/IllegalFormatException.php' );
 
-require_once( '/classes/stores/AccountNumber.php' );
-require_once( '/classes/stores/Person.php' );
-require_once( '/classes/stores/SortCode.php' );
+require_once( 'classes/stores/AccountNumber.php' );
+require_once( 'classes/stores/Person.php' );
+require_once( 'classes/stores/SortCode.php' );
 
 class SalesAssistant extends Person
 {

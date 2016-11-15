@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Singleton class to get a database connection.
  * Use this class to get a database connection, then perform queries on it.

@@ -1,15 +1,15 @@
 <?php
 
-require_once( '/classes/exceptions/IllegalFormatException.php' );
-require_once( '/classes/stores/Username.php' );
-require_once( '/classes/stores/Password.php' );
-require_once( '/classes/stores/Title.php' );
-require_once( '/classes/stores/Name.php' );
-require_once( '/classes/stores/Address.php' );
-require_once( '/classes/stores/Postcode.php' );
-require_once( '/classes/stores/Email.php' );
-require_once( '/classes/stores/City.php' );
-require_once( '/classes/stores/Telephone.php'
+require_once( 'classes/exceptions/IllegalFormatException.php' );
+require_once( 'classes/stores/Username.php' );
+require_once( 'classes/stores/Password.php' );
+require_once( 'classes/stores/Title.php' );
+require_once( 'classes/stores/Name.php' );
+require_once( 'classes/stores/Address.php' );
+require_once( 'classes/stores/Postcode.php' );
+require_once( 'classes/stores/Email.php' );
+require_once( 'classes/stores/City.php' );
+require_once( 'classes/stores/Telephone.php'
  );
 // TODO: (important) make update(), insert(), fetch() return a query
 // and its parameters so that requests can be optimized

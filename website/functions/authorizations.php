@@ -1,13 +1,11 @@
 <?php
-
-require_once( '/classes/Database.php' );
-require_once( '/classes/SessionLogin.php' );
-require_once( '/functions/html.php' );
-
+require_once( 'classes/Database.php' );
+require_once( 'classes/SessionLogin.php' );
+require_once( 'functions/html.php' );
 /**
  * This function checks that the user is logged-in and is a company manager, or otherwise 
  * stops the running script and outputs an error.
- * SHALL BE CALLED BEFORE ANY OUTPUT.
+ * SHALL BE CALLED BEFORE ANY OUTPUT.
  */
 function checkIfCompanyManager() {
   if ( SessionLogin::isLoggedIn() ) {
@@ -33,9 +31,6 @@ function checkIfCompanyManager() {
     die();
   }
 }
-
-
-
 function checkIfEmployee() {
   if ( SessionLogin::isLoggedIn() ) {
     $parameters = array( SessionLogin::getUsername() );
@@ -77,9 +72,6 @@ function checkIfEmployee() {
     die();
   }
 }
-
-
-
 function checkIfNotLoggedIn() {
   if ( SessionLogin::isLoggedIn() ) {
     displayAccessDenied();

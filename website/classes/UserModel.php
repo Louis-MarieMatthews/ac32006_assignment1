@@ -1,8 +1,8 @@
 <?php
 
 require_once( 'classes/Database.php' );
-require_once( '/classes/stores/Password.php' );
-require_once( '/classes/stores/Username.php' );
+require_once( 'classes/stores/Password.php' );
+require_once( 'classes/stores/Username.php' );
 
 /**
  * Use this class to access / manage user related data stored in the database.

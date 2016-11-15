@@ -1,9 +1,9 @@
 <?php
 
-require_once( '/classes/stores/Name.php' );
-require_once( '/classes/stores/Address.php' );
-require_once( '/classes/stores/Postcode.php' );
-require_once( '/classes/stores/City.php' );
+require_once( 'classes/stores/Name.php' );
+require_once( 'classes/stores/Address.php' );
+require_once( 'classes/stores/Postcode.php' );
+require_once( 'classes/stores/City.php' );
 
 class Branch
 {

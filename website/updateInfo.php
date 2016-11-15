@@ -2,8 +2,8 @@
 
 session_start();
 
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/functions/authorizations.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/Database.php' );
+require_once( 'functions/authorizations.php' );
+require_once( 'classes/Database.php' );
 
 if(SessionLogin::isLoggedIn())
 {
