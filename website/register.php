@@ -11,7 +11,7 @@ require_once( 'classes/stores/User.php' );
 checkIfNotLoggedIn();
 
 $formErrors = array();
-if ( $_SERVER['REQUEST_TYPE'] === 'POST' ) {
+if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
   $customer = new Customer;
   $user = new User;
   $areDetailsValid = true;
