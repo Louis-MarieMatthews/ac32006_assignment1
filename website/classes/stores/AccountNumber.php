@@ -15,7 +15,7 @@ class AccountNumber
   
   
   public final function __toString() {
-    return $this->  accountNumber;
+    return $this->accountNumber;
   }
   
   
