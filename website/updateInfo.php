@@ -1,6 +1,5 @@
 <?php
 
-
 session_start();
 
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/functions/authorizations.php' );
@@ -9,9 +8,9 @@ require_once( $_SERVER['DOCUMENT_ROOT'] . '/ac32006_assignment1/website/classes/
 if(SessionLogin::isLoggedIn())
 {
 
-	echo "you are logged in as ".SessionLogin::getUsername();
+  echo "you are logged in as ".SessionLogin::getUsername();
 
-	
+  
 }
 
 else {
@@ -22,56 +21,63 @@ die();
 
 }
 
-if (isset($_POST['password']))
+
+
+
+function updateAccount() 
 {
-$password = $_POST['password'];
-}
 
 
 $db = Database::getConnection();
 
-function updateUserInfo(string $username, string $password)
-{
-
-
-//create UPDATE query string
-
-if (isset('submit')) {
-	# code...
 
 
 $request = $db->prepare("UPDATE Person SET Title  = :Title,
- 	 FirstName = :FirstName, 
- 	 LastName = :LastName, 
- 	 Address = :Address, 
- 	 Postcode = :Postcode, 
- 	 City = :City, 
- 	 Telephone = :Telephone, 
- 	 Email = :Email,
- 	 WHERE UserId = :UserId;");
+   FirstName = :FirstName, 
+   LastName = :LastName, 
+   Address = :Address, 
+   Postcode = :Postcode, 
+   City = :City, 
+   Telephone = :Telephone, 
+   Email = :Email,
+   WHERE UserId = :UserId;");
 
 
 $request->execute(array(':Title'=> $_POST['title'], 
-					  ':FirstName'=>$_POST['first_name'],
-					  ':LastName' => $_POST['last_name'],
-					  ':Address' => $_POST['address'],	
-					  ':Postcode' => $_POST['postcode'],	
-					  ':City' => $_POST['city'],
-					  ':Telephone' => $_POST['telephone'],
-            ':Email'=> $_POST['email']	
-					));
+            ':FirstName'=>$_POST['first_name'],
+            ':LastName' => $_POST['last_name'],
+            ':Address' => $_POST['address'],  
+            ':Postcode' => $_POST['postcode'],  
+            ':City' => $_POST['city'],
+            ':Telephone' => $_POST['telephone'],
+            ':Email'=> $_POST['email'],
+            ':UserId'=> SessionLogin::getUsername()  
+          ));
+
+echo "Details saved !";
+
+if (isset($_POST['new_password'])) {
+	# code...
+
+$password = $_POST['new_password'];
+$hashedPassword = hash('sha512',$password);
+
+echo "hashed password: ".$hashedPassword;
+
+$updatePassword = $db->prepare("UPDATE User SET Password = :Password WHERE UserId = ?");
+$updatePassword ->execute(array(':Password'=>$hashedPassword, SessionLogin::getUsername()));
+
+echo "Password Changed Successfulluy !";
 
 }
 
-/*if (isset($password) {
-	# code...
-	$hashedPassword = hash('sha512', $_POST['password']);
+else
+{
 
-	$queryPass = $db->prepare("UPDATE User SET 	Password = ? WHERE UserId = ?");
-	$queryPass->execute(array(':UserId'=>$username, 'Password'=>$hashedPassword));
-	echo "password changed successfully";
-*/
+}
 
-echo "Details saved! <a href='viewProfile.php'> View Your Profile "; 
 
+}
+
+updateAccount();
 ?>

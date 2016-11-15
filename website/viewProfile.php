@@ -61,7 +61,7 @@ die();
   }
 
   viewAccount();
-  echo "<a href='updateDetails.html'>Update Personal Details</a>";
+  echo "<a href='updateDetails.php'>Update Personal Details</a>";
 
 
   ?>
