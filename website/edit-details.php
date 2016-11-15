@@ -14,8 +14,7 @@ require_once( 'classes/SessionLogin.php' );
 
 // Checks if logged in
 if ( ! SessionLogin::isLoggedIn() ) {
-  echo( 'You are not logged in.' );
-  die();
+  displayAccessDenied();
 }
 
 // Gets the position and details of the currently logged-in user
@@ -62,12 +61,12 @@ else {
 // Create and hydrate person object
 if ( $cmFetch !== false ) {
   $person = new CompanyManager;
-  $person->setSortcode( $cmFetch['SortCode'] );
+  $person->setSortCode( $cmFetch['SortCode'] );
   $person->setAccountNumber( $cmFetch['AccountNumber'] );
 }
 else if ( $bmFetch !== false ) {
   $person = new BranchManager;
-  $person->setSortcode( $bmFetch['SortCode'] );
+  $person->setSortCode( $bmFetch['SortCode'] );
   $person->setAccountNumber( $bmFetch['AccountNumber'] );
 }
 else if ( $saFetch !== false ) {

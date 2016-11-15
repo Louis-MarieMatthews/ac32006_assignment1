@@ -26,6 +26,12 @@ class SalesAssistant extends Person
   
   
   
+  public function getSalesAssistantId() {
+	  return $this->salesAssistantId;
+  }
+  
+  
+  
   public function getSortCode() {
     return (string) $this->sortCode;
   }
@@ -55,6 +61,17 @@ class SalesAssistant extends Person
     }
     else {
       $this->branchId = $branchId;
+    }
+  }
+  
+  
+  
+  public function setSalesAssistant( $salesAssistantId ) {
+    if ( $salesAssistantId == null ) {
+      $this->salesAssistantId = null;
+    }
+    else {
+      $this->salesAssistantId = (int) $salesAssistantId;
     }
   }
   

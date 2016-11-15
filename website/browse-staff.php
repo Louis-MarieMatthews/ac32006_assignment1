@@ -17,6 +17,17 @@ checkIfCompanyManager();
   <body>
     <main>
       <?php
+	  $cmSql = '
+        SELECT *
+        FROM   CompanyManager
+        INNER JOIN Person
+        ON CompanyManager.PersonId = Person.PersonId;
+      ';
+      $cm = Database::getConnection()->query( $cmSql )
+        ->fetchAll();
+      displayCompanyManagers( $cm, 'Company Managers' );
+      
+      
       $bmSql = '
         SELECT *
         FROM   BranchManager
@@ -25,18 +36,8 @@ checkIfCompanyManager();
       ';
       $bm = Database::getConnection()->query( $bmSql )
         ->fetchAll();
-      displayPersons( $bm, 'Branch Managers' );
+      displayBranchManagers( $bm, 'Branch Managers' );
         
-      $cmSql = '
-        SELECT *
-        FROM   CompanyManager
-        INNER JOIN Person
-        ON CompanyManager.PersonId = Person.PersonId;
-      ';
-      $cm = Database::getConnection()->query( $cmSql )
-        ->fetchAll();
-      displayPersons( $cm, 'Company Managers' );
-      
       $saSql = '
         SELECT *
         FROM   SalesAssistant
@@ -45,7 +46,7 @@ checkIfCompanyManager();
       ';
       $sa = Database::getConnection()->query( $saSql )
         ->fetchAll();
-      displayPersons( $sa, 'Sales Assistants' );
+      displaySalesAssistants( $sa, 'Sales Assistants' );
       ?>
     </main>
   </body>

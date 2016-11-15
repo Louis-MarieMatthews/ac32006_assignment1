@@ -26,49 +26,110 @@ function displayLogOutForm() {
 
 
 /**
- * This method displays in a table the persons contained within the array given inside the
- * parameters.
+ * This method displays in a table the given array using the given colums.
+ * It also displays the given title.
  *
  * @author Louis-Marie Matthews
  */
-function displayPersons( $persons, $title ) {
+function displayTable( $rows, $columns, $title ) {
   ?>
   <table class="bordered-table" >
   <caption><?php echo( $title ) ?></caption>
   <thead>
     <tr>
-      <td>Person Id</td>
-      <td>Username</td>
-      <td>Title</td>
-      <td>First Name</td>
-      <td>Last Name</td>
-      <td>Address</td>
-      <td>Postcode</td>
-      <td>City</td>
-      <td>Telephone</td>
-      <td>Email</td>
+      <?php foreach ( $columns as $currentColumn ) : ?>
+      <td><?php echo( $currentColumn ) ?></td>
+      <?php endforeach ?>
     </tr>
-  </thead>
-  <?php
-  foreach( $persons as $current ) {
-    ?>
+    </thead>
+    <?php foreach( $rows as $currentRow ) : ?>
     <tr>
-      <td><?php echo( $current['PersonId'] ) ?></td>
-      <td><?php echo( $current['UserId'] ) ?></td>
-      <td><?php echo( $current['Title'] ) ?></td>
-      <td><?php echo( $current['FirstName'] ) ?></td>
-      <td><?php echo( $current['LastName'] ) ?></td>
-      <td><?php echo( $current['Address'] ) ?></td>
-      <td><?php echo( $current['Postcode'] ) ?></td>
-      <td><?php echo( $current['City'] ) ?></td>
-      <td><?php echo( $current['Telephone'] ) ?></td>
-      <td><?php echo( $current['Email'] ) ?></td>
+	  <?php foreach ( $columns as $currentColumn ) : ?>
+		<td><?php echo( $currentRow[ $currentColumn ] ) ?></td>
+      <?php endforeach ?>
     </tr>
-    <?php
-  }
-  ?>
+    <?php endforeach ?>
   </table>
   <?php
+}
+
+
+
+function displayPersons( $persons, $title ) {
+	$columns = array(
+	  'PersonId',
+	  'UserId',
+	  'FirstName',
+	  'LastName',
+	  'Address',
+	  'Postcode',
+	  'City',
+	  'Telephone',
+	  'Email'
+	);
+	displayTable( $persons, $columns, $title );
+}
+
+
+
+function displayBranchManagers( $persons, $title ) {
+	$columns = array(
+	  'PersonId',
+	  'BranchManagerId',
+	  'UserId',
+	  'FirstName',
+	  'LastName',
+	  'Address',
+	  'Postcode',
+	  'City',
+	  'Telephone',
+	  'Email',
+	  'BranchId',
+	  'AccountNumber',
+	  'SortCode'
+	);
+	displayTable( $persons, $columns, $title );
+}
+
+
+
+function displaySalesAssistants( $persons, $title ) {
+	$columns = array(
+	  'PersonId',
+	  'SalesAssistandId',
+	  'UserId',
+	  'FirstName',
+	  'LastName',
+	  'Address',
+	  'Postcode',
+	  'City',
+	  'Telephone',
+	  'Email',
+	  'BranchId',
+	  'AccountNumber',
+	  'SortCode'
+	);
+	displayTable( $persons, $columns, $title );
+}
+
+
+
+function displayCompanyManagers( $persons, $title ) {
+	$columns = array(
+	  'PersonId',
+	  'CompanyManagerId',
+	  'UserId',
+	  'FirstName',
+	  'LastName',
+	  'Address',
+	  'Postcode',
+	  'City',
+	  'Telephone',
+	  'Email',
+	  'AccountNumber',
+	  'SortCode'
+	);
+	displayTable( $persons, $columns, $title );
 }
 
 
