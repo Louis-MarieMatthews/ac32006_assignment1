@@ -29,7 +29,7 @@ require_once( 'functions/html.php' );
           displayLogOutForm();
         }
       }
-      else if ( isset( $_POST['username'] ) & isset( $_POST['password'] ) ) {
+      elseif ( isset( $_POST['username'] ) & isset( $_POST['password'] ) ) {
         if ( ! UserModel::areCredentialsCorrect( $_POST['username'], $_POST['password'] ) ) {
         ?>
       <p>The details you entered are incorrect. <a href="login.php">Log in.</a></p>
@@ -45,7 +45,7 @@ require_once( 'functions/html.php' );
         }
         else {
       ?>
-      <!-- TODO: check all necessary fields are defined for each input / button -->
+      <!-- TODO: check all necessary fields are defined foreach input / button -->
       <table>
         <tr>
           <td><label for="username" form="form">Username: </label></td>

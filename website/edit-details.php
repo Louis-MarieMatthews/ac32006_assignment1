@@ -64,12 +64,12 @@ if ( $cmFetch !== false ) {
   $person->setSortCode( $cmFetch['SortCode'] );
   $person->setAccountNumber( $cmFetch['AccountNumber'] );
 }
-else if ( $bmFetch !== false ) {
+elseif ( $bmFetch !== false ) {
   $person = new BranchManager;
   $person->setSortCode( $bmFetch['SortCode'] );
   $person->setAccountNumber( $bmFetch['AccountNumber'] );
 }
-else if ( $saFetch !== false ) {
+elseif ( $saFetch !== false ) {
   $person = new SalesAssistant;
   $person->setSortCode( $saFetch['SortCode'] );
   $person->setAccountNumber( $saFetch['AccountNumber'] );
