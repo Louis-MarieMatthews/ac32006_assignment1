@@ -19,7 +19,7 @@ class Email
       $this->email = $email;
     }
     else {
-      throw new IllegalFormatException( 'invalid email' );
+      throw new IllegalFormatException( 'Invalid Email: The given email is not a correct email address.' );
     }
   }
   

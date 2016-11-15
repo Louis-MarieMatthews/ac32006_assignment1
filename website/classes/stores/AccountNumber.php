@@ -25,7 +25,7 @@ class AccountNumber
       $this->accountNumber = $accountNumber;
     }
     else {
-      throw new IllegalFormatException( 'invalid account number' );
+      throw new IllegalFormatException( 'Invalid Account Number: It has to be 8 digits.' );
     }
   }
   

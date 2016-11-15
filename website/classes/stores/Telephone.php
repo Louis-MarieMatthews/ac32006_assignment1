@@ -19,7 +19,7 @@ class Telephone
       $this->telephone = $telephone;
     }
     else {
-      throw new IllegalFormatException( 'invalid telephone' );
+      throw new IllegalFormatException( 'Invalid Telephone: It must only be digits and not longer than 20 characters.' );
     }
   }
   

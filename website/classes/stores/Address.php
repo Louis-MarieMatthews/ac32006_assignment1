@@ -19,7 +19,7 @@ class Address
       $this->address = $address;
     }
     else {
-      throw new IllegalFormatException( 'invalid address' );
+      throw new IllegalFormatException( 'Invalid Address: An address can not be more than 255 characters long.' );
     }
   }
   

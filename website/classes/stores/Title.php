@@ -20,7 +20,7 @@ class Title
       $this->title = $title;
     }
     else {
-      throw new IllegalFormatException( 'invalid title' );
+      throw new IllegalFormatException( 'Invalid Title: It must either be "Mr.", "Ms.", "Dr." or "Prof.".' );
     }
   }
   

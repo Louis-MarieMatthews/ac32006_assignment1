@@ -19,7 +19,7 @@ class City
       $this->city = $city;
     }
     else {
-      throw new IllegalFormatException( 'invalid city' );
+      throw new IllegalFormatException( 'Invalid City Name: Any city name must be 85 characters long at most.' );
     }
   }
   

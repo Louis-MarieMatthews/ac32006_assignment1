@@ -19,7 +19,7 @@ class Name
       $this->name = $name;
     }
     else {
-      throw new IllegalFormatException( 'invalid name' );
+      throw new IllegalFormatException( 'Invalid Name: The name can not be longer than 255 characters.' );
     }
   }
   

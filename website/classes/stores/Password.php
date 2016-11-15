@@ -19,7 +19,7 @@ class Password
       $this->password = $password;
     }
     else {
-      throw new IllegalFormatException( 'invalid password' );
+      throw new IllegalFormatException( 'Invalid Password: It must not be longer than 255 characters.' );
     }
   }
   
