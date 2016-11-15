@@ -14,8 +14,8 @@ checkIfCompanyManager();
 
 // Process potential sent data
 $formErrors = array();
-$branch  = new Branch;
 if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
+  $branch  = new Branch;
   $isValid = true;
   try {
     $branch->setName( $_POST['name'] );
@@ -85,7 +85,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
           </td>
           <td>
             <input form="form" id="name" name="name" type="text"
-            value="<?php echo( $branch->getName() ) ?>" />
+            value="<?php echo( getPost( 'name' ) ) ?>" />
           </td>
         </tr>
         <tr>
@@ -94,7 +94,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
           </td>
           <td>
             <input form="form" id="address" name="address" type="text"
-            value="<?php echo( $branch->getAddress() ) ?>" />
+            value="<?php echo( getPost( 'address' ) ) ?>" />
           </td>
         </tr>
         <tr>
@@ -104,7 +104,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
           <td>
             <input form="form" id="postcode" name="postcode"
             type="text"
-            value="<?php echo( $branch->getPostcode() ) ?>" />
+            value="<?php echo( getPost( 'postcode' ) ) ?>" />
           </td>
         </tr>
         <tr>
@@ -113,7 +113,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
           </td>
           <td>
             <input form="form" id="city" name="city" type="text"
-            value="<?php echo( $branch->getCity() ) ?>" />
+            value="<?php echo( getPost( 'city' ) ) ?>" />
           </td>
         </tr>
       </table>
