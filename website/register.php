@@ -102,16 +102,21 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
   }
   
   if ( $areDetailsValid ) {
-    // TODO: (minor) what if user creation suceed but customer fail?
-    // Customer insertion has no reason to fail though.
-    //try {
-      $sql = '
+    try {
+      $db = Database::getConnection();
+      $db->beginTransaction();
+      $userSql = '
         INSERT INTO User ( UserId, Password)
         VALUES ( ?, ? );
       ';
-      Database::query( $sql, array( $user->getUsername(),
-        $user->getHashedPassword() ) );
-      $sql = '
+      $userParams = array(
+        $user->getUsername(),
+        $user->getHashedPassword() );
+      $userRequest = $db->prepare( $userSql );
+      if ( $userRequest->execute( $userParams ) === false ) {
+        throw new Exception( 'Unexpected Problem: The registration failed.' );
+      }
+      $personSql = '
       INSERT INTO Person (
         Address,
         City,
@@ -124,7 +129,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
         UserId )
       VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? );
       ';
-      $parameters = array(
+      $personParams = array(
         $customer->getAddress(),
         $customer->getCity(),
         $customer->getEmail(),
@@ -135,20 +140,28 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
         $customer->getTitle(),
         $customer->getUsername()
       );
-      Database::query( $sql, $parameters );
-      $customer->setPersonId( Database::getConnection()->
-        query( 'SELECT MAX(PersonId) FROM Person;' )->fetch()[0] );
-      $sql = '
+      $personRequest = $db->prepare( $personSql );
+      if ( $personRequest->execute( $personParams ) === false ) {
+        throw new Exception( 'Unexpected Problem: The registration failed.' );
+      }
+      $customer->setPersonId( $db->lastInsertId() );
+      $customerSql = '
       INSERT INTO Customer ( PersonId )
       VALUE ( ? );
       ';
-      Database::query( $sql, array( $customer->getPersonId() ) );
+      $customerParams = array( $customer->getPersonId() );
+      $customerRequest = $db->prepare( $customerSql );
+      if ( $customerRequest->execute( $customerParams ) === false ) {
+        throw new Exception( 'Unexpected Problem: The registration failed.' );
+      }
+      $db->commit();
       displayMessagePage( 'Registration successful', 'Your registration was
       successful!' );
-    //}
-    //catch( Exception $e ) {
-    //  $formErrors[] = $e->getMessage();
-    //}
+    }
+    catch( Exception $e ) {
+      $db->rollBack();
+      $formErrors[] = $e->getMessage();
+    }
   }
 }
 
