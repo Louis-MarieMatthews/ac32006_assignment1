@@ -10,9 +10,7 @@ checkIfCompanyManager();
 $formErrors = array();
 
 $sa = new SalesAssistant;
-if ( getPost( 'person-id' ) !== null |
-  getPost( 'wage' ) !== null |
-  getPost( 'branch-id' ) !== null ) {
+if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
   $isValid = true;
   try {
     $sa->setPersonId( getPost( 'person-id' ) );

@@ -90,147 +90,150 @@ $person->setEmail( $pFetch['Email'] );
 // Updates values with the potential correct post values
 // TODO: Obviously, to refactor
 $formErrors = array();
-if ( getPost( 'title' ) !== null ) {
-  try {
-    $person->setTitle( getPost( 'title' ) );
-  }
-  catch ( DomainException $e ) {
-    $formErrors[] = $e->getMessage();
-  }
-}
-if ( getPost( 'first-name' ) !== null ) {
-  try {
-    $person->setFirstName( getPost( 'first-name' ) );
-  }
-  catch ( DomainException $e ) {
-    $formErrors[] = $e->getMessage();
-  }
-}
-if ( getPost( 'last-name' ) !== null ) {
-  try {
-    $person->setLastName( getPost( 'last-name' ) );
-  }
-  catch ( DomainException $e ) {
-    $formErrors[] = $e->getMessage();
-  }
-}
-if ( getPost( 'address' ) !== null ) {
-  try {
-    $person->setAddress( getPost( 'address' ) );
-  }
-  catch ( DomainException $e ) {
-    $formErrors[] = $e->getMessage();
-  }
-}
-if ( getPost( 'postcode' ) !== null ) {
-  try {
-    $person->setPostcode( getPost( 'postcode' ) );
-  }
-  catch ( DomainException $e ) {
-    $formErrors[] = $e->getMessage();
-  }
-}
-if ( getPost( 'city' ) !== null ) {
-  try {
-    $person->setCity( getPost( 'city' ) );
-  }
-  catch ( DomainException $e ) {
-    $formErrors[] = $e->getMessage();
-  }
-}
-if ( getPost( 'telephone' ) !== null ) {
-  try {
-    $person->setTelephone( getPost( 'telephone' ) );
-  }
-  catch ( DomainException $e ) {
-    $formErrors[] = $e->getMessage();
-  }
-}
-if ( getPost( 'email' ) !== null ) {
-  try {
-    $person->setEmail( getPost( 'email' ) );
-  }
-  catch ( DomainException $e ) {
-    $formErrors[] = $e->getMessage();
-  }
-}
-if ( $isEmployee ) {
-  if ( getPost( 'account-number' ) !== null ) {
+if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
+  if ( getPost( 'title' ) !== null ) {
     try {
-      $person->setAccountNumber( getPost( 'account-number' ) );
+      $person->setTitle( getPost( 'title' ) );
     }
     catch ( DomainException $e ) {
       $formErrors[] = $e->getMessage();
     }
   }
-  if ( getPost( 'sort-code' ) !== null ) {
+  if ( getPost( 'first-name' ) !== null ) {
     try {
-      $person->setSortCode( getPost( 'sort-code' ) );
+      $person->setFirstName( getPost( 'first-name' ) );
     }
     catch ( DomainException $e ) {
       $formErrors[] = $e->getMessage();
     }
   }
+  if ( getPost( 'last-name' ) !== null ) {
+    try {
+      $person->setLastName( getPost( 'last-name' ) );
+    }
+    catch ( DomainException $e ) {
+      $formErrors[] = $e->getMessage();
+    }
+  }
+  if ( getPost( 'address' ) !== null ) {
+    try {
+      $person->setAddress( getPost( 'address' ) );
+    }
+    catch ( DomainException $e ) {
+      $formErrors[] = $e->getMessage();
+    }
+  }
+  if ( getPost( 'postcode' ) !== null ) {
+    try {
+      $person->setPostcode( getPost( 'postcode' ) );
+    }
+    catch ( DomainException $e ) {
+      $formErrors[] = $e->getMessage();
+    }
+  }
+  if ( getPost( 'city' ) !== null ) {
+    try {
+      $person->setCity( getPost( 'city' ) );
+    }
+    catch ( DomainException $e ) {
+      $formErrors[] = $e->getMessage();
+    }
+  }
+  if ( getPost( 'telephone' ) !== null ) {
+    try {
+      $person->setTelephone( getPost( 'telephone' ) );
+    }
+    catch ( DomainException $e ) {
+      $formErrors[] = $e->getMessage();
+    }
+  }
+  if ( getPost( 'email' ) !== null ) {
+    try {
+      $person->setEmail( getPost( 'email' ) );
+    }
+    catch ( DomainException $e ) {
+      $formErrors[] = $e->getMessage();
+    }
+  }
+  if ( $isEmployee ) {
+    if ( getPost( 'account-number' ) !== null ) {
+      try {
+        $person->setAccountNumber( getPost( 'account-number' ) );
+      }
+      catch ( DomainException $e ) {
+        $formErrors[] = $e->getMessage();
+      }
+    }
+    if ( getPost( 'sort-code' ) !== null ) {
+      try {
+        $person->setSortCode( getPost( 'sort-code' ) );
+      }
+      catch ( DomainException $e ) {
+        $formErrors[] = $e->getMessage();
+      }
+    }
+  }
+
+  // Pushes the new person to the database
+  // TODO: only make commands if there has change and commit only
+  // changed values.
+  $updatePersonSql = '
+    UPDATE Person
+    SET    Title = ?,
+           FirstName = ?,
+           LastName = ?,
+           Address = ?,
+           Postcode = ?,
+           City = ?,
+           Telephone = ?,
+           Email = ?
+    WHERE  PersonId = ?;
+  ';
+  if ( $isEmployee ) {
+    if ( $cmFetch !== false ) {
+      $updateEmployeeSql = '
+        UPDATE CompanyManager
+        SET    AccountNumber = ?,
+               SortCode = ?
+        WHERE  PersonId = ?;
+      ';
+    }
+    elseif ( $bmFetch !== false ) {
+      $updateEmployeeSql = '
+        UPDATE BranchManager
+        SET    AccountNumber = ?,
+               SortCode = ?
+        WHERE  PersonId = ?;
+      ';
+    }
+    else  {
+      $updateEmployeeSql = '
+        UPDATE SalesAssistant
+        SET    AccountNumber = ?,
+               SortCode = ?
+        WHERE  PersonId = ?;
+      ';
+    }
+    $updateEmployeeParameters = array(
+      $person->getAccountNumber(),
+      $person->getSortCode(),
+      $person->getPersonId() );
+    Database::query( $updateEmployeeSql, $updateEmployeeParameters );
+  }
+  $updatePersonParameters = array(
+    $person->getTitle(),
+    $person->getFirstName(),
+    $person->getLastName(),
+    $person->getAddress(),
+    $person->getPostcode(),
+    $person->getCity(),
+    $person->getTelephone(),
+    $person->getEmail(),
+    $person->getPersonId() );
+  // TODO: check that the commit went fine
+  Database::query( $updatePersonSql, $updatePersonParameters );
 }
 
-// Pushes the new person to the database
-// TODO: only make commands if there has change and commit only
-// changed values.
-$updatePersonSql = '
-  UPDATE Person
-  SET    Title = ?,
-         FirstName = ?,
-         LastName = ?,
-         Address = ?,
-         Postcode = ?,
-         City = ?,
-         Telephone = ?,
-         Email = ?
-  WHERE  PersonId = ?;
-';
-if ( $isEmployee ) {
-  if ( $cmFetch !== false ) {
-    $updateEmployeeSql = '
-      UPDATE CompanyManager
-      SET    AccountNumber = ?,
-             SortCode = ?
-      WHERE  PersonId = ?;
-    ';
-  }
-  elseif ( $bmFetch !== false ) {
-    $updateEmployeeSql = '
-      UPDATE BranchManager
-      SET    AccountNumber = ?,
-             SortCode = ?
-      WHERE  PersonId = ?;
-    ';
-  }
-  else  {
-    $updateEmployeeSql = '
-      UPDATE SalesAssistant
-      SET    AccountNumber = ?,
-             SortCode = ?
-      WHERE  PersonId = ?;
-    ';
-  }
-  $updateEmployeeParameters = array(
-    $person->getAccountNumber(),
-    $person->getSortCode(),
-    $person->getPersonId() );
-  Database::query( $updateEmployeeSql, $updateEmployeeParameters );
-}
-$updatePersonParameters = array(
-  $person->getTitle(),
-  $person->getFirstName(),
-  $person->getLastName(),
-  $person->getAddress(),
-  $person->getPostcode(),
-  $person->getCity(),
-  $person->getTelephone(),
-  $person->getEmail(),
-  $person->getPersonId() );
-// TODO: check that the commit went fine
-Database::query( $updatePersonSql, $updatePersonParameters );
 ?>
 <!doctype html>
 <html>

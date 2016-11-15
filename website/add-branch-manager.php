@@ -11,48 +11,50 @@ $formErrors = array();
 
 $bm = new BranchManager;
 $isValid = true;
-try {
-  $bm->setPersonId( getPost( 'person-id' ) );
-}
-catch ( DomainException $e ) {
-  $isValid = false;
-  $formErrors[] = $e->getMessage();
-}
-try {
-  $bm->setWage( getPost( 'wage' ) );
-}
-catch ( DomainException $e ) {
-  $isValid = false;
-  $formErrors[] = $e->getMessage();
-}
-try {
-  $bm->setBranchId( getPost( 'branch-id' ) );
-}
-catch( DomainException $e ) {
-  $isValid = false;
-  $formErrors[] = $e->getMessage();
-}
-try {
-  $sql = '
-    INSERT INTO BranchManager ( PersonId, BranchId, Wage, SortCode,
-      AccountNumber )
-    VALUES ( ?, ?, ?, ?, ? );
-  ';
-  $parameters = array(
-    $bm->getPersonId(),
-    $bm->getBranchId(),
-    $bm->getWage(),
-    $bm->getSortCode(),
-    $bm->getAccountNumber()
-  );
-  Database::query( $sql, $parameters );
-  $title = 'New Branch Manager Added';
-  $message = 'You successfully added the details of a nez
-    branch manager.';
-  displayMessagePage( $message, $title );
-}
-catch( Exception $e ) {
-  $formErrors[] = $e->getMessage();
+if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
+  try {
+    $bm->setPersonId( getPost( 'person-id' ) );
+  }
+  catch ( DomainException $e ) {
+    $isValid = false;
+    $formErrors[] = $e->getMessage();
+  }
+  try {
+    $bm->setWage( getPost( 'wage' ) );
+  }
+  catch ( DomainException $e ) {
+    $isValid = false;
+    $formErrors[] = $e->getMessage();
+  }
+  try {
+    $bm->setBranchId( getPost( 'branch-id' ) );
+  }
+  catch( DomainException $e ) {
+    $isValid = false;
+    $formErrors[] = $e->getMessage();
+  }
+  try {
+    $sql = '
+      INSERT INTO BranchManager ( PersonId, BranchId, Wage, SortCode,
+        AccountNumber )
+      VALUES ( ?, ?, ?, ?, ? );
+    ';
+    $parameters = array(
+      $bm->getPersonId(),
+      $bm->getBranchId(),
+      $bm->getWage(),
+      $bm->getSortCode(),
+      $bm->getAccountNumber()
+    );
+    Database::query( $sql, $parameters );
+    $title = 'New Branch Manager Added';
+    $message = 'You successfully added the details of a nez
+      branch manager.';
+    displayMessagePage( $message, $title );
+  }
+  catch( Exception $e ) {
+    $formErrors[] = $e->getMessage();
+  }
 }
 ?>
 <!doctype html>

@@ -40,9 +40,7 @@ catch ( Exception $e ) {
 }
 
 $formErrors = array();
-if ( getPost( 'wage' ) !== null &
-  getPost( 'branch-id' ) !== null &
-  getPost( 'person-id' ) !== null ) {
+if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
   $isValid = true;
   if ( getPost( 'person-id' ) != null ) {
     try {
