@@ -96,7 +96,7 @@ function displayBranchManagers( $persons, $title ) {
 function displaySalesAssistants( $persons, $title ) {
 	$columns = array(
 	  'PersonId',
-	  'SalesAssistandId',
+	  'SalesAssistantId',
 	  'UserId',
 	  'FirstName',
 	  'LastName',
