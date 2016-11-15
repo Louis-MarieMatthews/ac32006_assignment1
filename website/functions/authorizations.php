@@ -31,6 +31,9 @@ function checkIfCompanyManager() {
     die();
   }
 }
+
+
+
 function checkIfEmployee() {
   if ( SessionLogin::isLoggedIn() ) {
     $parameters = array( SessionLogin::getUsername() );
@@ -72,6 +75,40 @@ function checkIfEmployee() {
     die();
   }
 }
+
+
+
+function checkIfCustomer() {
+  if ( SessionLogin::isLoggedIn() ) {
+    $cParams = array( SessionLogin::getUsername() );
+    $cSql = '
+      SELECT COUNT(*)
+      FROM   Customer
+      WHERE  PersonId =
+      ( SELECT PersonId
+        FROM   Person
+        WHERE  UserId = ?
+      );
+    ';
+    $c = Database::query( $cSql, $cParams );
+    if ( $c->fetchAll()[0][0] != 1 ) {
+      $isCustomer = false;
+    }
+    else {
+      $isCustomer = true;
+    }
+  }
+  else {
+    $isCustomer = false;
+  }
+  if ( ! $isCustomer ) {
+    displayAccessDenied();
+    die();
+  }
+}
+
+
+
 function checkIfNotLoggedIn() {
   if ( SessionLogin::isLoggedIn() ) {
     displayAccessDenied();

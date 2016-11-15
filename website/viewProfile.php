@@ -66,33 +66,4 @@ die();
 
   ?>
 
-
-
-         <form action="viewProfile.php" method="POST">
-        <button type="submit" id="deleteAccount">Delete Account</button>
-        </form>
-      
-
-        <?php
-
-          $db = Database::getConnection();
-
-
-
-          $deleteAccount = $db->prepare("SET FOREIGN_KEY_CHECKS=0;". " DELETE FROM User WHERE UserId = ?");
-          $deleteAccount->execute(array(SessionLogin::getUsername()));
-
-
-          $db = null;
-
-          $db_conn = Database::getConnection();
-
-          $deletePersonal = $db_conn->prepare("SET FOREIGN_KEY_CHECKS=0;". " DELETE FROM Person WHERE UserId = ?");
-          $deletePersonal->execute(array(SessionLogin::getUsername()));
-          
-
-          session_destroy();
-        ?>
-
-
-?>
+<a href="delete-account.php">Delete Account</a>
