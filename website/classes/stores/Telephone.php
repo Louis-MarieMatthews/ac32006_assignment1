@@ -1,5 +1,7 @@
 <?php
 
+require_once( '/classes/exceptions/IllegalFormatException.php' );
+
 class Telephone
 {
   private $telephone;
@@ -17,7 +19,7 @@ class Telephone
       $this->telephone = $telephone;
     }
     else {
-      throw new DomainException( 'invalid telephone' );
+      throw new IllegalFormatException( 'invalid telephone' );
     }
   }
   

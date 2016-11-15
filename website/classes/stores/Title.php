@@ -1,5 +1,7 @@
 <?php
 
+require_once( '/classes/exceptions/IllegalFormatException.php' );
+
 class Title
 {
   private $title;
@@ -18,7 +20,7 @@ class Title
       $this->title = $title;
     }
     else {
-      throw new DomainException( 'invalid title' );
+      throw new IllegalFormatException( 'invalid title' );
     }
   }
   

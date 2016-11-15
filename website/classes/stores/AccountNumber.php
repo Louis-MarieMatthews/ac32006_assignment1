@@ -1,5 +1,7 @@
 <?php
 
+require_once( '/classes/exceptions/IllegalFormatException.php' );
+
 class AccountNumber
 {
   private $accountNumber;
@@ -23,7 +25,7 @@ class AccountNumber
       $this->accountNumber = $accountNumber;
     }
     else {
-      throw new DomainException( 'invalid account number' );
+      throw new IllegalFormatException( 'invalid account number' );
     }
   }
   

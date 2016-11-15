@@ -1,5 +1,7 @@
 <?php
 
+require_once( '/classes/exceptions/IllegalFormatException.php' );
+
 class Email
 {
   private $email;
@@ -17,7 +19,7 @@ class Email
       $this->email = $email;
     }
     else {
-      throw new DomainException( 'invalid email' );
+      throw new IllegalFormatException( 'invalid email' );
     }
   }
   

@@ -1,5 +1,7 @@
 <?php
 
+require_once( '/classes/exceptions/IllegalFormatException.php' );
+
 class City
 {
   private $city;
@@ -17,7 +19,7 @@ class City
       $this->city = $city;
     }
     else {
-      throw new DomainException( 'invalid city' );
+      throw new IllegalFormatException( 'invalid city' );
     }
   }
   

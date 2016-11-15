@@ -47,28 +47,28 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
   try {
     $branch->setName( getPost( 'name' ) );
   }
-  catch( DomainException $e ) {
+  catch( IllegalFormatException $e ) {
     $formErrors[] = $e->getMessage();
     $isValid = false;
   }
   try {
     $branch->setAddress( getPost( 'address' ) );
   }
-  catch( DomainException $e ) {
+  catch( IllegalFormatException $e ) {
     $formErrors[] = $e->getMessage();
     $isValid = false;
   }
   try {
     $branch->setPostcode( getPost( 'postcode' ) );
   }
-  catch( DomainException $e ) {
+  catch( IllegalFormatException $e ) {
     $formErrors[] = $e->getMessage();
     $isValid = false;
   }
   try {
     $branch->setCity( getPost( 'city' ) );
   }
-  catch( DomainException $e ) {
+  catch( IllegalFormatException $e ) {
     $formErrors[] = $e->getMessage();
     $isValid = false;
   }

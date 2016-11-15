@@ -1,5 +1,7 @@
 <?php
 
+require_once( '/classes/exceptions/IllegalFormatException.php' );
+
 class Username
 {
   private $username;
@@ -17,7 +19,7 @@ class Username
       $this->username = $username;
     }
     else {
-      throw new DomainException( 'invalid username' );
+      throw new IllegalFormatException( 'invalid username' );
     }
   }
   

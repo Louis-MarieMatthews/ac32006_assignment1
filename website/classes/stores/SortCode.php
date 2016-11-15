@@ -1,5 +1,7 @@
 <?php
 
+require_once( '/classes/exceptions/IllegalFormatException.php' );
+
 class SortCode
 {
   private $sortCode;
@@ -32,7 +34,7 @@ class SortCode
       $this->sortCode = $sortCode;
     }
     else {
-      throw new DomainException( 'invalid sort code', 9587 );
+      throw new IllegalFormatException( 'invalid sort code', 9587 );
     }
   }
   

@@ -1,5 +1,7 @@
 <?php
 
+require_once( '/classes/exceptions/IllegalFormatException.php' );
+
 class Address
 {
   private $address;
@@ -17,7 +19,7 @@ class Address
       $this->address = $address;
     }
     else {
-      throw new DomainException( 'invalid address' );
+      throw new IllegalFormatException( 'invalid address' );
     }
   }
   

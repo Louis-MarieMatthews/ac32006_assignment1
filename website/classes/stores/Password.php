@@ -1,5 +1,7 @@
 <?php
 
+require_once( '/classes/exceptions/IllegalFormatException.php' );
+
 class Password
 {
   private $password;
@@ -17,7 +19,7 @@ class Password
       $this->password = $password;
     }
     else {
-      throw new DomainException( 'invalid password' );
+      throw new IllegalFormatException( 'invalid password' );
     }
   }
   

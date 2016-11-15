@@ -1,4 +1,6 @@
 <?php
+
+require_once( '/classes/exceptions/IllegalFormatException.php' );
 require_once( '/classes/stores/Username.php' );
 require_once( '/classes/stores/Password.php' );
 require_once( '/classes/stores/Title.php' );

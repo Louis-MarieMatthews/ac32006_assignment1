@@ -46,7 +46,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
     try {
       $bm->setPersonId( getPost( 'person-id' ) );
     }
-    catch ( DomainException $e ) {
+    catch ( IllegalFormatException $e ) {
       $isValid = false;
       $formErrors[] = $e->getMessage();
     }
@@ -55,7 +55,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
     try {
       $bm->setWage( getPost( 'wage' ) );
     }
-    catch ( DomainException $e ) {
+    catch ( IllegalFormatException $e ) {
       $isValid = false;
       $formErrors[] = $e->getMessage();
     }
@@ -64,7 +64,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
     try {
       $bm->setBranchId( getPost( 'branch-id' ) );
     }
-    catch( DomainException $e ) {
+    catch( IllegalFormatException $e ) {
       $isValid = false;
       $formErrors[] = $e->getMessage();
     }

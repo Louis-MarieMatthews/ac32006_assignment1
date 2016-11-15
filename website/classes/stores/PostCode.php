@@ -1,5 +1,7 @@
 <?php
 
+require_once( '/classes/exceptions/IllegalFormatException.php' );
+
 class Postcode
 {
   private $postcode;
@@ -17,7 +19,7 @@ class Postcode
       $this->postcode = $postcode;
     }
     else {
-      throw new DomainException( 'invalid post code' );
+      throw new IllegalFormatException( 'invalid post code' );
     }
   }
   

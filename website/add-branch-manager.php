@@ -15,21 +15,21 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
   try {
     $bm->setPersonId( getPost( 'person-id' ) );
   }
-  catch ( DomainException $e ) {
+  catch ( IllegalFormatException $e ) {
     $isValid = false;
     $formErrors[] = $e->getMessage();
   }
   try {
     $bm->setWage( getPost( 'wage' ) );
   }
-  catch ( DomainException $e ) {
+  catch ( IllegalFormatException $e ) {
     $isValid = false;
     $formErrors[] = $e->getMessage();
   }
   try {
     $bm->setBranchId( getPost( 'branch-id' ) );
   }
-  catch( DomainException $e ) {
+  catch( IllegalFormatException $e ) {
     $isValid = false;
     $formErrors[] = $e->getMessage();
   }

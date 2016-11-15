@@ -19,44 +19,44 @@ if ( $_SERVER['REQUEST_TYPE'] === 'POST' ) {
     $customer->setUsername( getPost( 'username' ) );
     $user->setUsername( getPost( 'username' ) );
   }
-  catch( DomainException $e ) {
+  catch( IllegalFormatException $e ) {
     // TODO: (minor) maybe use a custom class as need to be sure
-    // that DomainException caused by sql type classes
+    // that IllegalFormatException caused by sql type classes
     $formErrors[] = $e->getMessage();
     $areDetailsValid = false;
   }
   try {
     $user->setPassword( getPost( 'password' ) );
   }
-  catch( DomainException $e ) {
+  catch( IllegalFormatException $e ) {
     $formErrors[] = $e->getMessage();
     $areDetailsValid = false;
   }
   try {
     $customer->setFirstName( getPost( 'first-name' ) );
   }
-  catch( DomainException $e ) {
+  catch( IllegalFormatException $e ) {
     $formErrors[] = $e->getMessage();
     $areDetailsValid = false;
   }
   try {
     $customer->setLastName( getPost( 'last-name' ) );
   }
-  catch( DomainException $e ) {
+  catch( IllegalFormatException $e ) {
     $formErrors[] = $e->getMessage();
     $areDetailsValid = false;
   }
   try {
     $customer->setAddress( getPost( 'address' ) );
   }
-  catch( DomainException $e ) {
+  catch( IllegalFormatException $e ) {
     $formErrors[] = $e->getMessage();
     $areDetailsValid = false;
   }
   try {
     $customer->setCity( getPost( 'city' ) );
   }
-  catch( DomainException $e ) {
+  catch( IllegalFormatException $e ) {
     $formErrors[] = $e->getMessage();
     $areDetailsValid = false;
   }
@@ -65,7 +65,7 @@ if ( $_SERVER['REQUEST_TYPE'] === 'POST' ) {
     try {
       $customer->setTitle( getPost( 'title' ) );
     }
-    catch( DomainException $e ) {
+    catch( IllegalFormatException $e ) {
       $formErrors[] = $e->getMessage();
       $areDetailsValid = false;
     }
@@ -75,7 +75,7 @@ if ( $_SERVER['REQUEST_TYPE'] === 'POST' ) {
     try {
       $customer->setPostcode( getPost( 'postcode' ) );
     }
-    catch( DomainException $e ) {
+    catch( IllegalFormatException $e ) {
       $formErrors[] = $e->getMessage();
       $areDetailsValid = false;
     }
@@ -85,7 +85,7 @@ if ( $_SERVER['REQUEST_TYPE'] === 'POST' ) {
     try {
       $customer->setTelephone( getPost( 'telephone' ) );
     }
-    catch( DomainException $e ) {
+    catch( IllegalFormatException $e ) {
       $formErrors[] = $e->getMessage();
       $areDetailsValid = false;
     }
@@ -95,7 +95,7 @@ if ( $_SERVER['REQUEST_TYPE'] === 'POST' ) {
     try {
       $customer->setEmail( getPost( 'email' ) );
     }
-    catch( DomainException $e ) {
+    catch( IllegalFormatException $e ) {
       $formErrors[] = $e->getMessage();
       $areDetailsValid = false;
     }

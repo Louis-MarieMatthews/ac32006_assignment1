@@ -95,7 +95,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
     try {
       $person->setTitle( getPost( 'title' ) );
     }
-    catch ( DomainException $e ) {
+    catch ( IllegalFormatException $e ) {
       $formErrors[] = $e->getMessage();
     }
   }
@@ -103,7 +103,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
     try {
       $person->setFirstName( getPost( 'first-name' ) );
     }
-    catch ( DomainException $e ) {
+    catch ( IllegalFormatException $e ) {
       $formErrors[] = $e->getMessage();
     }
   }
@@ -111,7 +111,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
     try {
       $person->setLastName( getPost( 'last-name' ) );
     }
-    catch ( DomainException $e ) {
+    catch ( IllegalFormatException $e ) {
       $formErrors[] = $e->getMessage();
     }
   }
@@ -119,7 +119,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
     try {
       $person->setAddress( getPost( 'address' ) );
     }
-    catch ( DomainException $e ) {
+    catch ( IllegalFormatException $e ) {
       $formErrors[] = $e->getMessage();
     }
   }
@@ -127,7 +127,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
     try {
       $person->setPostcode( getPost( 'postcode' ) );
     }
-    catch ( DomainException $e ) {
+    catch ( IllegalFormatException $e ) {
       $formErrors[] = $e->getMessage();
     }
   }
@@ -135,7 +135,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
     try {
       $person->setCity( getPost( 'city' ) );
     }
-    catch ( DomainException $e ) {
+    catch ( IllegalFormatException $e ) {
       $formErrors[] = $e->getMessage();
     }
   }
@@ -143,7 +143,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
     try {
       $person->setTelephone( getPost( 'telephone' ) );
     }
-    catch ( DomainException $e ) {
+    catch ( IllegalFormatException $e ) {
       $formErrors[] = $e->getMessage();
     }
   }
@@ -151,7 +151,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
     try {
       $person->setEmail( getPost( 'email' ) );
     }
-    catch ( DomainException $e ) {
+    catch ( IllegalFormatException $e ) {
       $formErrors[] = $e->getMessage();
     }
   }
@@ -160,7 +160,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
       try {
         $person->setAccountNumber( getPost( 'account-number' ) );
       }
-      catch ( DomainException $e ) {
+      catch ( IllegalFormatException $e ) {
         $formErrors[] = $e->getMessage();
       }
     }
@@ -168,7 +168,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
       try {
         $person->setSortCode( getPost( 'sort-code' ) );
       }
-      catch ( DomainException $e ) {
+      catch ( IllegalFormatException $e ) {
         $formErrors[] = $e->getMessage();
       }
     }
