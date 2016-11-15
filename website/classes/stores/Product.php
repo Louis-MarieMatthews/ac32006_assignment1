@@ -1,49 +1,62 @@
 <?php
 
 require_once( 'classes/exceptions/IllegalFormatException.php' );
+require_once( 'classes/stores/Name.php' );
 
 class Product
 {
-	private $productID;
-	private $productName;
-	private $productPrice;
+	private $id;
+	private $name;
+	private $price;
 	
-	public final function getProductID() {
-    return $this->productID;
+  
+  
+	public final function getId() {
+    return $this->id;
 	}
 	
-	public final function getProductName() {
-    return $this->productName;
+  
+  
+	public final function getName() {
+    return $this->name;
 	}
 	
-	public final function getProductPrice() {
-    return $this->productPrice;
+  
+  
+	public final function getPrice() {
+    return $this->price;
     }
 	
-	public final function setProductID( $productID ) {
-    if ( $productID == null ) {
-      $this->productID = null;
+  
+  
+	public final function setId( $id ) {
+    if ( $id == null ) {
+      $this->id = null;
     }
     else {
-      $this->productID = new ProductID( $productID );
-    }
-  }
-     
-	public final function setProductName( $productName ) {
-    if ( $productName == null ) {
-      $this->productName = null;
-    }
-    else {
-      $this->productName = new ProductName( $productName );
+      $this->id = ( int ) $id;
     }
   }
   
-	public final function setProductPrice( $productPrice ) {
-    if ( $productPrice == null ) {
-      $this->productPrice = null;
+  
+     
+	public final function setName( $name ) {
+    if ( $name == null ) {
+      $this->name = null;
     }
     else {
-      $this->productPrice = new ProductPrice( $productPrice );
+      $this->name = new Name( $name );
+    }
+  }
+  
+  
+  
+	public final function setPrice( $price ) {
+    if ( $price == null ) {
+      $this->price = null;
+    }
+    else {
+      $this->price = ( float ) $price;
     }
   }
 }
