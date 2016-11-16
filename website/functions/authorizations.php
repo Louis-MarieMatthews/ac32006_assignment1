@@ -100,7 +100,8 @@ function isSalesAssistant() {
       FROM   SalesAssistant
       WHERE  SalesAssistant.PersonId = ( SELECT PersonId FROM Person WHERE UserId = ? );
     ';
-    $sa = Database::query( $saSql, $parameters );
+    $param = array( SessionLogin::getUsername() );
+    $sa = Database::query( $saSql, $param );
     if ( $sa->fetchAll()[0][0] != 1 ) {
       $isSalesAssistant = false;
     }
@@ -111,7 +112,7 @@ function isSalesAssistant() {
   else {
     $isSalesAssistant = true;
   }
-  return $salesAssistant;
+  return $isSalesAssistant;
 }
 
 
