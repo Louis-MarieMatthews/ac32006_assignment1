@@ -44,6 +44,22 @@ thead {
   border: 1px solid black;
 }
 
+a.link-row {
+  display: block;
+  text-decoration: none;
+  height: 100%;
+  color: black;
+}
+
+tr.link-row:hover {
+  background: rgb( 230, 230, 255 );
+}
+
+td.link-row {
+  margin: 0;
+  padding: 0;
+}
+
 /* Errors */
 
 .error {
