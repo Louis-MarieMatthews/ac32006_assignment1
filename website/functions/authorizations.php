@@ -6,42 +6,7 @@ require_once( 'functions/html.php' );
 
 
 function checkIfEmployee() {
-  if ( SessionLogin::isLoggedIn() ) {
-    $parameters = array( SessionLogin::getUsername() );
-    $bmSql = '
-      SELECT COUNT(*)
-      FROM   BranchManager
-      WHERE  BranchManager.PersonId =
-      ( SELECT PersonId
-        FROM Person
-        WHERE UserId = ?
-      );
-    ';
-    $bm = Database::query( $bmSql, $parameters );
-    if ( $bm->fetchAll()[0][0] != 1 ) {
-      $isBranchManager = false;
-    }
-    else {
-      $isBranchManager = true;
-    }
-    $saSql = '
-      SELECT COUNT(*)
-      FROM   SalesAssistant
-      WHERE  SalesAssistant.PersonId = ( SELECT PersonId FROM Person WHERE UserId = ? );
-    ';
-    $sa = Database::query( $saSql, $parameters );
-    if ( $sa->fetchAll()[0][0] != 1 ) {
-      $isSalesAssistant = false;
-    }
-    else {
-      $isSalesAssistant = true;
-    }
-    $isEmployee = $isSalesAssistant | $isBranchManager;
-  }
-  else {
-    $isEmployee = false;
-  }
-  if ( ! $isEmployee ) {
+  if ( ! isCompanyManager() & ! isBranchManager() & ! isSalesAssistant() ) {
     displayAccessDenied();
     die();
   }
@@ -83,7 +48,7 @@ function isCompanyManager() {
  * SHALL BE CALLED BEFORE ANY OUTPUT.
  */
 function checkIfCompanyManager() {
-  if ( isCompanyManager() ) {
+  if ( ! isCompanyManager() ) {
     displayAccessDenied();
     die();
   }
@@ -117,8 +82,42 @@ function isBranchManager() {
   return $isBranchManager;
 }
 
+
+
 function checkIfBranchManager() {
-  if ( isBranchManager() ) {
+  if ( ! isBranchManager() ) {
+    displayAccessDenied();
+    die();
+  }
+}
+
+
+
+function isSalesAssistant() {
+  if ( SessionLogin::isLoggedIn() ) {
+    $saSql = '
+      SELECT COUNT(*)
+      FROM   SalesAssistant
+      WHERE  SalesAssistant.PersonId = ( SELECT PersonId FROM Person WHERE UserId = ? );
+    ';
+    $sa = Database::query( $saSql, $parameters );
+    if ( $sa->fetchAll()[0][0] != 1 ) {
+      $isSalesAssistant = false;
+    }
+    else {
+      $isSalesAssistant = true;
+    }
+  }
+  else {
+    $isSalesAssistant = true;
+  }
+  return $salesAssistant;
+}
+
+
+
+function checkIfSalesAssistant() {
+  if ( ! isSalesAssistant() ) {
     displayAccessDenied();
     die();
   }
