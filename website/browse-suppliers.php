@@ -35,7 +35,7 @@ finally {
       
       
 function td( $string, $supplier ) {
-echo( '<td class="link-row"><a class="link-row" href="view-supplier.php?id=' . $supplier['SupplierId'] . '">' . $string . '</a></td>' );
+echo( '<td class="link-row"><a class="link-row" href="edit-supplier.php?id=' . $supplier['SupplierId'] . '">' . $string . '</a></td>' );
 }
 ?>
 <!doctype html>
@@ -56,7 +56,7 @@ echo( '<td class="link-row"><a class="link-row" href="view-supplier.php?id=' . $
           </tr>
         </thead>
         <?php foreach( $suppliers as $supplier ) : ?>
-        <tr>
+        <tr class="link-row">
           <?php td( $supplier['SupplierId'], $supplier ) ?>
           <?php td( $supplier['Name'], $supplier ) ?>
           <?php td( $supplier['Telephone'], $supplier ) ?>
