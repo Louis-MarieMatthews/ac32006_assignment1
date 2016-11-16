@@ -1,4 +1,5 @@
 <?php
+
 // Starts session. Necessary to enable login functionalities.
 session_start();
 
